@@ -62,14 +62,38 @@ if (doing.length) reasons.push('仍有进行中任务：' + doing.map(t => t.id)
 const n = nextTask(data);
 if (n && n.task.status === 'todo') reasons.push('仍有可执行任务未完成：' + n.task.id + ' ' + n.task.title);
 
-// 证据形如「文件清单｜执行器输出」：只校验 ｜ 前的文件清单，避免把输出文本里的路径误判成证据文件
+// 证据形如「文件清单｜执行器输出」：只校验 ｜ 前的文件清单；
+// 多文件可用逗号/分号/加号分隔（账本里实际混用 , ， ; ； +），路径后常跟全角括号说明或以「：」接描述，
+// 校验前必须剥离，否则整串被当成一个路径、必然「不存在」。
+function evidencePaths(evidence) {
+  return String(evidence)
+    .split('｜')[0]
+    .replace(/[（(][^）)]*[）)]/g, ' ')
+    .split(/[,，;；+＋：:]/)
+    .map(s => s.trim())
+    .filter(tok => /[\\/]/.test(tok) && /\.[a-z0-9]+$/i.test(tok));
+}
+
+/**
+ * 展开编号简写：scripts/patch-s57/58/59/60.mjs → patch-s57/58/59/60.mjs 四个完整文件名。
+ * 账本里为省事常这么写；不展开会让闸门把「真实存在」误报成「证据不存在」。
+ * @param {string} tok - 证据里的路径片段
+ * @returns {string[]} 展开后的完整路径；非简写原样返回单元素
+ */
+function expandNumberedShorthand(tok) {
+  // 目录段必须惰性匹配，贪婪会把最后一个 / 前的内容全吃掉，导致多级简写（a-57/58/59.mjs）匹配失败
+  const m = String(tok).match(/^(.*?[\\/])([^\\/\s]+?)((?:[/\\]\d{1,4})+)(\.[a-z0-9]+)$/i);
+  if (!m) return [tok];
+  const [, dir, stem, numGroups, ext] = m;
+  const nums = numGroups.split(/[/\\]/).filter(Boolean);
+  const prefix = stem.replace(/\d+$/, '');
+  if (!prefix) return [tok];
+  return [`${dir}${stem}${ext}`, ...nums.map(n => `${dir}${prefix}${n}${ext}`)];
+}
+
 const missingEvidence = tasks.filter(t => {
   if (t.status !== 'done' || !t.evidence) return false;
-  const head = String(t.evidence).split('｜')[0];
-  return head.split(/[,，]/).map(s => s.trim()).filter(Boolean).some(tok => {
-    if (!/[\\/]/.test(tok) || !/\.[a-z0-9]+$/i.test(tok)) return false;
-    return !fs.existsSync(path.resolve(cwd, tok));
-  });
+  return evidencePaths(t.evidence).some(tok => expandNumberedShorthand(tok).some(p => !fs.existsSync(path.resolve(cwd, p))));
 });
 if (missingEvidence.length) reasons.push('证据文件不存在：' + missingEvidence.map(t => t.id + '(' + t.evidence + ')').join('，'));
 

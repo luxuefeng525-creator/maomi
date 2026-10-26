@@ -326,6 +326,21 @@ writeSg('docs/missing.md｜执行器输出');
 const sgBad = run(sg, ['--cwd', sgDir]);
 check(sgBad.status === 0 && /证据文件不存在/.test(sgBad.stdout), 'stop-gate 仍拦真实缺失证据');
 
+// 证据书写容差：多条用「；」分隔、路径后跟全角括号说明、用「+」连接、用「：」接描述，
+// 以及 patch-s57/58/59.mjs 这类编号简写——都必须解析成真实文件逐个校验，不许整串当路径误报。
+fs.writeFileSync(path.join(sgDir, 'docs', 'x', 'a.txt'), 'a\n', 'utf8');
+fs.writeFileSync(path.join(sgDir, 'docs', 'x', 'patch-s57.mjs'), '// 57\n', 'utf8');
+fs.writeFileSync(path.join(sgDir, 'docs', 'x', 'patch-s58.mjs'), '// 58\n', 'utf8');
+writeSg('docs/x/a.txt（说明文字，含 a/b 与 c.d）＋ docs/x/patch-s57.mjs；docs/x/patch-s58.mjs：实测 FAIL=0');
+const sgTol = run(sg, ['--cwd', sgDir]);
+check(sgTol.status === 0 && /continue/.test(sgTol.stdout), 'stop-gate 容错：分号/加号/冒号/括号说明不误报', (sgTol.stdout || '').trim());
+writeSg('docs/x/patch-s57/58.mjs（编号简写）');
+const sgShort = run(sg, ['--cwd', sgDir]);
+check(sgShort.status === 0 && /continue/.test(sgShort.stdout), 'stop-gate 展开编号简写（a-57/58.mjs）', (sgShort.stdout || '').trim());
+writeSg('docs/x/patch-s57/59.mjs（59 不存在）');
+const sgShortBad = run(sg, ['--cwd', sgDir]);
+check(sgShortBad.status === 0 && /证据文件不存在/.test(sgShortBad.stdout), 'stop-gate 简写里缺一个也要拦', (sgShortBad.stdout || '').trim());
+
 // 12. 行为评测：with-rules 注入硬规则 + B6 场景不得授权改测试
 const bc = path.join(root, 'scripts', 'behavior-check.mjs');
 const rulesBox = path.join(tmp, 'bx-rules');
