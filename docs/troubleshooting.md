@@ -73,3 +73,21 @@
 | 含义 | `git status --porcelain -z` 首行带前导空格，解析时 `trim()` 把 XY 挤掉一位 |
 | 处置 | status 解析保留原始 stdout，不 trim |
 | 证据 | `tests/run.mjs` snapshot 用例 |
+
+## 9 单测突然变红，但改的代码跟它无关
+
+| 项 | 内容 |
+| --- | --- |
+| 现象 | `doctor 父级只有合成回执时不假绿` 变红：期望 degraded，实际 ok，detail 指向**仓库根**的真实心跳 |
+| 含义 | 夹具建在仓库内（`tests/.tmp/upparent`），而被测函数会**向上 5 级**扫 `.agent-runs` → 本机当天跑过 hook 就有新鲜证据，把「合成回执是唯一证据」的前提推翻。典型的环境耦合型假红 |
+| 处置 | ①凡「向上/向外遍历」的代码，夹具放系统临时目录（`os.tmpdir()+mkdtemp`），不放进被测扫描范围；②断言退出码前先问「这个码是否依赖环境」（如 `release-preflight --offline` 会核 tag，未打 tag 的提交必然非 0，只能断言具体 PASS 行）；③别改断言去凑绿——假红会训练人忽略红灯 |
+| 证据 | `tests/run.mjs` 10c 节夹具位置注释；0.25.0 commit e4b6062 |
+
+## 10 npm 发布 403，但不知道卡在哪一项
+
+| 项 | 内容 |
+| --- | --- |
+| 现象 | `npm publish` → `E403 … granular access token with bypass 2fa enabled is required` 或 `You may not perform that action with these credentials` |
+| 含义 | 403 有两种完全不同的原因：**令牌范围**不够（只给了 scoped 包）与**令牌没勾 Bypass 2FA**。文案含 `bypass 2fa` = 后者；含 scope/权限类措辞 = 前者。另有一种隐蔽错因：本机默认 registry 是镜像站，PUT 根本没打到 npmjs.org |
+| 处置 | 先跑 `npm run release:preflight -- --token <TOKEN>` 把版本/CHANGELOG/tag/包名占用/默认 registry/令牌身份一次列清；再按 `docs/release-publish.md` 选通道（Bypass 2FA 令牌 / GitHub OIDC / 手工 OTP） |
+| 证据 | `docs/release-publish.md`；0.24.x 两次 403 实测记录 |
