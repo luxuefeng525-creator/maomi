@@ -2,8 +2,8 @@
 /**
  * 安装器：把技能与 Agent 复制到目标位置。
  * 用法：
- *   node scripts/install.mjs --target trae-user [--dry-run] [--force] [--remove] [--auto-update] [--no-auto-check]
- *   node scripts/install.mjs --target project [--tool trae|generic] [--dry-run] [--force] [--remove] [--auto-update]
+ *   node scripts/install.mjs --target trae-user [--dry-run] [--force] [--remove] [--auto-update] [--no-auto-check] [--check-hours 24]
+ *   node scripts/install.mjs --target project [--tool trae|generic] [--dry-run] [--force] [--remove] [--auto-update] [--check-hours 24]
  *
  * 安装后写 .agent-install.json（版本、来源、autoCheck/autoApply）；update.mjs 靠它判断是否需要更新。
  */
@@ -23,6 +23,7 @@ const tool = getArg('tool') || 'trae';
 const dryRun = has('dry-run');
 const force = has('force');
 const remove = has('remove');
+const checkHours = Number(getArg('check-hours') || 0);
 
 if (!['trae-user', 'project'].includes(target)) {
   console.error('缺少或非法 --target：trae-user | project');
@@ -107,10 +108,11 @@ if (!dryRun) {
       source: { type: 'local', path: pkgRoot, url: 'https://github.com/luxuefeng525-creator/maomi.git' },
       autoCheck,
       autoApply,
+      checkIntervalHours: checkHours > 0 ? checkHours : (old.checkIntervalHours || 24),
       lastCheckAt: old.lastCheckAt || null,
     };
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
-    console.log('MANIFEST ' + manifestPath + ' version=' + pkgVersion + ' autoCheck=' + autoCheck + ' autoApply=' + autoApply);
+    console.log('MANIFEST ' + manifestPath + ' version=' + pkgVersion + ' autoCheck=' + autoCheck + ' autoApply=' + autoApply + ' checkHours=' + manifest.checkIntervalHours);
   }
 }
 

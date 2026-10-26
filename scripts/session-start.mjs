@@ -6,6 +6,7 @@
  * 默认只读；安装清单 autoCheck=true 时比对上游版本，autoApply=true 才自动重装；始终退出码 0，不阻断会话。
  */
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
@@ -74,15 +75,18 @@ const cfgLine = fs.existsSync(projectMd) ? 'CONFIG .agent/project.md OK' : 'CONF
 const installManifest = [
   path.join(cwd, '.trae', 'skills', '.agent-install.json'),
   path.join(cwd, '.agent', 'skills', '.agent-install.json'),
+  path.join(os.homedir(), '.trae-cn', 'skills', '.agent-install.json'),
 ].find(p => fs.existsSync(p));
 let versionLine = '';
 if (installManifest) {
   try {
     const m = JSON.parse(fs.readFileSync(installManifest, 'utf8'));
     versionLine = `VERSION ${m.version || '?'}`;
-    if (m.autoCheck !== false) {
+    const intervalH = Number(m.checkIntervalHours || 24);
+    const due = !m.lastCheckAt || (Date.now() - new Date(m.lastCheckAt).getTime()) >= intervalH * 3600000;
+    if (m.autoCheck !== false && due) {
       const upd = path.join(pkgRoot, 'scripts', 'update.mjs');
-      const r = spawnSync(process.execPath, [upd, '--manifest', installManifest, '--check', '--quiet', '--no-write', '--timeout', '8000'], { encoding: 'utf8', timeout: 12000 });
+      const r = spawnSync(process.execPath, [upd, '--manifest', installManifest, '--check', '--quiet', '--timeout', '8000'], { encoding: 'utf8', timeout: 12000 });
       const v = String(r.stdout || '').split('\n').find(l => l.startsWith('VERSION'));
       if (v && /status=UPDATE/.test(v)) {
         const latest = v.match(/latest=([\d.]+)/)?.[1] || '';

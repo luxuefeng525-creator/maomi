@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.7 — 2026-10-26
+
+**自动更新可调检查间隔，避免每次会话都查上游。**
+
+- `install.mjs` 新增 `--check-hours <n>`，写入清单 `checkIntervalHours`（默认 24；重装未传则沿用旧值）。
+- `session-start.mjs` 按间隔节流：`lastCheckAt` 未到期只报版本，到期才比对上游；到期检查会写回时间戳，`--no-write` 仍可用。
+- 全局安装清单 `~/.trae-cn/skills/.agent-install.json` 也纳入会话自检。
+- 自测新增 2 条：节流（刚查过不查上游）、到期（查上游并显示 `newest`）→ **PASS=56 FAIL=0**。
+
+配置实例（当前项目）：`--target project --tool trae --force --auto-update --check-hours 12`，清单 `autoCheck=true / autoApply=true / checkIntervalHours=12`，`update --check` 实测 `status=NEWEST via=manifest.source.path`。
+
+未做全局安装：`~/.trae-cn/skills/code-review` 是另一份 6740 字节的同名技能，与本包 3101 字节版本冲突，`--force` 会覆盖它，故只配项目层。
+
 ## 0.20.6 — 2026-10-26
 
 **装上就会自己查新版：安装清单 + 自更新脚本 + 会话自检。**

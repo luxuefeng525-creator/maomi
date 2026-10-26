@@ -294,11 +294,11 @@ const changelogVersion = fs.readFileSync(path.join(root, 'CHANGELOG.md'), 'utf8'
 check(pkgJson.version === changelogVersion, 'package.json 版本与 CHANGELOG 首条一致', `${pkgJson.version} / ${changelogVersion}`);
 const projDir = path.join(tmp, 'proj-install');
 fs.mkdirSync(projDir, { recursive: true });
-const instReal = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--force', '--auto-update'], projDir);
+const instReal = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--force', '--auto-update', '--check-hours', '6'], projDir);
 const installManifest = path.join(projDir, '.agent', 'skills', '.agent-install.json');
 let mfData = {};
 try { mfData = JSON.parse(fs.readFileSync(installManifest, 'utf8')); } catch { /* 断言会失败 */ }
-check(instReal.status === 0 && mfData.version === pkgJson.version && mfData.autoApply === true, 'install 写安装清单', JSON.stringify({ version: mfData.version, autoApply: mfData.autoApply }));
+check(instReal.status === 0 && mfData.version === pkgJson.version && mfData.autoApply === true && mfData.checkIntervalHours === 6, 'install 写安装清单', JSON.stringify({ version: mfData.version, autoApply: mfData.autoApply, checkHours: mfData.checkIntervalHours }));
 const updateScript = path.join(root, 'scripts', 'update.mjs');
 const upCheck = run(updateScript, ['--manifest', installManifest, '--repo', root, '--check']);
 check(upCheck.status === 0 && /status=NEWEST/.test(upCheck.stdout), 'update --check 同版本判 NEWEST', (upCheck.stdout || '').trim());
@@ -312,6 +312,17 @@ afterMf.autoCheck = false;
 fs.writeFileSync(installManifest, JSON.stringify(afterMf, null, 2) + '\n', 'utf8');
 const ssProj = run(path.join(root, 'scripts', 'session-start.mjs'), ['--cwd', projDir, '--no-receipt']);
 check(ssProj.status === 0 && new RegExp('VERSION ' + pkgJson.version.replace(/\./g, '\\.')).test(ssProj.stdout), 'session-start 注入安装版本', (ssProj.stdout || '').split('\n').find(l => l.startsWith('VERSION')) || '');
+// 检查间隔：刚查过则跳过；到期后才查上游（本地 repo，不联网）
+const mfNow = JSON.parse(fs.readFileSync(installManifest, 'utf8'));
+mfNow.autoCheck = true;
+mfNow.lastCheckAt = new Date().toISOString();
+fs.writeFileSync(installManifest, JSON.stringify(mfNow, null, 2) + '\n', 'utf8');
+const ssThrottle = run(path.join(root, 'scripts', 'session-start.mjs'), ['--cwd', projDir, '--no-receipt']);
+check(ssThrottle.status === 0 && !/newest|UPDATE/.test(ssThrottle.stdout), 'session-start 按间隔节流', (ssThrottle.stdout || '').split('\n').find(l => l.startsWith('VERSION')) || '');
+mfNow.lastCheckAt = '2020-01-01T00:00:00.000Z';
+fs.writeFileSync(installManifest, JSON.stringify(mfNow, null, 2) + '\n', 'utf8');
+const ssDue = run(path.join(root, 'scripts', 'session-start.mjs'), ['--cwd', projDir, '--no-receipt']);
+check(ssDue.status === 0 && /VERSION .* newest/.test(ssDue.stdout), 'session-start 到期后查上游', (ssDue.stdout || '').split('\n').find(l => l.startsWith('VERSION')) || '');
 
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
