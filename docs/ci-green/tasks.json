@@ -28,8 +28,8 @@
         "T2"
       ],
       "files": [],
-      "status": "todo",
-      "evidence": ""
+      "status": "done",
+      "evidence": "CHANGELOG.md,docs/ci-green/PLAN.md,.github/workflows/test.yml｜CI run 32/33 四组合全绿(ubuntu/windows x node18/20) https://github.com/luxuefeng525-creator/maomi/actions/runs/33；本地 eval 29/29、unit PASS=82 FAIL=0、tag v0.22.1 + Release 已发"
     }
   ],
   "updated": "2026-10-27"
