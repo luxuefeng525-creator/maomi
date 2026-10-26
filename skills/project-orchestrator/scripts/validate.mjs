@@ -20,6 +20,8 @@ const candidates = [
   path.resolve(scriptDir, '..', '..'),
 ];
 const skillsDir = candidates.find(d => fs.existsSync(d) && fs.readdirSync(d).some(n => fs.existsSync(path.join(d, n, 'SKILL.md'))));
+// 仓库根（skills 的上一级）：引用路径以此为准，不受调用者 cwd 影响
+const repoRoot = skillsDir ? path.resolve(skillsDir, '..') : cwd;  // skillsDir=<root>/skills → 根
 if (!skillsDir) {
   console.log('FAIL | 未找到技能目录（尝试 .agent/skills、.trae/skills、skills）');
   process.exit(1);
@@ -87,7 +89,9 @@ for (const dir of targets) {
     /\.(md|mjs|json|ts|vue|html)$/.test(s)
   );
   const missing = refs.filter(s => {
-    const cands = [path.join(cwd, s), path.join(dir, s), path.join(dir, 'references', s)];
+    // 以「SKILL.md 所在仓库根」为主基准，cwd 仅作兼容候选：
+    // 否则校验结果随调用者所在目录漂移（曾在 tests/eval 的临时 cwd 下误报引用缺失）。
+    const cands = [path.join(repoRoot, s), path.join(cwd, s), path.join(dir, s), path.join(dir, 'references', s)];
     return !cands.some(p => fs.existsSync(p));
   });
   report(!missing.length, name + ' 引用路径存在', missing.join(','));

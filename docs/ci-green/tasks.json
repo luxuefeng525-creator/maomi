@@ -1,0 +1,36 @@
+{
+  "task": "自检闭环修复：CI 转绿 + 消除 cwd 依赖",
+  "tier": "L1",
+  "profile": "package",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "实现",
+      "deps": [],
+      "files": [],
+      "status": "done",
+      "evidence": "tests/run.mjs,skills/project-orchestrator/scripts/validate.mjs,.github/workflows/test.yml｜node tests/run.mjs PASS=82 FAIL=0; validate 在仓库根与临时 cwd 均 FAIL=0"
+    },
+    {
+      "id": "T2",
+      "title": "测试",
+      "deps": [
+        "T1"
+      ],
+      "files": [],
+      "status": "done",
+      "evidence": "docs/ci-green/PLAN.md｜node tests/eval.mjs pass=29 fail=0; 破坏 node 路径后 check-hook exit=1（反例自证非空跑）"
+    },
+    {
+      "id": "T3",
+      "title": "验收",
+      "deps": [
+        "T2"
+      ],
+      "files": [],
+      "status": "todo",
+      "evidence": ""
+    }
+  ],
+  "updated": "2026-10-27"
+}

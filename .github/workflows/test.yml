@@ -6,9 +6,12 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      # 任一条失败即整体可见：不让一个平台的红遮住另一个平台的结果
+      fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest]
         node: [18, 20]
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +22,9 @@ jobs:
         run: node scripts/index-skills.mjs --check
       - name: Skill gate
         run: node scripts/validate.mjs
-      - name: Unit checks
-        run: node tests/run.mjs
+      # 场景评测放在单测之前：原先单测一红就 skip 掉后面 29 个场景，
+      # 等于一条失败遮蔽全部评测结果（0.22.0 之前 CI 连红 19 次正是这种盲区）。
       - name: Scenario eval
         run: node tests/eval.mjs
+      - name: Unit checks
+        run: node tests/run.mjs

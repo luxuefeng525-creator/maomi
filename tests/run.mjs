@@ -326,10 +326,18 @@ fs.writeFileSync(path.join(hookBrokenProj, '.trae', 'hooks.json'), JSON.stringif
     SessionStart: [{ hooks: [{ type: 'command', command: `"${nodeExePosix}" "${ssScriptPosix}"`, timeout: 20 }] }],
   },
 }, null, 2) + '\n', 'utf8');
+// 正例（两平台都断言）：install-hook 生成的配置必须能在宿主真实 shell 里执行。
+// 背景：非 win32 下 `"node" "x.mjs"` 本就合法，拿 win32 的反例去要求它失败是错的
+// ——这一条曾让 Linux CI 连续 19 次红，而本地 Windows 永远绿（假绿）。
+const genCheck = run(path.join(root, 'scripts', 'check-hook.mjs'), ['--cwd', hookGenProj]);
+const genCheckTail = (genCheck.stdout || '').trim().split('\n').filter(l => /^FAIL|SUMMARY/.test(l)).join('；');
+check(genCheck.status === 0 && /宿主 shell 可执行/.test(genCheck.stdout),
+  'check-hook 正例：install-hook 生成的配置在宿主 shell 真能执行', genCheckTail || '无输出');
+
 const chkBroken = run(path.join(root, 'scripts', 'check-hook.mjs'), ['--cwd', hookBrokenProj]);
 const brokenVerdict = needCallOp
   ? (chkBroken.status === 1 && /FAIL/.test(chkBroken.stdout) && /宿主 shell 可执行/.test(chkBroken.stdout))
-  : chkBroken.status === 0; // 非 win32 的 sh 认这种写法，不强判
+  : chkBroken.status === 0; // 非 win32：sh 认这种写法，反例应判通过（正例已在上面断言）
 check(brokenVerdict, 'check-hook 真跑宿主 shell（win32 无 & 的老写法判 FAIL，不许假绿）',
   needCallOp ? 'win32/pwsh' : '非 win32 跳过语法断言');
 
