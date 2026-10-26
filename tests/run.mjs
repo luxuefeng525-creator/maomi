@@ -317,15 +317,18 @@ check(genHook.status === 0 && genCmds.length === 3 && genCmds.every(c => (needCa
 
 const hookBrokenProj = path.join(tmp, 'hookbroken');
 fs.mkdirSync(path.join(hookBrokenProj, '.trae'), { recursive: true });
-const nodeExePosix = process.execPath.split(path.sep).join('/');
-const ssScriptPosix = path.join(root, 'scripts', 'session-start.mjs').split(path.sep).join('/');
-// 故意写成无 & 的老写法：路径都真实存在，只有 shell 语法不兼容
-fs.writeFileSync(path.join(hookBrokenProj, '.trae', 'hooks.json'), JSON.stringify({
-  version: 1,
-  hooks: {
-    SessionStart: [{ hooks: [{ type: 'command', command: `"${nodeExePosix}" "${ssScriptPosix}"`, timeout: 20 }] }],
-  },
-}, null, 2) + '\n', 'utf8');
+// 反例 = install-hook 生成的配置原样去掉调用运算符 `&`：
+// 结构合法、三个事件齐全，唯一差异是「PowerShell 语法不兼容」。
+// （旧写法只写 SessionStart 一条 → 缺 PreToolUse/Stop 也会 FAIL，
+//   于是非 win32 下这条测试永远红：Linux CI 连红 19 次的真因。）
+let brokenCfg = null;
+try {
+  brokenCfg = JSON.parse(fs.readFileSync(path.join(hookGenProj, '.trae', 'hooks.json'), 'utf8'));
+  for (const e of Object.keys(brokenCfg.hooks || {})) {
+    for (const g of brokenCfg.hooks[e]) for (const h of (g.hooks || [])) h.command = String(h.command).replace(/^&\s+/, '');
+  }
+} catch { brokenCfg = { version: 1, hooks: {} }; }
+fs.writeFileSync(path.join(hookBrokenProj, '.trae', 'hooks.json'), JSON.stringify(brokenCfg, null, 2) + '\n', 'utf8');
 // 正例（两平台都断言）：install-hook 生成的配置必须能在宿主真实 shell 里执行。
 // 背景：非 win32 下 `"node" "x.mjs"` 本就合法，拿 win32 的反例去要求它失败是错的
 // ——这一条曾让 Linux CI 连续 19 次红，而本地 Windows 永远绿（假绿）。
