@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.17.4 — 2026-10-26
+
+- **新增 `scripts/agent.mjs` 编排入口**：把「定档 → 建账本 → 闸门预检 → 验收」串成闭环，此前只有分散的零件，缺胶水层。
+  - `plan`：按 ai-workflow 1.0 判据定档（L0/L1/L2），命中理由随档位一起打印，便于当场改判；生成 `docs/<slug>/tasks.json`
+  - `step`：给出下一件任务（含续跑识别、依赖缺失告警），并对任务声明的文件做 `pre-tool-guard` 预检
+  - `guard` / `status` / `finish`：工具调用预判、账本全景、`stop-gate` 验收
+  - 复用 `task.mjs` 导出（`readLedger` / `writeLedger` / `nextTask` / `depsMissing` / `validateLedger`），不重复造实现
+- **真实任务端到端验证**：新增 `code-review` 技能，判 L1（3 文件 / 3 件账本）
+  - T1 实现 → `validate FAIL=0`、`registry skills=4`
+  - T2 测试 → `tests/run.mjs` 34/34 PASS
+  - T3 验收 → 未完成时 `STOPGATE BLOCK｜仍有进行中任务：T3`；完成后 `STOPGATE ALLOW｜{"continue":true}`
+- **新增技能 `code-review`**：证据优先审查协议（先取 diff → 六类风险 → 结论带文件行号 → 验证优先于断言）
+- `tests/run.mjs` 增 3 条闭环断言：plan 判 L0、step 给下一件、finish 未完成阻断
+
 ## 0.17.3 — 2026-10-26
 
 - **mimo 直连通道打通**：新增 provider `mimo-agnes`（`mimo.exe -m agnes/agnes-3.0-flash`）。同一模型 `agnes-3.0-flash` 经 codex 本地代理仅 1/16 pass，改走 mimo 直连后 **16 pass / 1 partial**（17 场景）。结论：跨模型对照必须记「模型 + 通道」。
@@ -10,10 +24,10 @@
 - **`memory.mjs` 用法补 `init`**：实现早存在但注释缺项，与 `doctor` 提示不一致。
 - 证据：`logs/external-results.jsonl`、`tests/behavior/CROSS-MODEL.md`、`node scripts/doctor.mjs`、`node tests/run.mjs`。
 
-### 未发布（blocked）
+### 发布
 
-- GitHub 推送未完成：本机无可用出网代理（`127.0.0.1:7897` 未监听、无 token），`github.com:443` 直连超时。本地已 `git init -b main` + 仓库级身份 + 2 个提交（导入 / 合并远端初始 commit），LICENSE 已统一为 MIT。
-- 解除条件：网络恢复后执行 `git push -u origin main`（remote 与本地提交均已就绪，无需再改配置）。
+- 已推送至 `https://github.com/luxuefeng525-creator/maomi`，`main` 分支 commits `0779bcf → a7fbb41 → c335991`。
+- 远端 LICENSE 已统一为 **MIT**（`size=1085`，GitHub 识别 `spdx_id=MIT`），覆盖 GitHub 初始化时生成的 Apache-2.0。
 
 ## 0.17.2 — 2026-10-26
 
