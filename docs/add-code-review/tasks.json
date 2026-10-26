@@ -1,0 +1,36 @@
+{
+  "task": "新增 code-review 技能：按证据审查改动，不猜",
+  "tier": "L1",
+  "profile": "package",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "实现",
+      "deps": [],
+      "files": [],
+      "status": "done",
+      "evidence": "skills/code-review/SKILL.md; validate FAIL=0; registry skills=4"
+    },
+    {
+      "id": "T2",
+      "title": "测试",
+      "deps": [
+        "T1"
+      ],
+      "files": [],
+      "status": "done",
+      "evidence": "node tests/run.mjs -> PASS=31 FAIL=0"
+    },
+    {
+      "id": "T3",
+      "title": "验收",
+      "deps": [
+        "T2"
+      ],
+      "files": [],
+      "status": "done",
+      "evidence": "validate FAIL=0; tests 31/31; registry skills=4; doctor 仅 hook degraded"
+    }
+  ],
+  "updated": "2026-10-26"
+}

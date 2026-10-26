@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-26T02:25:29.897Z",
-  "count": 3,
+  "generatedAt": "2026-10-26T02:35:25.357Z",
+  "count": 4,
   "skills": [
     {
       "name": "project-orchestrator",
@@ -48,6 +48,21 @@
       "path": "skills/ui-ux-benchmark/SKILL.md",
       "bytes": 5002,
       "sha256": "3f5231c41943937c"
+    },
+    {
+      "name": "code-review",
+      "description": "证据优先的代码审查协议。用户说「审查一下 / 看看有没有问题 / 这段改动靠谱吗 / review」时加载：先拿真实 diff，再按六类风险逐项核对，结论必须带文件行号与命令输出，禁止凭印象说「看起来没问题」。纯问答、单行拼写、只读查询不要加载。",
+      "triggers": [
+        "审查",
+        "代码审查",
+        "review",
+        "看下改动",
+        "有没有问题",
+        "靠谱吗"
+      ],
+      "path": "skills/code-review/SKILL.md",
+      "bytes": 3101,
+      "sha256": "f0fa987f51247983"
     }
   ],
   "warnings": []

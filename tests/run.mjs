@@ -210,6 +210,17 @@ const fpAgain = run(fp, ['create', '--cwd', fpRepo, '--out', '.agent-runs/fp2.js
 const fpSame = run(fp, ['diff', '--cwd', fpRepo, '--before', path.join(fpRepo, '.agent-runs', 'fp2.json')]);
 check(fpAgain.status === 0 && fpSame.status === 0 && /unchanged=3/.test(fpSame.stdout), 'fingerprint diff 未改动判一致', (fpSame.stdout || '').trim().split('\n').pop());
 
+// 10. agent.mjs 编排闭环（plan -> step -> finish）
+const agentScript = path.join(root, 'scripts', 'agent.mjs');
+const aws = path.join(tmp, 'agentws');
+fs.mkdirSync(path.join(aws, 'docs'), { recursive: true });
+const aPlan = run(agentScript, ['plan', '--task', '演示任务', '--slug', 'demo', '--cwd', aws, '--files', '1']);
+check(aPlan.status === 0 && /\[档位\] L0/.test(aPlan.stdout), 'agent plan 单文件判 L0', (aPlan.stdout || '').trim().split('\n')[0]);
+const aStep = run(agentScript, ['step', '--cwd', aws]);
+check(/NEXT T1/.test(aStep.stdout), 'agent step 给出下一件');
+const aFin = run(agentScript, ['finish', '--cwd', aws]);
+check(aFin.status === 1 && /STOPGATE BLOCK/.test(aFin.stdout), 'agent finish 未完成时阻断');
+
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
 console.log(`PASS=${pass} FAIL=${fail}`);
