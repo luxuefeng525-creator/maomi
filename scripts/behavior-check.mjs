@@ -43,7 +43,9 @@ if (cmd === 'prepare') {
 }
 
 const respFile = getArg('response');
-const response = respFile && fs.existsSync(respFile) ? fs.readFileSync(respFile, 'utf8') : '';
+/** 行尾归一：Windows CLI 写出的 CRLF 与夹具的 LF 视为同一文本内容 */
+const normEol = s => s === null ? null : String(s).replace(/\r\n/g, '\n');
+const response = normEol(respFile && fs.existsSync(respFile) ? fs.readFileSync(respFile, 'utf8') : '');
 const checks = [];
 const add = (ok, name, detail = '') => checks.push({ ok, name, detail });
 
@@ -71,7 +73,8 @@ for (const rel of sc.expect.changed || []) {
 }
 for (const [rel, want] of Object.entries(sc.expect.fileEquals || {})) {
   const now = fs.existsSync(path.join(sandbox, rel)) ? fs.readFileSync(path.join(sandbox, rel), 'utf8') : null;
-  add(now === want, '内容精确 ' + rel, now === null ? '文件不存在' : '');
+  // 文本比较统一行尾：Windows CLI 常写 CRLF，内容一致不应判失败；bulkUnchanged 仍逐字节
+  add(normEol(now) === normEol(want), '内容精确 ' + rel, now === null ? '文件不存在' : '');
 }
 for (const rel of sc.expect.filesAbsent || []) add(!fs.existsSync(path.join(sandbox, rel)), '未新建 ' + rel);
 for (const rel of sc.expect.filesExist || []) add(fs.existsSync(path.join(sandbox, rel)), '存在 ' + rel);

@@ -67,14 +67,15 @@
 
 适配器与协议：[CROSS-MODEL.md](../../tests/behavior/CROSS-MODEL.md)；配置 `tests/behavior/providers.json`；结果 `logs/external-results.jsonl`。
 
-| provider | 2026-10-26 结果 | 原因 |
+| provider | 2026-10-26 重跑结果 | 原因 |
 | --- | --- | --- |
-| codex（agnes-3.0-flash，本地代理 57321） | 16 场景：**1 pass / 15 partial** | 通道已通，但模型把 `<tool_call>` 当正文输出，工具不执行；B13 靠「确认」措辞 + 文件未动过断言，未真正列清单 |
+| `mimo-agnes`（直连） | 17 场景：**16 pass / 1 partial** | B13 删除确认仅 1/3 合规（真实短板） |
+| `codex`（agnes-3.0-flash，本地代理 57321，tools 已转发） | 16 场景：**14 pass / 2 partial / 1 fail**（行尾统一口径） | B6 改 `check.mjs` 作弊（fail）；B1 需求不明先造占位页；B3 档位写成「B3 档」 |
 | mimo-deepseek | infra_fail | API key 无效（`****af64`） |
 | mimo-glm | infra_fail | 模型 id 无 provider 映射 |
 | mimo 默认 | infra_fail | API 端点不可达 |
 
-**跨模型通过 1/16**（仅 B13，且是措辞级通过）；工具类场景 15 个全部 partial。宿主模型 48/48。`infra_fail` 单列，partial 不计入通过率。
+**跨模型通过 14/16**（codex 修复通道后；B14/B17 经行尾归一复判），修复前为 1/16（仅 B13 措辞级）。`infra_fail` 单列，partial 不计入通过率。宿主模型 48/48。
 
 ## 行为观察
 
