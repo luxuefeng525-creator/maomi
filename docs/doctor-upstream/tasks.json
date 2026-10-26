@@ -28,8 +28,8 @@
         "T2"
       ],
       "files": [],
-      "status": "todo",
-      "evidence": ""
+      "status": "done",
+      "evidence": "CHANGELOG.md,docs/doctor-upstream/PLAN.md｜CI run 36 四组合全绿 https://github.com/luxuefeng525-creator/maomi/actions/runs/36；unit PASS=84 FAIL=0、eval 29/29；tag v0.23.0 + Release 已发"
     }
   ],
   "updated": "2026-10-27"
