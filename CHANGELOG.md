@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.25.0 — 2026-10-27
+
+**发布预检：把「发不出去到底卡在哪」变成一条命令。**
+
+1. 新增 `scripts/release-preflight.mjs` + `npm run release:preflight`：一次核对 **CHANGELOG 首条 = 版本、
+   本地 tag 是否存在、包名在 registry 上是否已被占用/同版本已发布、本机默认 registry 是否指向镜像站、
+   令牌身份是谁**；输出 `PASS/WARN/FAIL`，有 FAIL 即退出码 1。`--offline` 只查本地，`--token` 现核令牌身份（不落盘）。
+2. 结论判定抽成纯函数（`parseChangelogVersion` / `compareVersions` / `evaluate`），单测覆盖正例 + 5 个反例
+   （版本已存在、CHANGELOG 漂移、缺 tag、镜像站 WARN、Unreleased 首条判 null），单测 87 → 96 项。
+3. 修一条**环境相关的假红**：`doctor 父级只有合成回执时不假绿` 的夹具原本建在 `tests/.tmp`（仓库内），
+   doctor 向上 5 级会扫到仓库根的真实 `.agent-runs` 心跳 → 断言被真实证据推翻。夹具移到系统临时目录。
+4. 新增 `docs/release-publish.md`：记录 npm 发布的三条通道（Bypass 2FA 令牌 / GitHub OIDC / 手工 OTP）、
+   实测踩过的坑（npm 11.12.1 无 staged publishing、默认 registry 是 npmmirror、旧 token 已 401）。
+
 ## 0.24.1 — 2026-10-27
 
 **修 CI 全红：registry 必须与「签出到哪台机器」无关。**

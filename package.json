@@ -1,6 +1,6 @@
 {
   "name": "maomi-workbench",
-  "version": "0.24.1",
+  "version": "0.25.0",
   "description": "Evidence-first AI agent and skills: stage gates, task ledger, project memory, UI benchmark, scenario eval and run traces.",
   "type": "module",
   "license": "MIT",
@@ -37,6 +37,7 @@
     "test:coverage": "node scripts/coverage.mjs --min 40",
     "eval": "node tests/eval.mjs",
     "prepublishOnly": "node scripts/index-skills.mjs --check && node scripts/validate.mjs && node tests/eval.mjs && node tests/run.mjs",
+    "release:preflight": "node scripts/release-preflight.mjs",
     "run:log": "node scripts/run-log.mjs",
     "install:trae": "node scripts/install.mjs --target trae-user",
     "install:project": "node scripts/install.mjs --target project --tool trae"

@@ -304,7 +304,10 @@ const beatCheck = (docBeatJson.checks || []).find(c => c.name === 'hook') || {};
 check(beatCheck.state === 'ok' && /心跳/.test(String(beatCheck.detail || '')), 'doctor 心跳新鲜时判 ok（区分「未启用」与「本会话错过 SessionStart」）', `state=${beatCheck.state} detail=${beatCheck.detail || ''}`);
 
 // 10c. doctor 向上查父级回执（宿主项目根是父目录时不该误报「从未触发」）
-const upParent = path.join(tmp, 'upparent');
+// 注意：夹具必须落在系统临时目录，不能放在 tests/.tmp —— 它在仓库内，doctor 向上 5 级会扫到仓库根的
+// 真实 .agent-runs（本机跑过 hook 就有新鲜心跳），于是「只有合成回执应判 degraded」被真实证据推翻 → 假红。
+const upRootBase = fs.mkdtempSync(path.join(os.tmpdir(), 'aw-upward-'));
+const upParent = path.join(upRootBase, 'upparent');
 const upChild = path.join(upParent, 'sub', 'pkg');
 fs.mkdirSync(path.join(upChild, '.trae'), { recursive: true });
 fs.mkdirSync(path.join(upParent, '.agent-runs'), { recursive: true });
@@ -598,6 +601,38 @@ check(
   `lf=${eolLf.entry.sha256}/${eolLf.entry.bytes} crlf=${eolCrlf.entry.sha256}/${eolCrlf.entry.bytes}`
 );
 
+// 14. 发布预检：纯函数 + 结论判定（含反例自证：故意造错输入必须判 FAIL）
+const rp = await import('../scripts/release-preflight.mjs');
+check(rp.parseChangelogVersion('# 变更\n\n## 0.24.1 — 2026-10-26\n') === '0.24.1', '预检: CHANGELOG 取首条版本');
+check(rp.parseChangelogVersion('# 变更\n\n## Unreleased\n\n## 0.24.1\n') === null, '预检: 首条不是版本号时判 null（不跳过 Unreleased 去偷后面的版本）');
+check(
+  rp.compareVersions('0.24.1', '0.24.0') === 1 && rp.compareVersions('1.0.0', '1.0.0') === 0 && rp.compareVersions('0.9.9', '0.10.0') === -1,
+  '预检: 版本比较三态正确'
+);
+const baseFacts = {
+  name: 'maomi-workbench', version: '0.24.1', changelogVersion: '0.24.1', tagExists: true,
+  registryConfig: 'https://registry.npmjs.org/', registry: { kind: 'notFound' }, whoami: { user: 'maomi-0859' },
+};
+const okCase = rp.evaluate(baseFacts);
+check(okCase.ok && okCase.fails.length === 0, '预检: 正常场景判 PASS', `pass=${okCase.oks.length}`);
+const alreadyPublished = rp.evaluate({ ...baseFacts, registry: { kind: 'ok', latest: '0.24.1' } });
+check(!alreadyPublished.ok && /不大于|升版/.test(alreadyPublished.fails.join()), '预检反例: 版本已存在必须 FAIL', alreadyPublished.fails[0] || '');
+const changelogDrift = rp.evaluate({ ...baseFacts, changelogVersion: '0.24.0' });
+check(!changelogDrift.ok && /CHANGELOG/.test(changelogDrift.fails.join()), '预检反例: CHANGELOG 漂移必须 FAIL', changelogDrift.fails[0] || '');
+const noTag = rp.evaluate({ ...baseFacts, tagExists: false });
+check(!noTag.ok && /tag/.test(noTag.fails.join()), '预检反例: 缺 tag 必须 FAIL', noTag.fails[0] || '');
+const mirror = rp.evaluate({ ...baseFacts, registryConfig: 'https://registry.npmmirror.com' });
+check(mirror.ok && /镜像站/.test(mirror.warns.join()), '预检: 默认 registry 是镜像站时给 WARN（不阻断但必须提示）', mirror.warns[0] || '');
+// 只断言「跑得通 + 本地项确实核过」，不断言退出码：离线模式会核 tag，而未打 tag 的提交/开发分支上必然 FAIL，
+// 断言 exit=0 就成了「环境相关假红」（同类坑见上方 10c 夹具）。
+const preflight = run(path.join(root, 'scripts', 'release-preflight.mjs'), ['--offline']);
+check(
+  /PREFLIGHT PASS=[1-9]/.test(preflight.stdout) && /PASS \| CHANGELOG 首条/.test(preflight.stdout),
+  '预检: offline 跑通并核到 CHANGELOG 首条',
+  (preflight.stdout || preflight.stderr || '').trim().split('\n').pop()
+);
+
 fs.rmSync(tmp, { recursive: true, force: true });
+fs.rmSync(upRootBase, { recursive: true, force: true });
 console.log(`PASS=${pass} FAIL=${fail}`);
 if (fail) process.exitCode = 1;

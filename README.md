@@ -121,6 +121,7 @@ node scripts/fingerprint.mjs diff --cwd . --before <清单>     # 改没改按�
 node scripts/selfcheck.mjs --cwd .       # 自检汇总：注册表/门禁/单测/Hook 配置
 node scripts/check-hook.mjs --cwd .      # Hook 格式 + 命令目标 + 真实执行三层检查
 node scripts/stop-gate.mjs --cwd .       # Stop 闸门：未完成/证据缺失则阻断结束
+node scripts/release-preflight.mjs       # 发布预检：版本/CHANGELOG/tag/包名占用/registry/令牌身份（--offline 只查本地）
 node scripts/repo-index.mjs build        # 建仓库符号索引 .agent-index/{repo.json,MAP.md}
 node scripts/repo-index.mjs query --term <符号>
 node scripts/repo-index.mjs audit          # 解析率、路由缺失、别名清单
@@ -135,7 +136,7 @@ node skills/project-orchestrator/scripts/task.mjs next --file docs/<任务>/task
 node scripts/install.mjs --target trae-user --auto-update        # 安装技能 + 清单（开启自动更新）
 node scripts/update.mjs --check                                # 比对上游版本
 node scripts/update.mjs --apply                                # 有新版本则重装
-node tests/run.mjs                       # 单元自测 54 项
+node tests/run.mjs                       # 单元自测 96 项（含反例自证）
 node tests/eval.mjs                      # 判分式场景自测：pass / partial / fail / infra_fail
 node tests/behavior/rerun.mjs --times 3  # 行为场景回放：每场景 3 次，比对判定漂移
 node scripts/behavior-external.mjs list  # 跨模型适配器：codex / mimo / 自定义
