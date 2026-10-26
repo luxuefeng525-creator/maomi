@@ -221,10 +221,31 @@ try { docFake2Json = JSON.parse(docFake2.stdout); } catch { /* 断言会失败 *
 const fakeHookCheck2 = (docFake2Json.checks || []).find(c => c.name === 'hook') || {};
 check(fakeHookCheck2.state === 'degraded', 'doctor 合成回执不算宿主触发（仍判 degraded）', `state=${fakeHookCheck2.state}`);
 
+// 真实宿主的 source 是 "startup"：不能把「有 source」就排除，否则真实会话被漏算（曾因此误报 committed 0 次）
+fs.appendFileSync(path.join(fakeHookProj, '.agent-runs', 'session-start.log'),
+  JSON.stringify({ ts: '2026-01-01T00:00:02.000Z', session: 'realsess-1', event: 'SessionStart', source: 'startup', cwd: fakeHookProj }) + '\n', 'utf8');
+const docStartup = run(doctor, ['--cwd', fakeHookProj, '--json']);
+let docStartupJson = {};
+try { docStartupJson = JSON.parse(docStartup.stdout); } catch { /* 断言会失败 */ }
+const startupCheck = (docStartupJson.checks || []).find(c => c.name === 'hook') || {};
+check(startupCheck.state === 'ok' && /已触发 1 次会话/.test(String(startupCheck.detail || '')), 'doctor 把 source=startup 的真实会话计入', `detail=${startupCheck.detail || ''}`);
+// 清理心跳，避免上一条 ok 断言被心跳兜底掩盖
+fs.rmSync(path.join(fakeHookProj, '.agent-runs', 'hook-heartbeat.json'), { force: true });
+const docStartup2 = run(doctor, ['--cwd', fakeHookProj, '--json']);
+let docStartup2Json = {};
+try { docStartup2Json = JSON.parse(docStartup2.stdout); } catch { /* 断言会失败 */ }
+const startupCheck2 = (docStartup2Json.checks || []).find(c => c.name === 'hook') || {};
+check(startupCheck2.state === 'ok' && /已触发 1 次会话/.test(String(startupCheck2.detail || '')), 'doctor 无心跳时也靠真实会话回执判 ok', `detail=${startupCheck2.detail || ''}`);
+
 // 心跳证明 Hook 在跑：SessionStart 每会话只触发一次，本会话错过时靠 PreToolUse 心跳判生效，不误报「没启用」
-fs.writeFileSync(path.join(fakeHookProj, '.agent-runs', 'hook-heartbeat.json'),
+// 用独立沙箱：只有心跳、没有任何 session-start.log 回执，才能测到「心跳兜底」这条分支
+const hbHookProj = path.join(tmp, 'hook-heartbeat');
+fs.mkdirSync(path.join(hbHookProj, '.trae'), { recursive: true });
+fs.mkdirSync(path.join(hbHookProj, '.agent-runs'), { recursive: true });
+fs.copyFileSync(path.join(fakeHookProj, '.trae', 'hooks.json'), path.join(hbHookProj, '.trae', 'hooks.json'));
+fs.writeFileSync(path.join(hbHookProj, '.agent-runs', 'hook-heartbeat.json'),
   JSON.stringify({ time: new Date().toISOString(), event: 'PreToolUse', tool: 'Shell', decision: 'allow' }) + '\n', 'utf8');
-const docBeat = run(doctor, ['--cwd', fakeHookProj, '--json']);
+const docBeat = run(doctor, ['--cwd', hbHookProj, '--json']);
 let docBeatJson = {};
 try { docBeatJson = JSON.parse(docBeat.stdout); } catch { /* 断言会失败 */ }
 const beatCheck = (docBeatJson.checks || []).find(c => c.name === 'hook') || {};

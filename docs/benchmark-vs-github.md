@@ -10,7 +10,7 @@
 | A 技能发现 | 人工白名单；无机器可读索引 | anthropics/skills：SKILL.md 只放元数据，按需加载；wshobson：单一源生成多端产物并查重 | 缺 registry 与触发词校验 | 已补 `index-skills.mjs` + `skills/registry.json`，重名/重触发词/超限直接失败 |
 | B 任务图 | `tasks.json` + `task.mjs`：next / start / done / validate，原子写 | task-master：deps + 优先级 + next_task + 原子状态 | 缺优先级排序与跨会话自动恢复 | 已补 `task.mjs`；优先级暂不做 |
 | C Hook | `SessionStart` / `PreToolUse` / `Stop` 三事件已接：自举 / 守卫 / 验收阻断 | superpowers：SessionStart 注入；Claude Code PreToolUse 权限决策；SWE-agent on_start/on_instance_completed | UserPromptSubmit / PostToolUse / Notification 未用 | 已补 `session-start.mjs`、`pre-tool-guard.mjs`、`stop-gate.mjs`，安装器合并 + 备份 |
-| D 评估 | 24 项脚本断言 + 29 场景判分 + 16 行为场景 / 79 断言；宿主 48 会话 48/48；跨模型通道不可用 | SWE-bench：任务→测试→resolved/unresolved/infra；aider polyglot | 跨模型未测 | 已补 `tests/eval.mjs`、`behavior-check.mjs`、`rerun.mjs`、`SESSION-PROMPT.md` |
+| D 评估 | 24 项脚本断言 + 29 场景判分 + 17 行为场景；宿主 48 会话 48/48；跨模型两通道已实测 | SWE-bench：任务→测试→resolved/unresolved/infra；aider polyglot | 未接公开基准（SWE-bench/aider 风格）；样本仅两条通道 | 已补 `tests/eval.mjs`、`behavior-check.mjs`、`rerun.mjs`、`SESSION-PROMPT.md` |
 | E 观测 | 无轨迹 | SWE-agent inspector；SWE-bench per-instance report；task-master activity log | 无运行轨迹，失败无法归类 | 已补 `run-log.mjs`（JSONL + report：状态分布、平均耗时、失败步骤） |
 | F 上下文 | `context-budget` 分段预算（必需段必留）；`repo-index context` 符号片段 + 依赖方；MAP 按引用入度排序；SessionStart 已接入 | aider RepoMap 预算；SWE-agent 折叠旧观测；wshobson 8KB/150 行 | 非 LSP，模板字符串动态路径仍可能漏；依赖方片段定位到文件头 | 已补 `context-budget.mjs` + `repo-index context` + `session-start --budget` |
 | G 多代理 | `agents.mjs`：依赖分层 + 文件冲突分车道 + 并行认领 | superpowers 一域一代理；worktree 隔离 | 无 worktree 级隔离 | 已补 `agents.mjs` + 双代理演练 |
@@ -23,7 +23,7 @@
 
 | 项 | 证据 |
 | --- | --- |
-| 技能注册表 | `node scripts/index-skills.mjs --check` → `skills=3 warnings=0` |
+| 技能注册表 | `node scripts/index-skills.mjs --check` → `skills=6 warnings=0` |
 | 判分式自测 | `node tests/eval.mjs` → `S:{"pass":29}`；反例场景必须失败 |
 | 任务调度器 | `task.mjs`：next / start / done / validate；依赖循环、多 doing、无证据 done 全部拦截 |
 | 运行轨迹 + 自进化 | eval 场景 `runlog_report`、`evolve_proposal` 通过；`report` 输出状态分布与失败步骤 |
@@ -37,9 +37,9 @@
 
 ## 仍然不足（按优先级）
 
-1. **Hook 只接了三个事件**：SessionStart / PreToolUse / Stop 已可用，但必须在设置里启用；UserPromptSubmit / PostToolUse / Notification 未用（自动格式化、提示词拦截仍缺）。
-2. **真实 Hook 未验证**：SessionStart 会注入 next，B4/B9 行为场景已 3 会话验证续跑；但注入本身能否让新会话自动续跑，仍需 Hook 在设置里启用后实测。
-3. **跨模型仍未对照**：宿主 16 场景 × 3 = 48/48；外部 CLI（codex / mimo）本机通道全部不可用，跨模型对照 0 条。
+1. **Hook 只接了三个事件**：SessionStart / PreToolUse / Stop 已实测生效（2026-10-27：宿主真实会话回执 1 条、PreToolUse 心跳持续写入、`doctor` 报 `已触发 N 次会话`）；UserPromptSubmit / PostToolUse / Notification 未用（自动格式化、提示词拦截仍缺）。
+2. **Hook 依赖宿主 shell 兼容**：Windows 上 Trae 用 PowerShell 执行命令，`"node.exe" "x.mjs"` 会 `ParserError`、静默 exit 1；已改为生成 `& "node.exe" "x.mjs"`（0.20.11），并由 `check-hook.mjs` 以真实 shell 复验防止再犯。
+3. **跨模型样本薄**：宿主 16 场景 × 3 = 48/48；外部 CLI 仅 codex（14 pass / 2 partial / 1 fail）与 mimo-agnes（16 pass / 1 partial）两条通道，未覆盖更多模型。
 4. **无轨迹查看器**：只有 JSONL 与汇总，没有回放。
 5. **索引仍是正则级**：已有符号片段检索与引用入度排序，但不是 LSP；模板字符串动态路径、`<script setup>` 局部符号仍可能漏。
 6. **诊断不到运行时深处**：`doctor` 只查文件与命令，没有进程 / 端口 / 租约级诊断；教程里的写租约、作业层、对象级事务没有对应运行时，未抄。

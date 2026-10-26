@@ -29,8 +29,9 @@ const add = (name, state, detail, next = '') => checks.push({ name, state, detai
 /**
  * 数宿主机真实触发的会话回执：排除人工探针与合成调用。
  * 依据 session-start.mjs 写入的 .agent-runs/session-start.log（每行一条 JSON）。
- * 排除三类：event 非 SessionStart、source 有值（check-hook 合成调用）、
- * session 以 check/verify/manual 开头（人工跑的验证脚本会自己命名）。
+ * 注意：真实宿主的 source 是 "startup"，不能把「有 source」就当合成调用（曾因此把真实会话漏算）。
+ * 只排除：event 非 SessionStart、source=check（check-hook 合成调用）、
+ * session 以 check/verify/manual/probe 开头（人工探针会自己命名）。
  * @param {string} logFile - 回执日志绝对路径
  * @returns {number} 真实会话条数；文件缺失或损坏返回 0
  */
@@ -42,8 +43,8 @@ function countHostFires(logFile) {
     let o;
     try { o = JSON.parse(line); } catch { continue; }
     if (o.event !== 'SessionStart') continue;
-    if (o.source) continue;
-    if (/^(check|verify|manual)/i.test(String(o.session || ''))) continue;
+    if (o.source === 'check') continue;
+    if (/^(check|verify|manual|probe)/i.test(String(o.session || ''))) continue;
     n++;
   }
   return n;

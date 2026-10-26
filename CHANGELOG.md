@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.20.14 — 2026-10-27
+
+**正确统计宿主真实会话：真实 source 是 `startup`，不能再把「有 source」一律当合成调用。**
+
+- `doctor.mjs` 的 `countHostFires` 只排除 `source=check` 与 `session` 前缀 `check|verify|manual|probe`；此前写成「source 有值就排除」，导致本会话已成功的 SessionStart 回执被漏算，只能靠心跳兜底。修正后本项目报 `宿主机已触发 1 次会话`。
+- 自测新增 2 条（`source=startup` 计入、无心跳时也靠真实回执判 ok），心跳兜底断言改用独立沙箱避免被真实回执前置命中 → **PASS=73 FAIL=0**。
+- `docs/benchmark-vs-github.md` 同步过期口径：技能数 3→6、行为场景 16→17、「跨模型不可用」→ 两通道已实测、「真实 Hook 未验证」→ 已实测生效并补 PowerShell 兼容约束。
+
 ## 0.20.13 — 2026-10-27
 
 **Stop 闸门证据解析容错：不再把「真实存在的证据」误报成缺失。**
