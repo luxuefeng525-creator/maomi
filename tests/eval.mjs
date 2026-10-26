@@ -36,7 +36,13 @@ for (const sc of cfg.scenarios) {
     if (r.error || r.status === null) { status = 'infra_fail'; detail.push(`infra: ${r.error?.message || 'timeout'}`); break; }
     const exitOk = r.status === (st.expectExit ?? 0);
     const miss = (st.stdout || []).filter(s => !out.includes(s));
-    if (!exitOk) { status = 'fail'; detail.push(`${path.basename(st.script)} exit=${r.status} 期望 ${st.expectExit ?? 0}`); }
+    if (!exitOk) {
+      status = 'fail';
+      // 诊断：把被跑脚本里形如 FAIL/xxx 的行带出来，避免只报 exit 码、下一轮 CI 才知道原因
+      const diag = out.split('\n').filter(l => /^\s*(FAIL|S:|SUMMARY|Error)/.test(l)).slice(0, 3).join(' ⏎ ')
+        || out.trim().split('\n').slice(-2).join(' ⏎ ');
+      detail.push(`${path.basename(st.script)} exit=${r.status} 期望 ${st.expectExit ?? 0}${diag ? ' | ' + diag : ''}`);
+    }
     else if (miss.length) { if (status === 'pass') status = 'partial'; detail.push(`缺输出: ${miss.join(' , ')}`); }
   }
   results.push({ id: sc.id, status, detail });

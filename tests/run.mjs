@@ -338,8 +338,9 @@ const chkBroken = run(path.join(root, 'scripts', 'check-hook.mjs'), ['--cwd', ho
 const brokenVerdict = needCallOp
   ? (chkBroken.status === 1 && /FAIL/.test(chkBroken.stdout) && /宿主 shell 可执行/.test(chkBroken.stdout))
   : chkBroken.status === 0; // 非 win32：sh 认这种写法，反例应判通过（正例已在上面断言）
+const brokenDiag = (chkBroken.stdout || '').trim().split('\n').filter(l => /^FAIL|SUMMARY/.test(l)).join('；');
 check(brokenVerdict, 'check-hook 真跑宿主 shell（win32 无 & 的老写法判 FAIL，不许假绿）',
-  needCallOp ? 'win32/pwsh' : '非 win32 跳过语法断言');
+  (needCallOp ? 'win32/pwsh 反例' : '非 win32: sh 合法 → check-hook 应 exit 0') + (brokenDiag ? ' | ' + brokenDiag : ''));
 
 // 11. 验收指纹（fingerprint）
 const fp = path.join(root, 'scripts', 'fingerprint.mjs');
