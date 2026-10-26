@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.21.0 — 2026-10-27
+
+**装本包即得全部 40 个技能：把 `ai-workflow` 的 34 个子技能合并进本包。**
+
+此前本包只有 6 个技能，`grilling` / `diagnose` / `finesse-*` / `caveman-*` / 产品五件套 / 交付纪律 5 件
+依赖另行安装 `ai-workflow`；自更新只覆盖 6 个，另外 34 个会漂移。
+
+- `skills/` 新增 34 个技能目录（152 文件 / 约 2MB），总计 40 个技能。
+- `index-skills.mjs` 修 frontmatter 解析：支持 YAML 折行块（`description: >` / `|`）。
+  原实现只取首行，把 `finesse-ui` 等 34 个技能的描述解析成字面 `>`，等于描述为空、路由失效。
+- `index-skills.mjs` 体积分级：8KB 只记 notice（建议拆 references），超 `--max-bytes`（默认 128KB）才判错。
+  原实现 8KB 即失败，而 10 个既有大技能（最大 `finesse-ui` 77KB）必然踩线。
+- 「无中文触发词」由失败降为 notice：英文技能靠 description 路由，不写中文触发词属正常形态。
+- `registry.json` 重生成：`skills=40 warnings=0 notices=43`。
+- `README.md` 技能表改为「自有 6 + 内置 34」分组，并写明体积分级与两道门禁的分工。
+- 自测新增 4 条（40 技能零 warning、YAML 折行解析、8~128KB 只记 notice、超硬上限才失败）→ **PASS=77 FAIL=0**。
+- 计划与取舍见 `docs/merge-ai-workflow-skills/PLAN.md`（含回滚方式与不做的事）。
+
 ## 0.20.15 — 2026-10-27
 
 **依赖自检：修正 `prompt-discipline` 里 `evolve.mjs` 的路径歧义。**

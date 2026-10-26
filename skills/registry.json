@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-26T16:25:07.080Z",
-  "count": 6,
+  "generatedAt": "2026-10-26T16:54:03.632Z",
+  "count": 40,
   "skills": [
     {
       "name": "project-orchestrator",
@@ -93,9 +93,458 @@
         "自进化"
       ],
       "path": "skills/prompt-discipline/SKILL.md",
-      "bytes": 3431,
-      "sha256": "e7e316f900642e19"
+      "bytes": 3440,
+      "sha256": "573bad6a9baa988d"
+    },
+    {
+      "name": "cavecrew",
+      "description": "When to delegate to `cavecrew-investigator` (locate code), `cavecrew-builder` (1-2 file edit) or `cavecrew-reviewer` (diff review) instead of working inline or using `Explore`. Their output is compressed, so main context lasts longer.",
+      "triggers": [],
+      "path": "skills/cavecrew/SKILL.md",
+      "bytes": 3777,
+      "sha256": "534c0a70d4c77288"
+    },
+    {
+      "name": "caveman",
+      "description": "Terse caveman voice: answer first, fluff gone, every technical fact kept. Use for /caveman, \"caveman mode\", \"talk like caveman\", \"be brief\", \"less tokens\". Stays on until \"stop caveman\" or \"normal mode\".",
+      "triggers": [],
+      "path": "skills/caveman/SKILL.md",
+      "bytes": 4678,
+      "sha256": "415d43518f2b1a94"
+    },
+    {
+      "name": "caveman-commit",
+      "description": "Write a Conventional Commits message compressed to intent only. Use for \"write a commit\", \"commit message\", /commit or /caveman-commit.",
+      "triggers": [],
+      "path": "skills/caveman-commit/SKILL.md",
+      "bytes": 2371,
+      "sha256": "c788a282fc75b981"
+    },
+    {
+      "name": "caveman-compress",
+      "description": "Compress a memory file such as CLAUDE.md or a todo list into caveman format to save input tokens, keeping a readable backup. Sends the file's text to the configured model provider. Trigger: /caveman-compress.",
+      "triggers": [],
+      "path": "skills/caveman-compress/SKILL.md",
+      "bytes": 5578,
+      "sha256": "dd5388f085316f9f"
+    },
+    {
+      "name": "caveman-discover",
+      "description": "Find and label every LLM workflow in the repository so Caveman Cloud groups spend by workflow instead of one bucket. Use for \"discover workflows\" or breaking LLM spend down by workflow.",
+      "triggers": [],
+      "path": "skills/caveman-discover/SKILL.md",
+      "bytes": 5276,
+      "sha256": "0483d17fce14ca5b"
+    },
+    {
+      "name": "caveman-evidence-review",
+      "description": "Read-only review of Caveman Cloud evidence: cost, Cave Score, workflows, traces, latency, errors, routing, savings. Use when asked what Caveman found or where LLM spend goes.",
+      "triggers": [],
+      "path": "skills/caveman-evidence-review/SKILL.md",
+      "bytes": 3734,
+      "sha256": "05bd896c76a41918"
+    },
+    {
+      "name": "caveman-explore",
+      "description": "Read-only repository explorer for cold-start orientation, broad cross-file localization, or when a direct search failed. Skip it when the exact file or symbol is already named. Returns path:line citations only; its reads stay out of main context.",
+      "triggers": [],
+      "path": "skills/caveman-explore/SKILL.md",
+      "bytes": 1970,
+      "sha256": "908f504ce45f5f85"
+    },
+    {
+      "name": "caveman-help",
+      "description": "Quick-reference card for the three caveman skills and their commands. Trigger: /caveman-help or \"caveman help\".",
+      "triggers": [],
+      "path": "skills/caveman-help/SKILL.md",
+      "bytes": 2771,
+      "sha256": "0bf9ee3fc8a9258b"
+    },
+    {
+      "name": "caveman-learn",
+      "description": "Act on a Caveman learn report - review the ranked token sinks, apply cost-lowering fixes with per-edit consent, and report what those fixes returned. Use when asked to lower an agent's token cost, what caveman has saved, to trim a heavy CLAUDE.md, or to offload re-pasted context into cavemem.",
+      "triggers": [],
+      "path": "skills/caveman-learn/SKILL.md",
+      "bytes": 11370,
+      "sha256": "466ce607aebff17d"
+    },
+    {
+      "name": "caveman-manage",
+      "description": "Inspect Caveman Cloud's experiment lifecycle and block unsafe execution. Use when asked to start, approve, cancel, promote or roll back a Caveman experiment.",
+      "triggers": [],
+      "path": "skills/caveman-manage/SKILL.md",
+      "bytes": 3916,
+      "sha256": "3404a3c8651d63b6"
+    },
+    {
+      "name": "caveman-optimize",
+      "description": "Turn a Caveman optimization observation into an operator-chosen candidate with a paired baseline evaluation. Use when asked to inspect or evaluate a Caveman optimization report. Needs explicit approval.",
+      "triggers": [],
+      "path": "skills/caveman-optimize/SKILL.md",
+      "bytes": 4723,
+      "sha256": "93f391beb93198b5"
+    },
+    {
+      "name": "caveman-review",
+      "description": "Compressed code review - one line per finding with location, problem and fix. Use for /caveman-review, \"review this PR\", or \"review the diff\".",
+      "triggers": [],
+      "path": "skills/caveman-review/SKILL.md",
+      "bytes": 2567,
+      "sha256": "599330563f19b5c5"
+    },
+    {
+      "name": "caveman-setup",
+      "description": "Wire a repository through the Caveman Cloud gateway so every LLM request is measured, with no behavior change. Use for \"set up caveman\" or adding LLM spend observability.",
+      "triggers": [],
+      "path": "skills/caveman-setup/SKILL.md",
+      "bytes": 10524,
+      "sha256": "42c8b8eeba19c6d4"
+    },
+    {
+      "name": "caveman-stats",
+      "description": "Show recorded output and cache-read token usage and mode attribution for the current Claude Code session, or locate the host's native usage report. Trigger: /caveman-stats.",
+      "triggers": [],
+      "path": "skills/caveman-stats/SKILL.md",
+      "bytes": 1964,
+      "sha256": "4632f1611a56483d"
+    },
+    {
+      "name": "design-system-lead",
+      "description": "Expert design systems leadership covering component libraries, design tokens, documentation, and design-development collaboration.",
+      "triggers": [],
+      "path": "skills/design-system-lead/SKILL.md",
+      "bytes": 13113,
+      "sha256": "f2f4c5b20e9f6080"
+    },
+    {
+      "name": "diagnose",
+      "description": "Disciplined diagnosis loop for hard bugs and performance regressions. Reproduce → minimise → hypothesise → instrument → fix → regression-test. Use when user says \"diagnose this\" / \"debug this\", reports a bug, says something is broken/throwing/failing, or describes a performance regression.",
+      "triggers": [],
+      "path": "skills/diagnose/SKILL.md",
+      "bytes": 7163,
+      "sha256": "28886402bbfa0470"
+    },
+    {
+      "name": "finesse-brief",
+      "description": "'Define the workbench before anyone builds it — the Workbench Architect that turns one vague sentence into a build-ready Workbench Spec. Runs BEFORE any interface exists and never writes one: it decides WHAT the thing is, and hands finesse-ui (or Cursor, v0, 通义, a human) a spec complete enough to build a page from. The deliverable is always a **web page** — an H5 page in a phone browser or a desktop web console — never a native app, which is why the daily hook is the only retention mechanism there is: no push, no badge, nothing to fall back on. Covers **two domains under one method**. **Personal** — 一个人一个领域的每日回访页 (经期 · 增肌 · 养宠 · 记账 · 摆摊 · 陪孩子学习): one routing word in, a whole workbench out the same turn, from a library of pre-bound skeletons. **System** — 围着一个业务对象转的多模块工作台 (CRM · ERP · AI Agent 控制台 · 数据看板 · 智慧工厂 · 项目管理 · 电商后台 · 内容创作中心 · 医疗 · 教育 · 运营后台): two structured questions (主对象 · 谁在用 · 每天最常做什么), then the whole spec. Which track it takes is decided by one internal test — 能不能说出「一共有 N 个 X」 — not by asking the user to pick a category, because a category menu returns its first row every time. Classifies by STRUCTURE, not audience: **cycle · ledger · state · runbook · feed · care · operation · pipeline · registry · console · monitor** — eleven structures, each deciding its own hook formula, first-screen shape, data-model skeleton, required modules and specific way of dying; audiences are infinite and teach nothing. Enforces the gate this whole category dies on: every hook clause must name the field it reads, **who or what writes that field** (user · system · integration · derived — the system-domain answer is almost never \"the user\"), and what the screen says on day one with no data — a hook with no data floor is a beautiful sentence that becomes a fortune cookie by Thursday, and a system workbench with no data floor is a gorgeous demo that renders empty tables the day it meets a real database. Outputs `.workbench/spec.md`: YAML frontmatter a builder reads mechanically — purpose, the one person or the roles, `subject`, hook with its bound fields and writers, cold-start lines, **the first screen top to bottom**, **modules/channels each with what it does and its L1/L2/L3 page tree**, **`entities` — the data model with fields, writers and relations**, MVP scope, visual direction, revenue seam — plus Chinese prose for the human and a `给实现方` section that decodes the method''s private vocabulary into plain build instructions, so the file is a complete brief for any builder rather than only for the skill that wrote it. Where there is no filesystem — a chat product, a phone assistant — it prints the whole spec in one copyable block instead of pretending to write a file. Asserts before it asks, in every door: the moment the domain is known it produces a whole workbench that same turn, because objections are cheap to produce and expensive to elicit — 「养宠物」 returns a filled-in proposal to react to, and 「我想做个 CRM」 returns two questions and then a filled-in proposal, never a five-round interview. Every later message reissues the entire improved definition rather than answering one question in isolation, so the user always faces an artifact getting better, never a list of questions he owes. Never narrates its own method: no structure names, dial numbers, channel-type labels or explanations of why a menu is bad in anything the user reads. Ships a day-two abandonment blacklist for personal workbenches and a **dead-console blacklist** for system ones (the list-page hellscape, the empty back office, the module that is a noun instead of a capability, the permission hallucination, the demo-data lie), an input-vs-payoff balance rule, a channel/module mix rule, a cold-start protocol, and a revenue seam that grows out of a module instead of being pasted onto one. Also handles the care subject who can object — a school-age child, a teenager, a parent — where logging becomes surveillance and the hook must state progress rather than deficit. Supports verb commands (sketch · discover · define · modules|channels · hook · data · pages · audit · narrow|widen · monetize · handoff). Triggers on \"个人工作台\", \"专属工作台\", \"AI 工作台\", \"AI Agent 工作台\", \"Agent 控制台\", \"工作台\", \"后台\", \"管理后台\", \"控制台\", \"CRM\", \"ERP\", \"进销存\", \"数据看板\", \"BI 看板\", \"驾驶舱\", \"大屏\", \"智慧工厂\", \"IoT 控制中心\", \"项目管理系统\", \"内容创作中心\", \"电商后台\", \"运营后台\", \"教务系统\", \"医疗系统\", \"知识库\", \"我想做个自己的工具\", \"帮我想一个工作台\", \"帮我定义一下这个产品\", \"不知道做什么产品\", \"personal dashboard\", \"admin console\", \"back office\", \"what should I build\", \"每日钩子\", \"daily hook\", \"左轨\", \"频道设计\", \"模块划分\", \"信息架构\", \"页面层级\", \"数据模型\", \"留存机制\", \"第二天没人打开\", \"用户不会录数据\", \"冷启动\", \"空数据\", \"这个功能有人用吗\", \"先给我看看效果\", \"直接做出来我看看\", \"给孩子做个\", \"给我妈做个\", \"经期/健身/睡眠/备考/养宠/育儿/记账/摆摊 工作台\", \"/workbench\".'",
+      "triggers": [],
+      "path": "skills/finesse-brief/SKILL.md",
+      "bytes": 71983,
+      "sha256": "7e34944ed57d6339"
+    },
+    {
+      "name": "finesse-term",
+      "description": "'Web 与 移动 H5 的说法层 —— 把用户说不准的界面描述，换成一句能直接发给 Agent 的准确需求，并顺手点出他刚刚描述了却叫不出名字的那个术语。**每一轮对话都适用，不限于某个阶段**：任何一轮对话里，只要用户用大白话描述了网页或 H5 的效果、交互、状态、动效、质感或故障（「鼠标放上去变个色」「点了没反应」「底下那条黑杠挡住按钮了」「弹窗底下还能滑」「键盘把输入框挡住了」「内容太长省略一下」「看着有点土」「太挤了不透气」「一条数据都没有的时候」「图片加载完页面往下跳」「在微信里打开显示不对」「电脑上打开这个 H5 很怪」），就该使用本 Skill：**照常把用户要的活干完**，再在进度或结果里自然带出对应术语、一句大白话解释，以及它最常见的那个坑。内置 128 条本地术语库（web · h5 · motion · mp · base 五册，覆盖布局 · 交互 · 状态 · 组件 · 表单 · 动效 · 质感 · 无障碍 · 性能 · 容器平台 · 小程序 · 前端基础），零网络依赖，用 `scripts/term.mjs find` 以**用户的原话**反查 —— 检索的主键是「用户会怎么描述这件事」，不是「它叫什么」，因为说不出名字正是要解决的问题。三条硬门禁：**每一条给出的术语都必须能指着用户这一轮的原话说出是哪几个字触发的**，指不出来就不提，宁可不说也不硬凑；**H5 的坑是成对的**，词条 pairs 里标出的搭档必须一起说（吸底 ↔ 安全区、弹层 ↔ 滚动锁、输入框 ↔ 键盘顶起、图片 ↔ 宽高比占位），只给一半等于埋雷；**永远先交付任务结果再补术语**，一次最多 1–3 条，用户表达已经准确时不加任何教学。也用于反向场景：用户贴出 Agent 或同事的话看不懂时（「他说要做乐观更新和错误回滚」「他说这里 CLS 有问题」），挑出最影响下一步判断的那个概念，说清它在当前任务里具体指什么、以及一个容易混淆的边界。可选产出 `.finesse/lexicon.md` —— 本项目的说法对齐表，防止同一个组件在需求、代码和沟通里出现三种叫法。支持动作命令（say · name · explain · check · align · list）。触发词：「说专业一点」「这句话怎么说准确」「改成能发给 Agent 的需求」「这个叫什么」「专业的说法」「术语」「看不懂他说的」「H5」「移动端」「手机上」「响应式」「安全区」「吸底」「弹窗」「骨架屏」「空状态」「无障碍」「术语对齐」「/term」。'",
+      "triggers": [
+        "「说专业一点」「这句话怎么说准确」「改成能发给 Agent 的需求」「这个叫什么」「专业的说法」「术语」「看不懂他说的」「H5」「移动端」「手机上」「响应式」「安全区」「吸底」「弹窗」「骨架屏」「空状态」「无障碍」「术语对齐」「",
+        "term」。'"
+      ],
+      "path": "skills/finesse-term/SKILL.md",
+      "bytes": 12510,
+      "sha256": "3c6b896caaa74d2e"
+    },
+    {
+      "name": "finesse-ui",
+      "description": "'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), AI workbenches (AI 工作台, agent consoles, 智能体控制台, copilot UI, run streams, approval/human-in-the-loop cards), commerce pages (product detail pages, listing/category pages, cart, checkout), and H5 / phone-only screens (app UI prototypes, 活动页, mobile PDP, data-report H5, mobile sites). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, pages you OPERATE = consoles/wizards, and and a DELEGATION layer that stacks on either when an agent does the work); commerce → PDP/PLP skeletons + anti-dark-pattern rules; h5 → a fixed 390×844 frame, safe-area math, thumb-zone hierarchy, and native furniture (status bar, TabBar, bottom sheet, FAB, push & FLIP transitions) across six phone morphologies. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Routes single-element briefs to a component flow (8 mandatory states + a preview file) instead of the page apparatus. Carries a cross-run build log so rotation is enforced rather than narrated, and a mobile floor covering the six ways a crafted page breaks on a phone. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Ships a motion layer that separates WHAT moves from HOW it is built: six routes (CSS · native scroll-driven · View Transitions/WAAPI · GSAP · Canvas/WebGL · zero-dependency CSS 3D space) against a ten-family effect catalogue of ~80 variants (spatial camera moves, particle fields, fluid & material, scroll narrative, typographic, image transform, geometric construction, physics & inertia, state transition, atmosphere), each family carrying its slop form; an effect→route lookup so a page stops shipping 60KB to do four lines of work; and a four-beat sheet that replaces \"one spectacular hero over generic fade-ups\" — because 「炫酷」 and 「好看」 select nothing, and every model answers them with the same particle hero. Separates 后台 (revolves around a batch of business objects) from 工作台 (revolves around one thing he does over and over) — one fork that decides density, soul and shell, resolved by what the thing revolves around rather than by head-count or screen; a workbench then picks a body, desktop or phone morph A.1. Ships an AI-workbench layer that stacks on any of them for the pages agents actually run in — a run stream instead of a chart, nine run states, a resident stop control, in-stream approval cards with linked evidence, and cost as a first-class receipt. Triggers on \"make this look premium\", \"landing page\", \"personal site\", \"portfolio\", \"个人主页\", \"落地页\", \"lookbook\", \"dashboard\", \"admin panel\", \"商家后台\", \"工作台\", \"专属工作台\", \"个人工作台\", \"每日工作台\", \"打卡页\", \"记录页\", \"daily desk\", \"back-office\", \"console\", \"publish flow\", \"发布流程\", \"wizard\", \"settings page\", \"analytics UI\", \"data table\", \"app UI\", \"product page\", \"PDP\", \"listing page\", \"checkout\", \"dashboard colors\", \"AI 工作台\", \"agent console\", \"智能体控制台\", \"AI 助手界面\", \"copilot UI\", \"运行记录\", \"工具调用\", \"人工审批\", \"值守台\", \"H5\", \"H5 页面\", \"移动端页面\", \"手机端页面\", \"活动页\", \"小程序页面\", \"公众号页面\", \"app 原型\", \"mobile app UI\", \"app screen\", \"in-app page\", \"移动端商详\", \"报告 H5\", \"give it a soul / a vibe\", \"anti-slop\", \"hero animation\", \"动效\", \"炫酷\", \"加点动画\", \"让它动起来\", \"太静了\", \"滚动动画\", \"页面转场\", \"沉浸式\", \"走进去\", \"scroll animation\", \"page transition\", \"make it move\", \"feels generic\", \"every page looks the same\", \"每次都差不多\", \"make me a button\", \"just this component\", \"按钮\", \"单个组件\", \"component states\", \"breaks on mobile\", \"手机端错位\", \"/finesse\".'",
+      "triggers": [],
+      "path": "skills/finesse-ui/SKILL.md",
+      "bytes": 78876,
+      "sha256": "b3c95a871163a8fb"
+    },
+    {
+      "name": "frame-smith",
+      "description": "'Build never-cheap, motion-crafted promo videos as Remotion compositions — cinematic HyperFrame-style clips (3D poster cubes, capsule theme-flips, architecture data-pulse, particle-burst photo albums) and vertical short-video for 抖音/小红书/视频号. frame-smith is the DIRECTOR, not the renderer: it reads the brief, sets the register (landscape cinematic vs. vertical short), picks ONE effect engine done at 100%, lays a beat timeline, writes the .tsx, and registers it in the Remotion Root. It runs ON TOP OF a video runtime — it needs the `hyperframe` OR the `remotion` skill installed, checks for them FIRST (§0), and guides install if neither is present. Ships a motion craft floor (30fps, second→frame helper, S-scale for vertical, 抖音 safe zones, easing library, export三件套), an effect-engine catalog lifted from shipped HyperFrames, a beat-timeline architecture, and a motion anti-slop blacklist (no everything-fades-up, no linear easing, no janking engine). Supports verb commands (craft · env · beats · engine · restage · slower|faster · register · audit). Triggers on \"做个视频\", \"视频动效\", \"promo video\", \"motion graphics\", \"Remotion 合成\", \"HyperFrame\", \"片头动画\", \"产品宣传片\", \"3D 立方体动画\", \"粒子相册\", \"数据可视化视频\", \"竖屏短视频\", \"抖音视频\", \"小红书视频\", \"opener animation\", \"转场\", \"beat timeline\", \"把这个页面做成视频\", \"/frame-smith\".'",
+      "triggers": [],
+      "path": "skills/frame-smith/SKILL.md",
+      "bytes": 32998,
+      "sha256": "5a3b628d730d6048"
+    },
+    {
+      "name": "grill-me",
+      "description": "A relentless interview to sharpen a plan or design. Use only when the user explicitly says \"grill me\" or /grill-me; otherwise load the `grilling` skill.",
+      "triggers": [],
+      "path": "skills/grill-me/SKILL.md",
+      "bytes": 227,
+      "sha256": "e059efffd1dc4d66"
+    },
+    {
+      "name": "grilling",
+      "description": "Grill the user relentlessly about a plan, decision, or idea. Use when the user wants to stress-test their thinking, or uses any 'grill' trigger phrases.",
+      "triggers": [],
+      "path": "skills/grilling/SKILL.md",
+      "bytes": 2049,
+      "sha256": "befdff1e27a1dfe2"
+    },
+    {
+      "name": "investigate-first",
+      "description": "Diagnose ambiguous failures before editing. Use for unknown causes, intermittent behavior, performance regressions, or investigations needing evidence-ranked hypotheses.",
+      "triggers": [],
+      "path": "skills/investigate-first/SKILL.md",
+      "bytes": 688,
+      "sha256": "7cc19dd2fc457eb2"
+    },
+    {
+      "name": "lean-build",
+      "description": "Build feature work with high overbuilding risk. Use for new behavior, product slices, or integrations where repository reuse, strict scope, and an explicit stop condition matter.",
+      "triggers": [],
+      "path": "skills/lean-build/SKILL.md",
+      "bytes": 1090,
+      "sha256": "4d498073c6312858"
+    },
+    {
+      "name": "megacave",
+      "description": "Caveman in Classical Chinese: 文言文 register, far fewer characters, technical terms verbatim. Use when the user asks for 文言文/古文 caveman voice, the /megacave alias, or /caveman wenyan. Stays on until \"stop caveman\" or \"normal mode\".",
+      "triggers": [],
+      "path": "skills/megacave/SKILL.md",
+      "bytes": 2882,
+      "sha256": "71e12279b1deb9a8"
+    },
+    {
+      "name": "migration",
+      "description": "Implement reversible compatibility-safe transitions. Use for schema, data, API, protocol, configuration, or dependency migrations requiring rollback and preservation proof.",
+      "triggers": [],
+      "path": "skills/migration/SKILL.md",
+      "bytes": 784,
+      "sha256": "fe7cf96a58b05211"
+    },
+    {
+      "name": "product-designer",
+      "description": "Expert product design covering UI/UX design, design systems, prototyping, user research, and design thinking.",
+      "triggers": [],
+      "path": "skills/product-designer/SKILL.md",
+      "bytes": 12725,
+      "sha256": "22281d58a04b9069"
+    },
+    {
+      "name": "product-manager",
+      "description": "Expert product management covering strategy, roadmapping, user research, prioritization frameworks, and stakeholder management.",
+      "triggers": [],
+      "path": "skills/product-manager/SKILL.md",
+      "bytes": 8002,
+      "sha256": "f7b4bb6861ddf0fb"
+    },
+    {
+      "name": "product-strategist",
+      "description": "Expert product strategy covering market analysis, competitive positioning, go-to-market planning, and product-led growth.",
+      "triggers": [],
+      "path": "skills/product-strategist/SKILL.md",
+      "bytes": 11403,
+      "sha256": "40755753acdb83fb"
+    },
+    {
+      "name": "safe-refactor",
+      "description": "Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket structural edits.",
+      "triggers": [],
+      "path": "skills/safe-refactor/SKILL.md",
+      "bytes": 705,
+      "sha256": "cd52867aba26aafb"
+    },
+    {
+      "name": "surgical-patch",
+      "description": "Fix bugs and small behavior changes at the narrowest responsible layer. Use when regression proof, preserved surrounding behavior, and task-relevant tests matter.",
+      "triggers": [],
+      "path": "skills/surgical-patch/SKILL.md",
+      "bytes": 664,
+      "sha256": "81ea9f7b51409970"
+    },
+    {
+      "name": "ultracave",
+      "description": "Caveman at maximum compression: fragments, one word when one word is enough, each fact once. Use when the user asks for maximum compression, the /ultracave alias, or /caveman ultra. Stays on until \"stop caveman\" or \"normal mode\".",
+      "triggers": [],
+      "path": "skills/ultracave/SKILL.md",
+      "bytes": 2526,
+      "sha256": "a3ec1d1037d3e2c4"
+    },
+    {
+      "name": "ux-researcher",
+      "description": "Expert UX research covering user research methods, usability testing, data synthesis, and research operations.",
+      "triggers": [],
+      "path": "skills/ux-researcher/SKILL.md",
+      "bytes": 9445,
+      "sha256": "270da72ffd8e48ea"
+    },
+    {
+      "name": "verify-and-stop",
+      "description": "Prove existing work meets acceptance conditions without expanding scope. Use for validation-only tasks, completion checks, focused gate runs, and last-mile proof.",
+      "triggers": [],
+      "path": "skills/verify-and-stop/SKILL.md",
+      "bytes": 704,
+      "sha256": "3d5599f49771b864"
     }
   ],
-  "warnings": []
+  "warnings": [],
+  "notices": [
+    {
+      "skill": "cavecrew",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-commit",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-compress",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-discover",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-evidence-review",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-explore",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-help",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-learn",
+      "issue": "超 8KB（11370），建议拆 references"
+    },
+    {
+      "skill": "caveman-learn",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-manage",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-optimize",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-review",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-setup",
+      "issue": "超 8KB（10524），建议拆 references"
+    },
+    {
+      "skill": "caveman-setup",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "caveman-stats",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "design-system-lead",
+      "issue": "超 8KB（13113），建议拆 references"
+    },
+    {
+      "skill": "design-system-lead",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "diagnose",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "finesse-brief",
+      "issue": "超 8KB（71983），建议拆 references"
+    },
+    {
+      "skill": "finesse-brief",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "finesse-term",
+      "issue": "超 8KB（12510），建议拆 references"
+    },
+    {
+      "skill": "finesse-ui",
+      "issue": "超 8KB（78876），建议拆 references"
+    },
+    {
+      "skill": "finesse-ui",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "frame-smith",
+      "issue": "超 8KB（32998），建议拆 references"
+    },
+    {
+      "skill": "frame-smith",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "grill-me",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "grilling",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "investigate-first",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "lean-build",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "megacave",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "migration",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "product-designer",
+      "issue": "超 8KB（12725），建议拆 references"
+    },
+    {
+      "skill": "product-designer",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "product-manager",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "product-strategist",
+      "issue": "超 8KB（11403），建议拆 references"
+    },
+    {
+      "skill": "product-strategist",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "safe-refactor",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "surgical-patch",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "ultracave",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "ux-researcher",
+      "issue": "超 8KB（9445），建议拆 references"
+    },
+    {
+      "skill": "ux-researcher",
+      "issue": "无中文触发词（靠 description 路由）"
+    },
+    {
+      "skill": "verify-and-stop",
+      "issue": "无中文触发词（靠 description 路由）"
+    }
+  ]
 }

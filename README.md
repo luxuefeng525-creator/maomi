@@ -37,7 +37,9 @@ node scripts/update.mjs --apply   # 上游更新则拉取并重装
 - 检查间隔用 `--check-hours`（默认 24，当前项目配的是 12）：未到期只报版本，不联网。
 - 关掉检查：安装时加 `--no-auto-check`。
 
-## 技能
+## 技能（40 个：6 自有 + 34 内置）
+
+### 自有 6 个（本包维护）
 
 | 技能 | 解决什么 | 关键约束 |
 | --- | --- | --- |
@@ -47,6 +49,22 @@ node scripts/update.mjs --apply   # 上游更新则拉取并重装
 | `code-review` | 提交前漏看风险 | 改动范围、兼容性、错误处理逐项过 |
 | `skill-audit` | 自建技能缺触发词/验证步骤 | 触发词、适用/禁用、最小示例、引用路径 |
 | `prompt-discipline` | 回答浅、偷懒、提示词反复重写 | 需求四段；先推理后行动；证据收尾；6 个模板 |
+
+### 内置 34 个（2026-10-27 从 `ai-workflow` 合并，装本包即得）
+
+| 分组 | 技能 |
+| --- | --- |
+| 拷问与构思 | `grilling`、`grill-me`、`brainstorming`、`writing-plans` |
+| 查修 | `diagnose`、`investigate-first` |
+| 产品五件套 | `product-strategist`、`product-manager`、`product-designer`、`ux-researcher`、`design-system-lead` |
+| 界面落地四件 | `finesse-brief`、`finesse-ui`、`finesse-term`、`frame-smith` |
+| 动效 | `ui-motion` |
+| 文风族 | `caveman`、`megacave`、`ultracave`、`caveman-commit` |
+| 文风工具变体 | `caveman-compress`、`caveman-discover`、`caveman-evidence-review`、`caveman-explore`、`caveman-help`、`caveman-learn`、`caveman-manage`、`caveman-optimize`、`caveman-review`、`caveman-setup`、`caveman-stats`、`cavecrew` |
+| 交付纪律 | `lean-build`、`migration`、`safe-refactor`、`surgical-patch`、`verify-and-stop` |
+
+体积分级：`SKILL.md` 超 8KB 只提示「建议拆 references」不计失败（10 个大技能，最大 `finesse-ui` 77KB）；超 `--max-bytes`（默认 128KB）才判错。
+结构门禁 `validate.mjs` 只查自有 6 个（CORE 白名单）；40 个的 frontmatter / name 一致性由 `index-skills.mjs --check` 统一保证。
 
 ## 设计原则（可被脚本检查）
 

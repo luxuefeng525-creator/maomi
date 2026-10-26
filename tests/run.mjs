@@ -27,6 +27,30 @@ fs.mkdirSync(tmp, { recursive: true });
 const v = run(path.join(root, 'scripts', 'validate.mjs'), [], root);
 check(v.status === 0 && /FAIL=0/.test(v.stdout), '技能门禁 FAIL=0', (v.stdout || v.stderr).split('\n').slice(-2).join(' '));
 
+// 1b. 技能注册表：40 个技能、YAML 折行 description、体积分级（8KB 只提示，--max-bytes 才判错）
+const regScript = path.join(root, 'scripts', 'index-skills.mjs');
+const regOut = path.join(tmp, 'reg-test.json');
+const regRun = run(regScript, ['--skills', path.join(root, 'skills'), '--out', regOut, '--check']);
+let regData = {};
+try { regData = JSON.parse(fs.readFileSync(regOut, 'utf8')); } catch { /* 断言会失败 */ }
+check(regRun.status === 0 && regData.count === 40 && (regData.warnings || []).length === 0,
+  'registry 40 个技能零 warning（6 自有 + 34 内置）', `count=${regData.count} warnings=${(regData.warnings || []).length}`);
+const finesseEntry = (regData.skills || []).find(s => s.name === 'finesse-ui') || {};
+check(String(finesseEntry.description || '').length > 1000,
+  'registry 解析 YAML 折行 description（不是字面 >）', `len=${String(finesseEntry.description || '').length}`);
+
+const bigDir = path.join(tmp, 'skill-big');
+fs.mkdirSync(path.join(bigDir, 'big-skill'), { recursive: true });
+fs.writeFileSync(path.join(bigDir, 'big-skill', 'SKILL.md'),
+  '---\nname: big-skill\ndescription: ' + 'x'.repeat(40) + '\n---\n' + 'y'.repeat(20000) + '\n', 'utf8');
+const bigOut = path.join(tmp, 'reg-big.json');
+const bigNotice = run(regScript, ['--skills', bigDir, '--out', bigOut, '--check', '--max-bytes', '100000']);
+check(bigNotice.status === 0 && /warnings=0/.test(bigNotice.stdout) && /notices=[12]/.test(bigNotice.stdout),
+  '体积 8KB~128KB 只记 notice 不判失败', (bigNotice.stdout || '').trim().split('\n')[0]);
+const bigOver = run(regScript, ['--skills', bigDir, '--out', bigOut, '--check', '--max-bytes', '10000']);
+check(bigOver.status === 1 && /超硬上限/.test(bigOver.stdout),
+  '超 --max-bytes 硬上限才判失败', (bigOver.stdout || '').trim().split('\n')[0]);
+
 // 2. 记忆四行为
 const mem = path.join(root, 'skills', 'project-memory', 'scripts', 'memory.mjs');
 const memRoot = path.join(tmp, 'mem');
