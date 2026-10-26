@@ -49,6 +49,24 @@ function countHostFires(logFile) {
   return n;
 }
 
+/**
+ * 读 Hook 心跳（pre-tool-guard 每次执行都会覆盖写）。
+ * SessionStart 每会话只触发一次，本会话错过就永远等不到回执；
+ * 心跳能证明「Hook 确实在跑」，避免把已生效误报成没启用。
+ * @param {string} f - 心跳文件绝对路径
+ * @returns {{ageMin:number}|null} 新鲜度（分钟）；缺失、损坏或未来时间返回 null
+ */
+function readHeartbeat(f) {
+  if (!fs.existsSync(f)) return null;
+  try {
+    const o = JSON.parse(fs.readFileSync(f, 'utf8'));
+    const t = new Date(o.time).getTime();
+    if (!Number.isFinite(t)) return null;
+    const ageMin = Math.round((Date.now() - t) / 60000);
+    return ageMin >= 0 ? { ageMin } : null;
+  } catch { return null; }
+}
+
 const run = (script, argv = [], timeout = 20000) => {
   const r = spawnSync(process.execPath, [path.join(root, script), ...argv], { cwd: root, encoding: 'utf8', timeout });
   return { ok: r.status === 0, out: ((r.stdout || '') + (r.stderr || '')).trim(), timeout: r.error?.code === 'ETIMEDOUT' };
@@ -78,14 +96,18 @@ else {
       if (events.length < 3) {
         add('hook', 'degraded', `${events.length}/3 事件（${events.join(',') || 'none'}）`, '重跑 install-hook 补齐三事件，并在设置 → Hooks 启用');
       } else {
-        // 配置齐全 ≠ 生效：查真实回执，看宿主机有没有真的调过 SessionStart。
+        // 配置齐全 ≠ 生效：查真实回执，看宿主机有没有真的调过 hook。
+        // 两种生效证据：① SessionStart 真实回执；② PreToolUse 心跳（SessionStart 每会话仅一次，错过就等不到）。
         // check-hook.mjs 的合成调用会带 source=check / session=check-hook，必须排除，否则自己造假绿。
         const fired = countHostFires(path.join(cwd, '.agent-runs', 'session-start.log'));
-        if (fired === 0) {
-          add('hook', 'degraded', `3/3 已配置，但宿主机从未触发（回执 0 条真实会话）`,
-            '打开 Trae → 设置 → Hooks → 项目 → 启用 → 重启；只写 .trae/hooks.json 不会被加载');
+        const beat = readHeartbeat(path.join(cwd, '.agent-runs', 'hook-heartbeat.json'));
+        if (fired > 0) {
+          add('hook', 'ok', `3/3 事件，宿主机已触发 ${fired} 次会话`, '');
+        } else if (beat && beat.ageMin <= 1440) {
+          add('hook', 'ok', `3/3 事件，PreToolUse 心跳 ${beat.ageMin} 分钟前（SessionStart 待下次会话自举）`, '');
         } else {
-          add('hook', 'ok', `3/3 事件，宿主机已触发 ${fired} 次`, '');
+          add('hook', 'degraded', `3/3 已配置，但宿主机从未触发（回执 0 条真实会话、无心跳）`,
+            '打开 Trae → 设置 → Hooks → 项目 → 启用 → 重启；只写 .trae/hooks.json 不会被加载');
         }
       }
     } catch (e) { add('hook', 'fail', 'hooks.json 非法: ' + e.message, '修 JSON 或重跑 install-hook'); }

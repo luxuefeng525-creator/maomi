@@ -157,8 +157,27 @@ function decide(event, cfg) {
   return { cwd, tool, ...verdict };
 }
 
+/**
+ * 写 Hook 心跳：allow 也写，证明宿主机确实在调 PreToolUse。
+ * 覆盖写单文件、不随调用次数增长；doctor 用它区分「Hook 根本没跑」与「在跑但本会话错过 SessionStart」。
+ * @param {string} cwd - 项目根
+ * @param {string} tool - 触发工具名
+ * @param {string} decision - allow | ask | deny
+ */
+function writeHeartbeat(cwd, tool, decision) {
+  try {
+    const dir = path.join(cwd, '.agent-runs');
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'hook-heartbeat.json'), JSON.stringify({
+      time: new Date().toISOString(), event: 'PreToolUse', tool, decision,
+    }) + '\n', 'utf8');
+  } catch { /* 心跳失败不影响决策 */ }
+}
+
 function logDecision(cwd, tool, verdict) {
-  if (dryRun || verdict.decision === 'allow') return;
+  if (dryRun) return;
+  writeHeartbeat(cwd, tool, verdict.decision);
+  if (verdict.decision === 'allow') return;
   try {
     const dir = path.join(cwd, '.agent-runs');
     fs.mkdirSync(dir, { recursive: true });

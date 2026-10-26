@@ -221,6 +221,15 @@ try { docFake2Json = JSON.parse(docFake2.stdout); } catch { /* 断言会失败 *
 const fakeHookCheck2 = (docFake2Json.checks || []).find(c => c.name === 'hook') || {};
 check(fakeHookCheck2.state === 'degraded', 'doctor 合成回执不算宿主触发（仍判 degraded）', `state=${fakeHookCheck2.state}`);
 
+// 心跳证明 Hook 在跑：SessionStart 每会话只触发一次，本会话错过时靠 PreToolUse 心跳判生效，不误报「没启用」
+fs.writeFileSync(path.join(fakeHookProj, '.agent-runs', 'hook-heartbeat.json'),
+  JSON.stringify({ time: new Date().toISOString(), event: 'PreToolUse', tool: 'Shell', decision: 'allow' }) + '\n', 'utf8');
+const docBeat = run(doctor, ['--cwd', fakeHookProj, '--json']);
+let docBeatJson = {};
+try { docBeatJson = JSON.parse(docBeat.stdout); } catch { /* 断言会失败 */ }
+const beatCheck = (docBeatJson.checks || []).find(c => c.name === 'hook') || {};
+check(beatCheck.state === 'ok' && /心跳/.test(String(beatCheck.detail || '')), 'doctor 心跳新鲜时判 ok（区分「未启用」与「本会话错过 SessionStart」）', `state=${beatCheck.state} detail=${beatCheck.detail || ''}`);
+
 // 10b. Hook 命令必须能被宿主真实 shell 执行（Windows 宿主是 PowerShell）
 // 背景：`"node.exe" "x.mjs"` 在 cmd/bash 合法，在 PowerShell 报 ParserError，
 // 导致 hook 每次 exit 1、静默空转。生成器必须加调用运算符 `&`；检查器必须真跑 shell 才能发现。

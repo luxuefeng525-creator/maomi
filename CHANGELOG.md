@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.20.12 — 2026-10-27
+
+**Hook 生效可被证明：PreToolUse 心跳，避免把「本会话错过 SessionStart」误报成「没启用」。**
+
+- `pre-tool-guard.mjs` 每次执行（含 allow）覆盖写 `.agent-runs/hook-heartbeat.json`，单文件不增长，`--dry-run` 不写。
+- `doctor.mjs` hook 判定接受两种生效证据：SessionStart 真实会话回执，或 24 小时内的心跳（detail 注明「SessionStart 待下次会话自举」）。
+- 实测：Trae 热加载新 hooks.json 后（无需重启），心跳由真实 PreToolUse 调用写入，doctor 从 `DEGRADED hook` 转为 `OK hook` / `VERDICT ok`。
+- 自测新增 1 条（心跳新鲜判 ok）→ **PASS=68 FAIL=0**。
+
 ## 0.20.11 — 2026-10-27
 
 **Hook 在 Windows 上全程静默失败：PowerShell 不认「两个引号串相邻」，必须加调用运算符 `&`。**
