@@ -221,6 +221,40 @@ try { docFake2Json = JSON.parse(docFake2.stdout); } catch { /* 断言会失败 *
 const fakeHookCheck2 = (docFake2Json.checks || []).find(c => c.name === 'hook') || {};
 check(fakeHookCheck2.state === 'degraded', 'doctor 合成回执不算宿主触发（仍判 degraded）', `state=${fakeHookCheck2.state}`);
 
+// 10b. Hook 命令必须能被宿主真实 shell 执行（Windows 宿主是 PowerShell）
+// 背景：`"node.exe" "x.mjs"` 在 cmd/bash 合法，在 PowerShell 报 ParserError，
+// 导致 hook 每次 exit 1、静默空转。生成器必须加调用运算符 `&`；检查器必须真跑 shell 才能发现。
+const installHook = path.join(root, 'scripts', 'install-hook.mjs');
+const hookGenProj = path.join(tmp, 'hookgen');
+fs.mkdirSync(hookGenProj, { recursive: true });
+const genHook = run(installHook, ['--target', 'trae-project', '--cwd', hookGenProj]);
+let genCmds = [];
+try {
+  const genCfg = JSON.parse(fs.readFileSync(path.join(hookGenProj, '.trae', 'hooks.json'), 'utf8'));
+  genCmds = ['SessionStart', 'PreToolUse', 'Stop'].map(e => genCfg.hooks[e][0].hooks[0].command);
+} catch { /* 断言会失败 */ }
+const needCallOp = process.platform === 'win32';
+check(genHook.status === 0 && genCmds.length === 3 && genCmds.every(c => (needCallOp ? c.trimStart().startsWith('& ') : true)),
+  'install-hook 生成命令带宿主 shell 调用运算符（win32 必需 &）', genCmds[0] || '(空)');
+
+const hookBrokenProj = path.join(tmp, 'hookbroken');
+fs.mkdirSync(path.join(hookBrokenProj, '.trae'), { recursive: true });
+const nodeExePosix = process.execPath.split(path.sep).join('/');
+const ssScriptPosix = path.join(root, 'scripts', 'session-start.mjs').split(path.sep).join('/');
+// 故意写成无 & 的老写法：路径都真实存在，只有 shell 语法不兼容
+fs.writeFileSync(path.join(hookBrokenProj, '.trae', 'hooks.json'), JSON.stringify({
+  version: 1,
+  hooks: {
+    SessionStart: [{ hooks: [{ type: 'command', command: `"${nodeExePosix}" "${ssScriptPosix}"`, timeout: 20 }] }],
+  },
+}, null, 2) + '\n', 'utf8');
+const chkBroken = run(path.join(root, 'scripts', 'check-hook.mjs'), ['--cwd', hookBrokenProj]);
+const brokenVerdict = needCallOp
+  ? (chkBroken.status === 1 && /FAIL/.test(chkBroken.stdout) && /宿主 shell 可执行/.test(chkBroken.stdout))
+  : chkBroken.status === 0; // 非 win32 的 sh 认这种写法，不强判
+check(brokenVerdict, 'check-hook 真跑宿主 shell（win32 无 & 的老写法判 FAIL，不许假绿）',
+  needCallOp ? 'win32/pwsh' : '非 win32 跳过语法断言');
+
 // 11. 验收指纹（fingerprint）
 const fp = path.join(root, 'scripts', 'fingerprint.mjs');
 const fpRepo = path.join(tmp, 'fprepo');

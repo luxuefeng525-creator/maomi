@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.20.11 — 2026-10-27
+
+**Hook 在 Windows 上全程静默失败：PowerShell 不认「两个引号串相邻」，必须加调用运算符 `&`。**
+
+- 根因：Trae 在 Windows 用 PowerShell 执行 hook 命令。`"node.exe" "x.mjs"` 在 cmd/bash 合法，在 PowerShell 报 `ParserError: 表达式或语句中包含意外的标记`，三个 hook 每次都 exit 1、什么都没做，表现为「Hook 已启用但从未生效」。
+- `install-hook.mjs`：win32 生成命令统一加前缀 `& `；非 win32 不加（sh 会把 `&` 当后台运行）。
+- `check-hook.mjs`：不再自己拆 node 路径直调——那样绕过 shell 语法层，永远测不出该错（历史假绿 28/28 PASS）。改为把命令原样交给宿主真实 shell 执行（win32 优先 pwsh、退化 powershell；其他平台 sh），并把 hook stdin JSON 经临时文件重定向注入。实测同一份配置：老写法 **6 FAIL（全 ParserError）→ 新写法 28/28 PASS**。
+- 自测新增 2 条（生成命令必须带 `&`；无 `&` 的老写法必须被判 FAIL）→ **PASS=67 FAIL=0**。
+
 ## 0.20.10 — 2026-10-26
 
 **去假绿：Hook 只写文件不等于生效；账本不再只报最新一个。**

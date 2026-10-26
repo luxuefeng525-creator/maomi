@@ -33,9 +33,15 @@ const nodePath = process.execPath.split(path.sep).join('/');
 const startScript = path.join(pkgRoot, 'scripts', 'session-start.mjs').split(path.sep).join('/');
 const guardScript = path.join(pkgRoot, 'scripts', 'pre-tool-guard.mjs').split(path.sep).join('/');
 const stopScript = path.join(pkgRoot, 'scripts', 'stop-gate.mjs').split(path.sep).join('/');
-const startCmd = `"${nodePath}" "${startScript}"`;
-const guardCmd = `"${nodePath}" "${guardScript}"`;
-const stopCmd = `"${nodePath}" "${stopScript}"`;
+
+// Trae 在 Windows 用 PowerShell 执行 hook 命令。两个引号串直接相邻（"node.exe" "x.mjs"）
+// 在 cmd/bash 合法，在 PowerShell 是语法错误（ParserError: 表达式或语句中包含意外的标记），
+// 结果是 hook 每次 exit 1、静默空转。必须加调用运算符 `&`。
+// 非 Windows 的宿主用 sh，`&` 会变成后台运行，故仅在 win32 加。
+const callOp = process.platform === 'win32' ? '& ' : '';
+const startCmd = `${callOp}"${nodePath}" "${startScript}"`;
+const guardCmd = `${callOp}"${nodePath}" "${guardScript}"`;
+const stopCmd = `${callOp}"${nodePath}" "${stopScript}"`;
 
 const desired = {
   SessionStart: [{ hooks: [{ type: 'command', command: startCmd, timeout: 20 }] }],
