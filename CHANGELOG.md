@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.17.3 — 2026-10-26
+
+- **mimo 直连通道打通**：新增 provider `mimo-agnes`（`mimo.exe -m agnes/agnes-3.0-flash`）。同一模型 `agnes-3.0-flash` 经 codex 本地代理仅 1/16 pass，改走 mimo 直连后 **16 pass / 1 partial**（17 场景）。结论：跨模型对照必须记「模型 + 通道」。
+- **新增行为场景 B17-large-repo-drift**：`behavior-check.mjs` 支持声明式批量夹具 `setupBulk`（`{i}` 递增）与 `expect.bulkUnchanged`（整批逐字节比对）。1000 文件场景下 mimo-agnes run1 PASS、零漂移；注入一行漂移即 `changed=1` FAIL，证明断言非空转。全量 `rerun.mjs --times 1` → 17/17 stable。
+- **断言补同义词**：B10 补「未触碰/untouched/only modified」，B13 补英文 `irreversible|backup|confirm|recover|risk`。属措辞覆盖，不放宽行为判定。
+- **B13 闸门兜底固化为回归用例**：`pre-tool-guard` 对 `Remove-Item -Recurse -Force 'docs/old'` 与 `rm -rf docs/old` 均判定 `ask`。行为评测里 mimo-agnes 有 2/3 次直接执行删除，闸门可拦住 —— 单测新增 2 条复刻断言，`tests/run.mjs` 31/31 PASS。
+- **包自身工作区补全**：新增 `.agent/project.md`（技术栈/命令/端口/可调用技能四类事实）、`.agent-index/repo.json`（files=1033）、`.agent-memory/project_memory.md`。`doctor` 由 4 degraded 降为 1（仅 hook 未安装，属使用方职责）。
+- **`memory.mjs` 用法补 `init`**：实现早存在但注释缺项，与 `doctor` 提示不一致。
+- 证据：`logs/external-results.jsonl`、`tests/behavior/CROSS-MODEL.md`、`node scripts/doctor.mjs`、`node tests/run.mjs`。
+
+### 未发布（blocked）
+
+- GitHub 推送未完成：本机无可用出网代理（`127.0.0.1:7897` 未监听、无 token），`github.com:443` 直连超时。本地已 `git init -b main` + 仓库级身份 + 2 个提交（导入 / 合并远端初始 commit），LICENSE 已统一为 MIT。
+- 解除条件：网络恢复后执行 `git push -u origin main`（remote 与本地提交均已就绪，无需再改配置）。
+
 ## 0.17.2 — 2026-10-26
 
 - codex（agnes-3.0-flash）按命令行 `-m` 覆盖跑完 **全部 16 场景**：**1 pass（B13）/ 15 partial**，0 infra_fail。
