@@ -3,6 +3,8 @@ name: verify-and-stop
 description: Prove existing work meets acceptance conditions without expanding scope. Use for validation-only tasks, completion checks, focused gate runs, and last-mile proof.
 ---
 
+触发词：别急着宣布完成 / 拿证据验收 / 收口前先验证 / 是否真的完成了
+
 # Verify and stop
 
 Translate acceptance conditions into smallest sufficient proof set.

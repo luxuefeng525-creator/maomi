@@ -36,7 +36,9 @@ if (!['trae', 'generic'].includes(tool)) {
 }
 
 const skillsSrc = path.join(pkgRoot, 'skills');
-const pkgVersion = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8')).version;
+const pkgJson = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8'));
+const pkgVersion = pkgJson.version;
+const pkgName = pkgJson.name; // 清单里的包名跟 package.json 走，避免改名后两边漂移
 const names = fs.readdirSync(skillsSrc).filter(n => fs.existsSync(path.join(skillsSrc, n, 'SKILL.md')));
 if (!names.length) {
   console.error('源目录没有技能: ' + skillsSrc);
@@ -194,7 +196,7 @@ if (!dryRun) {
     if (left === 0) {
       if (fs.existsSync(manifestPath)) { fs.rmSync(manifestPath, { force: true }); console.log('REMOVE ' + manifestPath); }
     } else {
-      old.name = old.name || 'agent-workbench';
+      old.name = old.name || pkgName;
       old.skills = ownedSkills;
       old.commands = ownedCommands;
       fs.writeFileSync(manifestPath, JSON.stringify(old, null, 2) + '\n', 'utf8');
@@ -203,7 +205,7 @@ if (!dryRun) {
     const autoCheck = has('no-auto-check') ? false : (has('auto-check') ? true : old.autoCheck !== false);
     const autoApply = has('no-auto-update') ? false : (has('auto-update') ? true : old.autoApply === true);
     const manifest = {
-      name: 'agent-workbench',
+      name: pkgName,
       version: pkgVersion,
       installedAt: new Date().toISOString(),
       target,

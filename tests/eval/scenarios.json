@@ -4,7 +4,15 @@
       "id": "validate_ok",
       "desc": "核心技能通过结构门禁",
       "steps": [
-        { "script": "scripts/validate.mjs", "args": [], "expectExit": 0, "stdout": ["FAIL=0", "PASS | project-orchestrator"] }
+        {
+          "script": "scripts/validate.mjs",
+          "args": [],
+          "expectExit": 0,
+          "stdout": [
+            "FAIL=0",
+            "PASS | project-orchestrator"
+          ]
+        }
       ]
     },
     {
@@ -17,19 +25,117 @@
         }
       ],
       "steps": [
-        { "script": "scripts/validate.mjs", "args": [], "expectExit": 1, "stdout": ["FAIL", "无 AI 味词"] }
+        {
+          "script": "scripts/validate.mjs",
+          "args": [],
+          "expectExit": 1,
+          "stdout": [
+            "FAIL",
+            "无 AI 味词"
+          ]
+        }
       ]
     },
     {
       "id": "memory_lifecycle",
       "desc": "记忆初始化、幂等、检索、失效守卫、报告",
       "steps": [
-        { "script": "skills/project-memory/scripts/memory.mjs", "args": ["init", "--root", "mem"], "expectExit": 0, "stdout": ["INIT"] },
-        { "script": "skills/project-memory/scripts/memory.mjs", "args": ["append", "--root", "mem", "--type", "fact", "--text", "端口 5190 是开发端口", "--evidence", "tests", "--impact", "无"], "expectExit": 0, "stdout": ["APPEND id="] },
-        { "script": "skills/project-memory/scripts/memory.mjs", "args": ["append", "--root", "mem", "--type", "fact", "--text", "端口 5190 是开发端口", "--evidence", "tests", "--impact", "无"], "expectExit": 0, "stdout": ["SKIP"] },
-        { "script": "skills/project-memory/scripts/memory.mjs", "args": ["search", "--root", "mem", "--query", "端口"], "expectExit": 0, "stdout": ["topics.md:"] },
-        { "script": "skills/project-memory/scripts/memory.mjs", "args": ["invalidate", "--root", "mem", "--id", "deadbeef", "--reason", "测试"], "expectExit": 1, "stdout": ["不存在"] },
-        { "script": "skills/project-memory/scripts/memory.mjs", "args": ["report", "--root", "mem", "--threshold", "0.8"], "expectExit": 0, "stdout": ["条目="] }
+        {
+          "script": "skills/project-memory/scripts/memory.mjs",
+          "args": [
+            "init",
+            "--root",
+            "mem"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "INIT"
+          ]
+        },
+        {
+          "script": "skills/project-memory/scripts/memory.mjs",
+          "args": [
+            "append",
+            "--root",
+            "mem",
+            "--type",
+            "fact",
+            "--text",
+            "端口 5190 是开发端口",
+            "--evidence",
+            "tests",
+            "--impact",
+            "无"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "APPEND id="
+          ]
+        },
+        {
+          "script": "skills/project-memory/scripts/memory.mjs",
+          "args": [
+            "append",
+            "--root",
+            "mem",
+            "--type",
+            "fact",
+            "--text",
+            "端口 5190 是开发端口",
+            "--evidence",
+            "tests",
+            "--impact",
+            "无"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "SKIP"
+          ]
+        },
+        {
+          "script": "skills/project-memory/scripts/memory.mjs",
+          "args": [
+            "search",
+            "--root",
+            "mem",
+            "--query",
+            "端口"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "topics.md:"
+          ]
+        },
+        {
+          "script": "skills/project-memory/scripts/memory.mjs",
+          "args": [
+            "invalidate",
+            "--root",
+            "mem",
+            "--id",
+            "deadbeef",
+            "--reason",
+            "测试"
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "不存在"
+          ]
+        },
+        {
+          "script": "skills/project-memory/scripts/memory.mjs",
+          "args": [
+            "report",
+            "--root",
+            "mem",
+            "--threshold",
+            "0.8"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "条目="
+          ]
+        }
       ]
     },
     {
@@ -42,24 +148,112 @@
         }
       ],
       "steps": [
-        { "script": "skills/ui-ux-benchmark/scripts/ui-audit.mjs", "args": ["--files", "fail.vue"], "expectExit": 1, "stdout": ["FAIL=", "图片缺 alt"] }
+        {
+          "script": "skills/ui-ux-benchmark/scripts/ui-audit.mjs",
+          "args": [
+            "--files",
+            "fail.vue"
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "FAIL=",
+            "图片缺 alt"
+          ]
+        }
       ]
     },
     {
       "id": "install_dryrun",
       "desc": "安装预览不写文件",
       "steps": [
-        { "script": "scripts/install.mjs", "args": ["--target", "project", "--tool", "generic", "--dry-run"], "expectExit": 0, "stdout": ["DRY  COPY", ".agent"] }
+        {
+          "script": "scripts/install.mjs",
+          "args": [
+            "--target",
+            "project",
+            "--tool",
+            "generic",
+            "--dry-run"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "DRY  COPY",
+            ".agent"
+          ]
+        }
       ]
     },
     {
       "id": "runlog_report",
       "desc": "运行轨迹开始、步骤、结束、汇总",
       "steps": [
-        { "script": "scripts/run-log.mjs", "args": ["start", "--root", "runs", "--run", "r1", "--task", "演示", "--tier", "L1"], "expectExit": 0, "stdout": ["RUN r1"] },
-        { "script": "scripts/run-log.mjs", "args": ["step", "--root", "runs", "--run", "r1", "--name", "ui-audit", "--status", "fail"], "expectExit": 0, "stdout": ["STEP ui-audit fail"] },
-        { "script": "scripts/run-log.mjs", "args": ["finish", "--root", "runs", "--run", "r1", "--status", "partial"], "expectExit": 0, "stdout": ["FINISH r1 partial"] },
-        { "script": "scripts/run-log.mjs", "args": ["report", "--root", "runs", "--days", "7"], "expectExit": 0, "stdout": ["\"runs\": 1", "ui-audit"] }
+        {
+          "script": "scripts/run-log.mjs",
+          "args": [
+            "start",
+            "--root",
+            "runs",
+            "--run",
+            "r1",
+            "--task",
+            "演示",
+            "--tier",
+            "L1"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "RUN r1"
+          ]
+        },
+        {
+          "script": "scripts/run-log.mjs",
+          "args": [
+            "step",
+            "--root",
+            "runs",
+            "--run",
+            "r1",
+            "--name",
+            "ui-audit",
+            "--status",
+            "fail"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "STEP ui-audit fail"
+          ]
+        },
+        {
+          "script": "scripts/run-log.mjs",
+          "args": [
+            "finish",
+            "--root",
+            "runs",
+            "--run",
+            "r1",
+            "--status",
+            "partial"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "FINISH r1 partial"
+          ]
+        },
+        {
+          "script": "scripts/run-log.mjs",
+          "args": [
+            "report",
+            "--root",
+            "runs",
+            "--days",
+            "7"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"runs\": 1",
+            "ui-audit"
+          ]
+        }
       ]
     },
     {
@@ -72,30 +266,186 @@
         }
       ],
       "steps": [
-        { "script": "scripts/evolve.mjs", "args": ["--root", "mem", "--min", "2"], "expectExit": 0, "stdout": ["PROPOSAL x2"] }
+        {
+          "script": "scripts/evolve.mjs",
+          "args": [
+            "--root",
+            "mem",
+            "--min",
+            "2"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "PROPOSAL x2"
+          ]
+        }
       ]
     },
     {
       "id": "registry_check",
       "desc": "技能注册表无重名、重触发词、缺描述",
       "steps": [
-        { "script": "scripts/index-skills.mjs", "args": ["--out", "registry.json", "--check"], "expectExit": 0, "stdout": ["REGISTRY", "warnings=0"] }
+        {
+          "script": "scripts/index-skills.mjs",
+          "args": [
+            "--out",
+            "registry.json",
+            "--check"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "REGISTRY",
+            "warnings=0"
+          ]
+        }
       ]
     },
     {
       "id": "task_flow",
       "desc": "账本从建账到推进下一件，done 必须带证据",
       "steps": [
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["init", "--file", "ledger.json", "--task", "演示", "--tier", "L1"], "expectExit": 0, "stdout": ["INIT"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["add", "--file", "ledger.json", "--id", "T1", "--title", "需求"], "expectExit": 0, "stdout": ["ADD T1"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["add", "--file", "ledger.json", "--id", "T2", "--title", "实现", "--deps", "T1"], "expectExit": 0, "stdout": ["ADD T2"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["next", "--file", "ledger.json"], "expectExit": 0, "stdout": ["NEXT T1"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["start", "--file", "ledger.json", "--id", "T1"], "expectExit": 0, "stdout": ["START T1"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["done", "--file", "ledger.json", "--id", "T1"], "expectExit": 1, "stdout": ["缺少 --evidence"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["done", "--file", "ledger.json", "--id", "T1", "--evidence", "docs/x.md"], "expectExit": 0, "stdout": ["DONE T1"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["next", "--file", "ledger.json"], "expectExit": 0, "stdout": ["NEXT T2"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["validate", "--file", "ledger.json"], "expectExit": 0, "stdout": ["OK 账本合法"] },
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["status", "--file", "ledger.json"], "expectExit": 0, "stdout": ["\"done\": 1"] }
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "init",
+            "--file",
+            "ledger.json",
+            "--task",
+            "演示",
+            "--tier",
+            "L1"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "INIT"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "add",
+            "--file",
+            "ledger.json",
+            "--id",
+            "T1",
+            "--title",
+            "需求"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ADD T1"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "add",
+            "--file",
+            "ledger.json",
+            "--id",
+            "T2",
+            "--title",
+            "实现",
+            "--deps",
+            "T1"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ADD T2"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "next",
+            "--file",
+            "ledger.json"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "NEXT T1"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "start",
+            "--file",
+            "ledger.json",
+            "--id",
+            "T1"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "START T1"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "done",
+            "--file",
+            "ledger.json",
+            "--id",
+            "T1"
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "缺少 --evidence"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "done",
+            "--file",
+            "ledger.json",
+            "--id",
+            "T1",
+            "--evidence",
+            "docs/x.md"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "DONE T1"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "next",
+            "--file",
+            "ledger.json"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "NEXT T2"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "validate",
+            "--file",
+            "ledger.json"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "OK 账本合法"
+          ]
+        },
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "status",
+            "--file",
+            "ledger.json"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"done\": 1"
+          ]
+        }
       ]
     },
     {
@@ -108,7 +458,18 @@
         }
       ],
       "steps": [
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["validate", "--file", "cycle.json"], "expectExit": 1, "stdout": ["依赖循环"] }
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "validate",
+            "--file",
+            "cycle.json"
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "依赖循环"
+          ]
+        }
       ]
     },
     {
@@ -121,73 +482,220 @@
         }
       ],
       "steps": [
-        { "script": "skills/project-orchestrator/scripts/task.mjs", "args": ["validate", "--file", "dup.json"], "expectExit": 1, "stdout": ["同时多个 doing"] }
+        {
+          "script": "skills/project-orchestrator/scripts/task.mjs",
+          "args": [
+            "validate",
+            "--file",
+            "dup.json"
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "同时多个 doing"
+          ]
+        }
       ]
     },
     {
       "id": "session_start",
       "desc": "会话自举输出下一件与状态",
       "setup": [
-        { "path": ".agent/project.md", "content": "# 项目配置\n" },
+        {
+          "path": ".agent/project.md",
+          "content": "# 项目配置\n"
+        },
         {
           "path": "docs/demo/tasks.json",
           "content": "{\n  \"task\": \"演示\",\n  \"tier\": \"L1\",\n  \"tasks\": [\n    { \"id\": \"T1\", \"title\": \"需求\", \"deps\": [], \"status\": \"done\", \"evidence\": \"docs/x.md\" },\n    { \"id\": \"T2\", \"title\": \"实现\", \"deps\": [\"T1\"], \"status\": \"todo\", \"evidence\": \"\" }\n  ]\n}\n"
         }
       ],
       "steps": [
-        { "script": "scripts/session-start.mjs", "args": ["--cwd", "."], "expectExit": 0, "stdout": ["[SESSION]", "CONFIG .agent/project.md OK", "INDEX missing", "LEDGER docs/demo/tasks.json", "NEXT T2", "MEMORY MISSING"] }
+        {
+          "script": "scripts/session-start.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "[SESSION]",
+            "CONFIG .agent/project.md OK",
+            "INDEX missing",
+            "LEDGER docs/demo/tasks.json",
+            "NEXT T2",
+            "MEMORY MISSING"
+          ]
+        }
       ]
     },
     {
       "id": "session_no_ledger",
       "desc": "无账本时提示而不报错",
       "steps": [
-        { "script": "scripts/session-start.mjs", "args": ["--cwd", "."], "expectExit": 0, "stdout": ["LEDGER NONE", "CONFIG .agent/project.md MISSING", "INDEX missing"] }
+        {
+          "script": "scripts/session-start.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "LEDGER NONE",
+            "CONFIG .agent/project.md MISSING",
+            "INDEX missing"
+          ]
+        }
       ]
     },
     {
       "id": "hook_install_dry",
       "desc": "Hook 安装预览不写文件",
       "steps": [
-        { "script": "scripts/install-hook.mjs", "args": ["--target", "trae-project", "--cwd", ".", "--dry-run"], "expectExit": 0, "stdout": ["DRY  WRITE", "SessionStart"] }
+        {
+          "script": "scripts/install-hook.mjs",
+          "args": [
+            "--target",
+            "trae-project",
+            "--cwd",
+            ".",
+            "--dry-run"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "DRY  WRITE",
+            "SessionStart"
+          ]
+        }
       ]
     },
     {
       "id": "selfcheck_ok",
       "desc": "自检汇总全部通过（Hook 检查跳过）",
       "steps": [
-        { "script": "scripts/selfcheck.mjs", "args": ["--cwd", ".", "--no-hook"], "expectExit": 0, "timeout": 120000, "stdout": ["PASS registry", "PASS validate", "PASS unit", "SUMMARY checks=4 pass=4 fail=0"] }
+        {
+          "script": "scripts/selfcheck.mjs",
+          "args": [
+            "--cwd",
+            ".",
+            "--no-hook"
+          ],
+          "expectExit": 0,
+          "timeout": 240000,
+          "stdout": [
+            "PASS registry",
+            "PASS validate",
+            "PASS unit",
+            "SUMMARY checks=4 pass=4 fail=0"
+          ]
+        }
       ]
     },
     {
       "id": "check_hook_missing",
       "desc": "无 hooks.json 时检查器必须报错",
       "steps": [
-        { "script": "scripts/check-hook.mjs", "args": ["--cwd", "."], "expectExit": 1, "stdout": ["FAIL 文件存在"] }
+        {
+          "script": "scripts/check-hook.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "FAIL 文件存在"
+          ]
+        }
       ]
     },
     {
       "id": "check_hook_bad_json",
       "desc": "hooks.json 非法时检查器必须报错",
       "setup": [
-        { "path": ".trae/hooks.json", "content": "{ not json" }
+        {
+          "path": ".trae/hooks.json",
+          "content": "{ not json"
+        }
       ],
       "steps": [
-        { "script": "scripts/check-hook.mjs", "args": ["--cwd", "."], "expectExit": 1, "stdout": ["FAIL JSON 合法"] }
+        {
+          "script": "scripts/check-hook.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "FAIL JSON 合法"
+          ]
+        }
       ]
     },
     {
       "id": "repo_index",
       "desc": "仓库索引可建、可查符号、可查调用方",
       "setup": [
-        { "path": "src/a.ts", "content": "export function foo() {\n  return 1;\n}\n" },
-        { "path": "src/b.ts", "content": "import { foo } from './a';\nexport const bar = foo();\n" }
+        {
+          "path": "src/a.ts",
+          "content": "export function foo() {\n  return 1;\n}\n"
+        },
+        {
+          "path": "src/b.ts",
+          "content": "import { foo } from './a';\nexport const bar = foo();\n"
+        }
       ],
       "steps": [
-        { "script": "scripts/repo-index.mjs", "args": ["build", "--root", "."], "expectExit": 0, "stdout": ["INDEX files=2"] },
-        { "script": "scripts/repo-index.mjs", "args": ["query", "--term", "foo", "--root", "."], "expectExit": 0, "stdout": ["src/a.ts"] },
-        { "script": "scripts/repo-index.mjs", "args": ["related", "--file", "src/a.ts", "--root", "."], "expectExit": 0, "stdout": ["dependent src/b.ts"] },
-        { "script": "scripts/repo-index.mjs", "args": ["stats", "--root", "."], "expectExit": 0, "stdout": ["\"files\": 2"] }
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "build",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "INDEX files=2"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "query",
+            "--term",
+            "foo",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "src/a.ts"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "related",
+            "--file",
+            "src/a.ts",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "dependent src/b.ts"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "stats",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"files\": 2"
+          ]
+        }
       ]
     },
     {
@@ -200,7 +708,22 @@
         }
       ],
       "steps": [
-        { "script": "scripts/agents.mjs", "args": ["plan", "--file", "ledger.json"], "expectExit": 0, "stdout": ["LEVEL 1", "lane1: T1", "lane2: T2", "LEVEL 2", "T3"] }
+        {
+          "script": "scripts/agents.mjs",
+          "args": [
+            "plan",
+            "--file",
+            "ledger.json"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "LEVEL 1",
+            "lane1: T1",
+            "lane2: T2",
+            "LEVEL 2",
+            "T3"
+          ]
+        }
       ]
     },
     {
@@ -213,8 +736,38 @@
         }
       ],
       "steps": [
-        { "script": "scripts/agents.mjs", "args": ["claim", "--file", "ledger2.json", "--id", "T1", "--agent", "A"], "expectExit": 0, "stdout": ["CLAIM T1 by A"] },
-        { "script": "scripts/agents.mjs", "args": ["claim", "--file", "ledger2.json", "--id", "T2", "--agent", "B"], "expectExit": 1, "stdout": ["文件冲突"] }
+        {
+          "script": "scripts/agents.mjs",
+          "args": [
+            "claim",
+            "--file",
+            "ledger2.json",
+            "--id",
+            "T1",
+            "--agent",
+            "A"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "CLAIM T1 by A"
+          ]
+        },
+        {
+          "script": "scripts/agents.mjs",
+          "args": [
+            "claim",
+            "--file",
+            "ledger2.json",
+            "--id",
+            "T2",
+            "--agent",
+            "B"
+          ],
+          "expectExit": 1,
+          "stdout": [
+            "文件冲突"
+          ]
+        }
       ]
     },
     {
@@ -227,51 +780,217 @@
         }
       ],
       "steps": [
-        { "script": "scripts/agents.mjs", "args": ["claim", "--file", "ledger3.json", "--id", "T1", "--agent", "A"], "expectExit": 0, "stdout": ["CLAIM T1 by A"] },
-        { "script": "scripts/agents.mjs", "args": ["claim", "--file", "ledger3.json", "--id", "T2", "--agent", "B"], "expectExit": 0, "stdout": ["CLAIM T2 by B"] },
-        { "script": "scripts/agents.mjs", "args": ["status", "--file", "ledger3.json"], "expectExit": 0, "stdout": ["\"doing\": 2", "\"conflicts\": []"] }
+        {
+          "script": "scripts/agents.mjs",
+          "args": [
+            "claim",
+            "--file",
+            "ledger3.json",
+            "--id",
+            "T1",
+            "--agent",
+            "A"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "CLAIM T1 by A"
+          ]
+        },
+        {
+          "script": "scripts/agents.mjs",
+          "args": [
+            "claim",
+            "--file",
+            "ledger3.json",
+            "--id",
+            "T2",
+            "--agent",
+            "B"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "CLAIM T2 by B"
+          ]
+        },
+        {
+          "script": "scripts/agents.mjs",
+          "args": [
+            "status",
+            "--file",
+            "ledger3.json"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"doing\": 2",
+            "\"conflicts\": []"
+          ]
+        }
       ]
     },
     {
       "id": "repo_alias_route",
       "desc": "别名解析与页面路由映射",
       "setup": [
-        { "path": "tsconfig.json", "content": "{\n  \"compilerOptions\": {\n    \"baseUrl\": \".\",\n    \"paths\": { \"@/*\": [\"src/*\"] }\n  }\n}\n" },
-        { "path": "src/a.ts", "content": "export function foo() {\n  return 1;\n}\n" },
-        { "path": "src/b.ts", "content": "import { foo } from '@/a';\nexport const bar = foo();\n" },
-        { "path": "pages.json", "content": "{\n  \"pages\": [ { \"path\": \"pages/home/index\" } ]\n}\n" },
-        { "path": "pages/home/index.vue", "content": "<template><view>home</view></template>\n" }
+        {
+          "path": "tsconfig.json",
+          "content": "{\n  \"compilerOptions\": {\n    \"baseUrl\": \".\",\n    \"paths\": { \"@/*\": [\"src/*\"] }\n  }\n}\n"
+        },
+        {
+          "path": "src/a.ts",
+          "content": "export function foo() {\n  return 1;\n}\n"
+        },
+        {
+          "path": "src/b.ts",
+          "content": "import { foo } from '@/a';\nexport const bar = foo();\n"
+        },
+        {
+          "path": "pages.json",
+          "content": "{\n  \"pages\": [ { \"path\": \"pages/home/index\" } ]\n}\n"
+        },
+        {
+          "path": "pages/home/index.vue",
+          "content": "<template><view>home</view></template>\n"
+        }
       ],
       "steps": [
-        { "script": "scripts/repo-index.mjs", "args": ["build", "--root", "."], "expectExit": 0, "stdout": ["INDEX files=3 routes=1"] },
-        { "script": "scripts/repo-index.mjs", "args": ["related", "--file", "src/a.ts", "--root", "."], "expectExit": 0, "stdout": ["dependent src/b.ts"] },
-        { "script": "scripts/repo-index.mjs", "args": ["route", "--path", "pages/home/index", "--root", "."], "expectExit": 0, "stdout": ["pages/home/index.vue"] },
-        { "script": "scripts/repo-index.mjs", "args": ["audit", "--root", "."], "expectExit": 0, "stdout": ["\"unresolved\": 0", "\"missingRoutes\": []"] }
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "build",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "INDEX files=3 routes=1"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "related",
+            "--file",
+            "src/a.ts",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "dependent src/b.ts"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "route",
+            "--path",
+            "pages/home/index",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "pages/home/index.vue"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "audit",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"unresolved\": 0",
+            "\"missingRoutes\": []"
+          ]
+        }
       ]
     },
     {
       "id": "session_index_stale",
       "desc": "索引过期时自举提示 stale",
       "setup": [
-        { "path": ".agent-index/repo.json", "content": "{\n  \"generatedAt\": \"2020-01-01T00:00:00.000Z\",\n  \"files\": 10\n}\n" }
+        {
+          "path": ".agent-index/repo.json",
+          "content": "{\n  \"generatedAt\": \"2020-01-01T00:00:00.000Z\",\n  \"files\": 10\n}\n"
+        }
       ],
       "steps": [
-        { "script": "scripts/session-start.mjs", "args": ["--cwd", "."], "expectExit": 0, "stdout": ["INDEX stale"] }
+        {
+          "script": "scripts/session-start.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "INDEX stale"
+          ]
+        }
       ]
     },
     {
       "id": "repo_vue_dynamic",
       "desc": "动态 import 与 Vue 模板组件可解析",
       "setup": [
-        { "path": "src/a.ts", "content": "export function foo() {\n  return 1;\n}\n" },
-        { "path": "src/b.ts", "content": "export async function load() {\n  return import('./a');\n}\n" },
-        { "path": "src/c-back.vue", "content": "<template><view>back</view></template>\n" },
-        { "path": "src/page.vue", "content": "<template>\n  <c-back />\n  <view>home</view>\n</template>\n<script setup>\nimport CBack from './c-back.vue';\n</script>\n" }
+        {
+          "path": "src/a.ts",
+          "content": "export function foo() {\n  return 1;\n}\n"
+        },
+        {
+          "path": "src/b.ts",
+          "content": "export async function load() {\n  return import('./a');\n}\n"
+        },
+        {
+          "path": "src/c-back.vue",
+          "content": "<template><view>back</view></template>\n"
+        },
+        {
+          "path": "src/page.vue",
+          "content": "<template>\n  <c-back />\n  <view>home</view>\n</template>\n<script setup>\nimport CBack from './c-back.vue';\n</script>\n"
+        }
       ],
       "steps": [
-        { "script": "scripts/repo-index.mjs", "args": ["build", "--root", "."], "expectExit": 0, "stdout": ["INDEX files=4"] },
-        { "script": "scripts/repo-index.mjs", "args": ["audit", "--root", "."], "expectExit": 0, "stdout": ["\"unresolved\": 0"] },
-        { "script": "scripts/repo-index.mjs", "args": ["query", "--term", "c-back", "--root", "."], "expectExit": 0, "stdout": ["component c-back"] }
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "build",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "INDEX files=4"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "audit",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"unresolved\": 0"
+          ]
+        },
+        {
+          "script": "scripts/repo-index.mjs",
+          "args": [
+            "query",
+            "--term",
+            "c-back",
+            "--root",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "component c-back"
+          ]
+        }
       ]
     },
     {
@@ -284,21 +1003,45 @@
         }
       ],
       "steps": [
-        { "script": "scripts/stop-gate.mjs", "args": ["--cwd", "."], "expectExit": 0, "stdout": ["\"decision\":\"block\"", "可执行任务未完成"] }
+        {
+          "script": "scripts/stop-gate.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"decision\":\"block\"",
+            "可执行任务未完成"
+          ]
+        }
       ]
     },
     {
       "id": "stop_gate_allow_done",
       "desc": "全部完成且证据存在时允许结束",
       "setup": [
-        { "path": "docs/x.md", "content": "evidence\n" },
+        {
+          "path": "docs/x.md",
+          "content": "evidence\n"
+        },
         {
           "path": "docs/demo/tasks.json",
           "content": "{\n  \"task\": \"闸门\",\n  \"tier\": \"L1\",\n  \"tasks\": [\n    { \"id\": \"T1\", \"title\": \"实现\", \"deps\": [], \"status\": \"done\", \"evidence\": \"docs/x.md\" }\n  ]\n}\n"
         }
       ],
       "steps": [
-        { "script": "scripts/stop-gate.mjs", "args": ["--cwd", "."], "expectExit": 0, "stdout": ["\"continue\":true"] }
+        {
+          "script": "scripts/stop-gate.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"continue\":true"
+          ]
+        }
       ]
     },
     {
@@ -311,7 +1054,18 @@
         }
       ],
       "steps": [
-        { "script": "scripts/stop-gate.mjs", "args": ["--cwd", "."], "expectExit": 0, "stdout": ["\"decision\":\"block\"", "证据文件不存在"] }
+        {
+          "script": "scripts/stop-gate.mjs",
+          "args": [
+            "--cwd",
+            "."
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "\"decision\":\"block\"",
+            "证据文件不存在"
+          ]
+        }
       ]
     },
     {
@@ -324,18 +1078,155 @@
         }
       ],
       "steps": [
-        { "script": "scripts/context-budget.mjs", "args": ["--sections", "sections.json", "--budget", "60"], "expectExit": 0, "stdout": ["必需段保留内容", "完整见 docs/a.md", "truncated=1"] }
+        {
+          "script": "scripts/context-budget.mjs",
+          "args": [
+            "--sections",
+            "sections.json",
+            "--budget",
+            "60"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "必需段保留内容",
+            "完整见 docs/a.md",
+            "truncated=1"
+          ]
+        }
       ]
     },
     {
       "id": "behavior_check_ok",
       "desc": "行为评测检查器：合规回复与未改动应判 pass",
       "setup": [
-        { "path": "docs/ui-note.md", "content": "# 首页说明\n当前文案：欢迎使用。\n" },
-        { "path": "resp.md", "content": "需求还不清楚，请确认目标页面与对标参考。\n" }
+        {
+          "path": "docs/ui-note.md",
+          "content": "# 首页说明\n当前文案：欢迎使用。\n"
+        },
+        {
+          "path": "resp.md",
+          "content": "需求还不清楚，请确认目标页面与对标参考。\n"
+        }
       ],
       "steps": [
-        { "script": "scripts/behavior-check.mjs", "args": ["check", "--scenario", "B1-ambiguous", "--sandbox", ".", "--response", "resp.md"], "expectExit": 0, "stdout": ["VERDICT B1-ambiguous pass"] }
+        {
+          "script": "scripts/behavior-check.mjs",
+          "args": [
+            "check",
+            "--scenario",
+            "B1-ambiguous",
+            "--sandbox",
+            ".",
+            "--response",
+            "resp.md"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "VERDICT B1-ambiguous pass"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_zh_surgical",
+      "desc": "中文路由：最小改动请求应命中 surgical-patch",
+      "steps": [
+        {
+          "script": "scripts/route-skill.mjs",
+          "args": [
+            "--query",
+            "只改一行 别动其他代码"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ROUTE surgical-patch"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_zh_root_cause",
+      "desc": "中文路由：查根因请求应命中 investigate-first",
+      "steps": [
+        {
+          "script": "scripts/route-skill.mjs",
+          "args": [
+            "--query",
+            "帮我查一下这个 bug 的根因"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ROUTE investigate-first"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_zh_refactor",
+      "desc": "中文路由：重构前保证测试绿应命中 safe-refactor",
+      "steps": [
+        {
+          "script": "scripts/route-skill.mjs",
+          "args": [
+            "--query",
+            "重构前先确保测试都绿"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ROUTE safe-refactor"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_zh_commit",
+      "desc": "中文路由：提交信息规范应命中 caveman-commit",
+      "steps": [
+        {
+          "script": "scripts/route-skill.mjs",
+          "args": [
+            "--query",
+            "把这个提交信息写规范一点"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ROUTE caveman-commit"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_zh_verify",
+      "desc": "中文路由：别急着宣布完成应命中 verify-and-stop",
+      "steps": [
+        {
+          "script": "scripts/route-skill.mjs",
+          "args": [
+            "--query",
+            "改完别急着宣布完成 要拿证据验收"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ROUTE verify-and-stop"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "route_zh_none",
+      "desc": "中文路由：无关闲聊必须 ROUTE_NONE（不硬推技能）",
+      "steps": [
+        {
+          "script": "scripts/route-skill.mjs",
+          "args": [
+            "--query",
+            "随便聊聊天气"
+          ],
+          "expectExit": 0,
+          "stdout": [
+            "ROUTE_NONE"
+          ]
+        }
       ]
     }
   ]

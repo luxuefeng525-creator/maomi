@@ -560,6 +560,15 @@ fs.writeFileSync(path.join(rmDir, '.agent', 'skills', 'code-review', 'SKILL.md')
 const rmForeign = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--remove'], rmDir);
 check(rmForeign.status === 0 && /keptForeign=1/.test(rmForeign.stdout) && fs.existsSync(path.join(rmDir, '.agent', 'skills', 'code-review', 'SKILL.md')), '--remove 不删非本包技能');
 
+// 安装清单里的包名必须跟 package.json 走（改名后两边漂移 = 升级/更新判断错乱）
+const pkgName = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8')).name;
+const nameDir = path.join(tmp, 'proj-name');
+fs.mkdirSync(nameDir, { recursive: true });
+const nameInst = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic'], nameDir);
+let nameMf = {};
+try { nameMf = JSON.parse(fs.readFileSync(path.join(nameDir, '.agent', 'skills', '.agent-install.json'), 'utf8')); } catch { /* 断言会失败 */ }
+check(nameInst.status === 0 && nameMf.name === pkgName, '安装清单包名跟随 package.json', `manifest=${nameMf.name} pkg=${pkgName}`);
+
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
 console.log(`PASS=${pass} FAIL=${fail}`);

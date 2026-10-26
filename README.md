@@ -1,5 +1,7 @@
 # agent-workbench
 
+> npm 包名：**`maomi-workbench`**（`agent-workbench` 与 `maomi` 在 npm 均已被他人占用）。仓库目录名与本机克隆路径仍是 `agent-workbench`。
+
 能直接干活的 AI Agent 与 Skills 集合：把「需求 → 计划 → 实现 → 测试 → 验收 → 交付」做成可执行的门禁，每一步都要能被命令验证。
 
 不提供人设表演，也不承诺一键生成整个项目。提供三样东西：调度规则、可运行检查脚本、可追溯记忆。

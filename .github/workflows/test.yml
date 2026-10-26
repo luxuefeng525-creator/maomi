@@ -12,7 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
-        node: [18, 20]
+        # 20/22/24：18 已 EOL，22 是当前 LTS，24 与本机实际运行时一致
+        node: [20, 22, 24]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -28,3 +29,17 @@ jobs:
         run: node tests/eval.mjs
       - name: Unit checks
         run: node tests/run.mjs
+      # 生成物漂移防线：registry/index 过期、忘提交，一律在这里现形（bash 在 windows-latest 上也有）
+      - name: Worktree clean
+        shell: bash
+        run: |
+          if [ -n "$(git status --porcelain)" ]; then
+            echo "::error::工作区不干净：生成物漂移或忘记提交（先跑 npm run registry:write 并提交）"
+            git status --porcelain
+            git diff
+            exit 1
+          fi
+      # 覆盖率基线只在一个组合跑：它要重跑全部套件，跑 6 遍纯属浪费
+      - name: Coverage baseline
+        if: matrix.os == 'ubuntu-latest' && matrix.node == 24
+        run: node scripts/coverage.mjs --min 40

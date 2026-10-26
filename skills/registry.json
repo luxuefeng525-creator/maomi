@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-26T18:35:47.060Z",
+  "generatedAt": "2026-10-26T19:04:50.411Z",
   "count": 40,
   "skills": [
     {
@@ -43,7 +43,7 @@
         "像 XX",
         "参考 XX",
         "年轻人喜欢",
-        "用大白话描述页面。"
+        "用大白话描述页面"
       ],
       "path": "skills/ui-ux-benchmark/SKILL.md",
       "bytes": 5002,
@@ -115,10 +115,15 @@
     {
       "name": "caveman-commit",
       "description": "Write a Conventional Commits message compressed to intent only. Use for \"write a commit\", \"commit message\", /commit or /caveman-commit.",
-      "triggers": [],
+      "triggers": [
+        "提交信息",
+        "commit message",
+        "写提交说明",
+        "规范提交"
+      ],
       "path": "skills/caveman-commit/SKILL.md",
-      "bytes": 2371,
-      "sha256": "c788a282fc75b981"
+      "bytes": 2447,
+      "sha256": "a0fb52c80b2f5f5a"
     },
     {
       "name": "caveman-compress",
@@ -236,8 +241,27 @@
       "name": "finesse-term",
       "description": "'Web 与 移动 H5 的说法层 —— 把用户说不准的界面描述，换成一句能直接发给 Agent 的准确需求，并顺手点出他刚刚描述了却叫不出名字的那个术语。**每一轮对话都适用，不限于某个阶段**：任何一轮对话里，只要用户用大白话描述了网页或 H5 的效果、交互、状态、动效、质感或故障（「鼠标放上去变个色」「点了没反应」「底下那条黑杠挡住按钮了」「弹窗底下还能滑」「键盘把输入框挡住了」「内容太长省略一下」「看着有点土」「太挤了不透气」「一条数据都没有的时候」「图片加载完页面往下跳」「在微信里打开显示不对」「电脑上打开这个 H5 很怪」），就该使用本 Skill：**照常把用户要的活干完**，再在进度或结果里自然带出对应术语、一句大白话解释，以及它最常见的那个坑。内置 128 条本地术语库（web · h5 · motion · mp · base 五册，覆盖布局 · 交互 · 状态 · 组件 · 表单 · 动效 · 质感 · 无障碍 · 性能 · 容器平台 · 小程序 · 前端基础），零网络依赖，用 `scripts/term.mjs find` 以**用户的原话**反查 —— 检索的主键是「用户会怎么描述这件事」，不是「它叫什么」，因为说不出名字正是要解决的问题。三条硬门禁：**每一条给出的术语都必须能指着用户这一轮的原话说出是哪几个字触发的**，指不出来就不提，宁可不说也不硬凑；**H5 的坑是成对的**，词条 pairs 里标出的搭档必须一起说（吸底 ↔ 安全区、弹层 ↔ 滚动锁、输入框 ↔ 键盘顶起、图片 ↔ 宽高比占位），只给一半等于埋雷；**永远先交付任务结果再补术语**，一次最多 1–3 条，用户表达已经准确时不加任何教学。也用于反向场景：用户贴出 Agent 或同事的话看不懂时（「他说要做乐观更新和错误回滚」「他说这里 CLS 有问题」），挑出最影响下一步判断的那个概念，说清它在当前任务里具体指什么、以及一个容易混淆的边界。可选产出 `.finesse/lexicon.md` —— 本项目的说法对齐表，防止同一个组件在需求、代码和沟通里出现三种叫法。支持动作命令（say · name · explain · check · align · list）。触发词：「说专业一点」「这句话怎么说准确」「改成能发给 Agent 的需求」「这个叫什么」「专业的说法」「术语」「看不懂他说的」「H5」「移动端」「手机上」「响应式」「安全区」「吸底」「弹窗」「骨架屏」「空状态」「无障碍」「术语对齐」「/term」。'",
       "triggers": [
-        "「说专业一点」「这句话怎么说准确」「改成能发给 Agent 的需求」「这个叫什么」「专业的说法」「术语」「看不懂他说的」「H5」「移动端」「手机上」「响应式」「安全区」「吸底」「弹窗」「骨架屏」「空状态」「无障碍」「术语对齐」「",
-        "term」。'"
+        "说专业一点",
+        "这句话怎么说准确",
+        "改成能发给",
+        "Agent",
+        "的需求",
+        "这个叫什么",
+        "专业的说法",
+        "术语",
+        "看不懂他说的",
+        "H5",
+        "移动端",
+        "手机上",
+        "响应式",
+        "安全区",
+        "吸底",
+        "弹窗",
+        "骨架屏",
+        "空状态",
+        "无障碍",
+        "术语对齐",
+        "term"
       ],
       "path": "skills/finesse-term/SKILL.md",
       "bytes": 12510,
@@ -278,10 +302,18 @@
     {
       "name": "investigate-first",
       "description": "Diagnose ambiguous failures before editing. Use for unknown causes, intermittent behavior, performance regressions, or investigations needing evidence-ranked hypotheses.",
-      "triggers": [],
+      "triggers": [
+        "查根因",
+        "根因",
+        "bug 根因",
+        "先查证再动手",
+        "别猜",
+        "定位问题",
+        "为什么报错"
+      ],
       "path": "skills/investigate-first/SKILL.md",
-      "bytes": 688,
-      "sha256": "7cc19dd2fc457eb2"
+      "bytes": 796,
+      "sha256": "3de0cea2219c5fa4"
     },
     {
       "name": "lean-build",
@@ -334,18 +366,29 @@
     {
       "name": "safe-refactor",
       "description": "Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket structural edits.",
-      "triggers": [],
+      "triggers": [
+        "重构",
+        "重构前先确保测试绿",
+        "小步重构",
+        "保持测试常绿"
+      ],
       "path": "skills/safe-refactor/SKILL.md",
-      "bytes": 705,
-      "sha256": "cd52867aba26aafb"
+      "bytes": 791,
+      "sha256": "4ac4a3afcdfbab91"
     },
     {
       "name": "surgical-patch",
       "description": "Fix bugs and small behavior changes at the narrowest responsible layer. Use when regression proof, preserved surrounding behavior, and task-relevant tests matter.",
-      "triggers": [],
+      "triggers": [
+        "只改一行",
+        "别动其他代码",
+        "最小改动",
+        "精准修复",
+        "别顺手重构"
+      ],
       "path": "skills/surgical-patch/SKILL.md",
-      "bytes": 664,
-      "sha256": "81ea9f7b51409970"
+      "bytes": 759,
+      "sha256": "c388228e4acf947d"
     },
     {
       "name": "ultracave",
@@ -366,10 +409,15 @@
     {
       "name": "verify-and-stop",
       "description": "Prove existing work meets acceptance conditions without expanding scope. Use for validation-only tasks, completion checks, focused gate runs, and last-mile proof.",
-      "triggers": [],
+      "triggers": [
+        "别急着宣布完成",
+        "拿证据验收",
+        "收口前先验证",
+        "是否真的完成了"
+      ],
       "path": "skills/verify-and-stop/SKILL.md",
-      "bytes": 704,
-      "sha256": "3d5599f49771b864"
+      "bytes": 802,
+      "sha256": "87e6825ee899ce31"
     }
   ],
   "warnings": [],
@@ -380,10 +428,6 @@
     },
     {
       "skill": "caveman",
-      "issue": "无中文触发词（靠 description 路由）"
-    },
-    {
-      "skill": "caveman-commit",
       "issue": "无中文触发词（靠 description 路由）"
     },
     {
@@ -487,10 +531,6 @@
       "issue": "无中文触发词（靠 description 路由）"
     },
     {
-      "skill": "investigate-first",
-      "issue": "无中文触发词（靠 description 路由）"
-    },
-    {
       "skill": "lean-build",
       "issue": "无中文触发词（靠 description 路由）"
     },
@@ -523,14 +563,6 @@
       "issue": "无中文触发词（靠 description 路由）"
     },
     {
-      "skill": "safe-refactor",
-      "issue": "无中文触发词（靠 description 路由）"
-    },
-    {
-      "skill": "surgical-patch",
-      "issue": "无中文触发词（靠 description 路由）"
-    },
-    {
       "skill": "ultracave",
       "issue": "无中文触发词（靠 description 路由）"
     },
@@ -540,10 +572,6 @@
     },
     {
       "skill": "ux-researcher",
-      "issue": "无中文触发词（靠 description 路由）"
-    },
-    {
-      "skill": "verify-and-stop",
       "issue": "无中文触发词（靠 description 路由）"
     }
   ]

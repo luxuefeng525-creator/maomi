@@ -60,8 +60,23 @@ for (const dirName of fs.readdirSync(skillsDir)) {
 
   const name = readField('name');
   const desc = readField('description');
-  const triggerLine = raw.match(/触发词[:：]\s*(.+)/)?.[1] || '';
-  const triggers = triggerLine.split(/[、,，/]/).map(s => s.trim()).filter(Boolean);
+  // 触发词来源优先「顶格的独立行」，否则回退到任意位置（兼容写在正文里的老格式）。
+  // 之前无条件取第一处「触发词：」，遇到 description 里嵌了「触发词：「…」…」的技能
+  // （如 finesse-term）会把整段描述切成垃圾触发词 → 路由污染。故：行优先 + 去引号 + 限长 14 字。
+  const triggerLine = raw.match(/^触发词[:：]\s*(.+)$/m)?.[1] || raw.match(/触发词[:：]\s*(.+)/)?.[1] || '';
+  // 切分策略：先按分隔符切；单块过长（>14 字）说明是描述散文，再按空格二次切（保「bug 根因」这类含空格的短语）。
+  const rawChunks = triggerLine.replace(/[「」『』"'“”]/g, ' ').split(/[、,，/|；;]+/);
+  const picked = [];
+  for (const chunk of rawChunks) {
+    const t = chunk.trim().replace(/[。.：:]+$/g, '').trim();
+    if (!t) continue;
+    if (t.length <= 14) picked.push(t);
+    else for (const part of t.split(/\s+/)) {
+      const q = part.trim().replace(/[。.：:]+$/g, '').trim();
+      if (q.length >= 2 && q.length <= 14) picked.push(q);
+    }
+  }
+  const triggers = [...new Set(picked)]; // 同技能内去重（切分可能产生重复，属正常，不判错）
 
   if (!fm) warnings.push({ skill: dirName, issue: '缺 frontmatter' });
   if (!name) warnings.push({ skill: dirName, issue: '缺 name' });
@@ -87,15 +102,55 @@ for (const s of skills) {
   if (byName[s.name]) warnings.push({ skill: s.name, issue: '技能名重复' });
   byName[s.name] = true;
 }
+// 触发词查重分两级：同一技能内重复 = 结构性错误（WARN，拦 CI）；
+// 跨技能重复 = 路由歧义（NOTICE，提示但不判错——两个技能共享一个常见说法是正常现象）。
 const byTrigger = {};
-for (const s of skills) for (const t of s.triggers) {
-  if (byTrigger[t]) warnings.push({ skill: s.name, issue: `触发词重复：${t}` });
-  byTrigger[t] = true;
+for (const s of skills) {
+  const seen = new Set();
+  for (const t of s.triggers) {
+    if (seen.has(t)) continue; // 同一技能里重复写同一触发词，去重即可（无信息量，不判错）
+    seen.add(t);
+    const owner = byTrigger[t];
+    if (owner && owner !== s.name) notices.push({ skill: s.name, issue: `触发词与 ${owner} 重复（路由歧义）：${t}` });
+    else if (!owner) byTrigger[t] = s.name;
+  }
 }
 
 const registry = { generatedAt: new Date().toISOString(), count: skills.length, skills, warnings, notices };
-fs.writeFileSync(outFile, JSON.stringify(registry, null, 2), 'utf8');
-console.log(`REGISTRY ${path.relative(root, outFile)} skills=${skills.length} warnings=${warnings.length} notices=${notices.length}`);
+// --check 默认只读：不写盘，只比对现有 registry 与本次扫描结果是否一致。
+// 原因：旧实现无条件写盘且写 generatedAt，导致每次检查都把工作区弄脏（真 bug）。
+// 显式传 --out 时保留写盘语义（测试与「生成到指定位置」用法依赖）。
+const explicitOut = Boolean(getArg('out'));
+const rel = path.relative(root, outFile);
+const norm = r => JSON.stringify({ count: r.count, skills: r.skills, warnings: r.warnings, notices: r.notices });
+
+if (check && !explicitOut) {
+  let prev = null;
+  try { prev = JSON.parse(fs.readFileSync(outFile, 'utf8')); } catch { prev = null; }
+  if (!prev) {
+    console.log(`REGISTRY_DRIFT ${rel} | 现有 registry 缺失或无法解析（请运行 npm run registry:write 重新生成）`);
+    process.exitCode = 1;
+  } else if (norm(prev) !== norm(registry)) {
+    const prevByName = new Map((prev.skills || []).map(s => [s.name, s]));
+    const nowByName = new Map(registry.skills.map(s => [s.name, s]));
+    const diffs = [];
+    for (const [name, now] of nowByName) {
+      const old = prevByName.get(name);
+      if (!old) { diffs.push(`${name} 新增`); continue; }
+      if (JSON.stringify(old) !== JSON.stringify(now)) diffs.push(`${name} 内容变更`);
+    }
+    for (const name of prevByName.keys()) if (!nowByName.has(name)) diffs.push(`${name} 已删除`);
+    if (JSON.stringify(prev.warnings || []) !== JSON.stringify(registry.warnings)) diffs.push('warnings 变更');
+    if (JSON.stringify(prev.notices || []) !== JSON.stringify(registry.notices)) diffs.push('notices 变更');
+    console.log(`REGISTRY_DRIFT ${rel} | 差异 ${diffs.length} 项，首个：${diffs[0] || '未知'}（请运行 npm run registry:write 更新）`);
+    process.exitCode = 1;
+  } else {
+    console.log(`REGISTRY OK ${rel} skills=${skills.length} warnings=${registry.warnings.length} notices=${registry.notices.length}`);
+  }
+} else {
+  fs.writeFileSync(outFile, JSON.stringify(registry, null, 2), 'utf8');
+  console.log(`REGISTRY ${rel} skills=${skills.length} warnings=${warnings.length} notices=${notices.length}`);
+}
 for (const w of warnings) console.log(`WARN ${w.skill} | ${w.issue}`);
 for (const n of notices) console.log(`NOTICE ${n.skill} | ${n.issue}`);
 if (check && warnings.length) process.exitCode = 1;

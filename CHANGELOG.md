@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.24.0 — 2026-10-27
+
+**六项增强：修掉「检查即污染工作区」的真 bug，补上中文技能路由与分发通道。**
+
+1. `scripts/index-skills.mjs --check` 改为**只读**（真 bug 修复）：旧实现无条件 `writeFileSync` 且写 `generatedAt`，
+   每跑一次检查就把 `skills/registry.json` 弄脏（工作区长期有未提交改动）。现在 `--check` 只比对
+   「除 generatedAt 外」的内容，不一致打印 `REGISTRY_DRIFT`（含差异条数与首个差异项）并 exit 1；
+   显式 `--out` 仍写盘（兼容既有用法与测试）。
+2. **触发词解析修复**：改为「顶格独立行优先 → 回退任意位置」，去引号、限长 14 字、单块过长再按空格二次切
+   （保住「bug 根因」这类含空格短语），同技能内去重。此前 description 里嵌了「触发词：「…」」的技能
+   （finesse-term）会把整段描述切成垃圾触发词，污染路由。跨技能同名触发词由「结构错误」降级为
+   `NOTICE（路由歧义）`——两个技能共享一个常见说法是正常现象，不该拦 CI。
+3. **新增 `scripts/route-skill.mjs`**（技能路由）：把一句自然语言查询路由到最匹配技能，输出
+   `ROUTE <技能> score=… | 命中: …`，低于阈值输出 `ROUTE_NONE`（不硬推）。打分口径：中文触发词整词命中
+   权重最高（越长越具体）、触发词片段与 description 词命中次之、技能名命中加分；支持 `--top` / `--json`。
+   同时给 5 个高频技能补了中文触发词（surgical-patch / investigate-first / safe-refactor / caveman-commit / verify-and-stop）。
+4. **中文路由评测**：`tests/eval/scenarios.json` 新增 6 条场景（路由 5 条 + 「无关闲聊必须 ROUTE_NONE」1 条），
+   场景数 29 → **35**。
+5. **CI 加固**：Node 矩阵 18/20 → **20/22/24**（跟上本机 24.x 实际运行时）；新增「工作区干净」断言
+   （`git status --porcelain` 非空即 fail，防生成物漂移或忘提交）；新增覆盖率步骤（Ubuntu + Node 24）。
+6. **分发通道**：`package.json` 补 `repository`/`homepage`/`bugs`/`keywords`/`publishConfig`、
+   `prepublishOnly`（registry+validate+eval+test）与 `registry:write`/`route`/`test:coverage` 脚本；
+   新增 `.github/workflows/release.yml`：推 `v*` tag 时校验 tag ↔ package.json 版本 ↔ CHANGELOG 首条版本三者一致，
+   再 `npm publish --access public --provenance`（用 secrets.NODE_AUTH_TOKEN）。
+7. **覆盖率基线（零依赖）**：新增 `scripts/coverage.mjs`，用 `NODE_V8_COVERAGE` 跑单测与场景评测
+   （子进程/孙进程都会被采集），解析 V8 coverage 对 `scripts/**.mjs` 计算行覆盖率（跳过空行与纯注释行），
+   输出每文件覆盖率与 `COVERAGE total=…%`，`--min` 低于阈值 exit 1。刻意不引入 c8/nyc，守住零运行时依赖。
+8. **改名 `maomi-workbench`**：npm 上 `agent-workbench`（cevelas，latest 0.8.1）与 `maomi`（0.1.0）**均已被占用**，实测 `maomi-workbench` 可用。`package.json.name` 改名；安装清单里的 `name` 改为从 `package.json` 读取（不再硬编码），并新增单测锁住「清单包名 == package.json 包名」，防改名后两边漂移。仓库目录名与 git 仓库（maomi）不变。
+
 ## 0.23.0 — 2026-10-27
 
 **doctor 不再对「本包在子目录」误报 Hook 未生效。**

@@ -1,17 +1,42 @@
 {
-  "name": "agent-workbench",
-  "version": "0.23.0",
+  "name": "maomi-workbench",
+  "version": "0.24.0",
   "description": "Evidence-first AI agent and skills: stage gates, task ledger, project memory, UI benchmark, scenario eval and run traces.",
   "type": "module",
   "license": "MIT",
   "engines": {
     "node": ">=18"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luxuefeng525-creator/maomi.git"
+  },
+  "homepage": "https://github.com/luxuefeng525-creator/maomi#readme",
+  "bugs": {
+    "url": "https://github.com/luxuefeng525-creator/maomi/issues"
+  },
+  "keywords": [
+    "ai-agent",
+    "agent-workflow",
+    "skills",
+    "ai-agent-skills",
+    "evals",
+    "task-ledger",
+    "code-review",
+    "cli"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "validate": "node scripts/validate.mjs",
     "registry": "node scripts/index-skills.mjs --check",
+    "registry:write": "node scripts/index-skills.mjs",
+    "route": "node scripts/route-skill.mjs",
     "test": "node tests/run.mjs",
+    "test:coverage": "node scripts/coverage.mjs --min 40",
     "eval": "node tests/eval.mjs",
+    "prepublishOnly": "node scripts/index-skills.mjs --check && node scripts/validate.mjs && node tests/eval.mjs && node tests/run.mjs",
     "run:log": "node scripts/run-log.mjs",
     "install:trae": "node scripts/install.mjs --target trae-user",
     "install:project": "node scripts/install.mjs --target project --tool trae"

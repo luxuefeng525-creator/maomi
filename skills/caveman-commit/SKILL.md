@@ -5,6 +5,8 @@ description: >
   "write a commit", "commit message", /commit or /caveman-commit.
 ---
 
+触发词：提交信息 / commit message / 写提交说明 / 规范提交
+
 Write commit messages terse and exact. Conventional Commits format. No fluff. Why over what.
 
 ## Rules

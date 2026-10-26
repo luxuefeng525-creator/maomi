@@ -3,6 +3,8 @@ name: safe-refactor
 description: Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket structural edits.
 ---
 
+触发词：重构 / 重构前先确保测试绿 / 小步重构 / 保持测试常绿
+
 # Safe refactor
 
 Define behavior-preservation boundary and establish verification before structural edits.
