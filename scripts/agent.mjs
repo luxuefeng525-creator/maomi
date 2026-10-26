@@ -127,6 +127,7 @@ function cmdPlan() {
     console.log(`[档位] ${tier} · ${reasons.join(' / ')} · profile=${profile}`);
     console.log(`LEDGER ${rel} 共 ${data.tasks.length} 件`);
     for (const t of data.tasks) console.log(`  ${t.id} ${t.title}${t.deps.length ? ' <- ' + t.deps.join(',') : ''}`);
+    if (tier !== 'L0') console.log(`先写文档：docs/${slug}/PLAN.md（目标/边界/验收/数据模型/影响面），否则 run 不会进入实现步`);
     console.log(`下一步：node scripts/agent.mjs step --cwd ${cwd}`);
   }
 }
@@ -257,12 +258,33 @@ function cmdRun() {
     }, null, 2) + '\n', 'utf8');
   }
 
-  let executed = 0;
-  while (executed < maxSteps) {
+  /** 先出文档硬闸门：L1/L2 进入实现步前必须有 PLAN.md，缺失即阻断 */
+function planGate(slug) {
+  const plan = path.join(cwd, 'docs', slug, 'PLAN.md');
+  if (fs.existsSync(plan) && fs.statSync(plan).size > 0) return { ok: true, file: plan };
+  return { ok: false, file: plan };
+}
+
+let executed = 0;
+let gated = false;
+while (executed < maxSteps) {
     const cur = readLedger(file).data;
     const n = nextTask(cur);
     if (!n) break;
     const t = n.task;
+    // 实现类步骤前校验 PLAN.md：缺文档就不许写代码（--no-plan-gate 仅用于对照实验）
+    const isImpl = /实现|开发/.test(t.title);
+    if (isImpl && board.tier !== 'L0' && !has('no-plan-gate')) {
+      const g = planGate(slug);
+      if (!g.ok) {
+        // 保持 todo，不回写 blocked：补完文档重跑同一命令即可从这一步继续
+        const relPlan = path.relative(cwd, g.file).split(path.sep).join('/');
+        console.log(`GATE BLOCK ${t.id} | 缺 ${relPlan}，先出文档再实现`);
+        console.log(`   先写 ${relPlan}（目标/边界/验收/数据模型/影响面），再重跑同一命令续做`);
+        gated = true;
+        break;
+      }
+    }
     if (t.status === 'todo') { t.status = 'doing'; writeLedger(file, cur); }
     const before = changedPaths();
     console.log(`--- ${t.id} ${t.title} 开始 ---`);
@@ -318,6 +340,8 @@ function cmdRun() {
     }
   }
   console.log(`STOPGATE ${gate && gate.continue === true ? 'ALLOW' : 'BLOCK'} | ${gate ? JSON.stringify(gate) : '输出无法解析'}`);
+  if (gated) console.log(`PLANGATE BLOCK | 缺 docs/${slug}/PLAN.md；补文档后重跑同一命令即可续做`);
+  else console.log(`下一步：node scripts/agent.mjs step --cwd ${cwd}`);
   // 对标 OpenHands SANDBOX_KEEP_RUNTIME_ALIVE=false：默认不保留执行器运行时产物
   if (!has('keep')) {
     let n = 0;

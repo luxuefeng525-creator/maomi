@@ -229,6 +229,18 @@ const aDry = run(agentScript, ['run', '--task', '演示任务', '--slug', 'demo'
 check(aDry.status === 0 && /【执行规则/.test(aDry.stdout) && /推理纪律/.test(aDry.stdout) && /不可逆操作/.test(aDry.stdout), 'agent run 默认注入执行规则', (aDry.stdout || '').split('\n').find(l => l.startsWith('[规则]')) || '');
 const aDryNo = run(agentScript, ['run', '--task', '演示任务', '--slug', 'demo', '--cwd', aws, '--dry-run', '--no-rules']);
 check(aDryNo.status === 0 && !/【执行规则/.test(aDryNo.stdout), 'agent run --no-rules 不注入');
+// 先出文档硬闸门：L1/L2 缺 PLAN.md 必须在实现步前拦住，补文档后放行
+const pgDir = path.join(tmp, 'plangate');
+fs.mkdirSync(pgDir, { recursive: true });
+const pgA = run(agentScript, ['run', '--task', '加导出按钮', '--slug', 'g1', '--files', '3', '--cwd', pgDir, '--max-steps', '1', '--timeout', '1']);
+const pgLedger = JSON.parse(fs.readFileSync(path.join(pgDir, 'docs', 'g1', 'tasks.json'), 'utf8'));
+check(/GATE BLOCK T1/.test(pgA.stdout) && pgLedger.tasks[0].status === 'todo', 'agent run 缺 PLAN.md 时拦在实现步前', (pgA.stdout || '').split('\n').find(l => l.startsWith('GATE BLOCK')) || '');
+fs.mkdirSync(path.join(pgDir, 'docs', 'g1'), { recursive: true });
+fs.writeFileSync(path.join(pgDir, 'docs', 'g1', 'PLAN.md'), '# 目标\n加按钮\n', 'utf8');
+const pgB = run(agentScript, ['run', '--task', '加导出按钮', '--slug', 'g1', '--files', '3', '--cwd', pgDir, '--max-steps', '1', '--timeout', '1']);
+check(!/GATE BLOCK/.test(pgB.stdout) && /--- T1/.test(pgB.stdout), 'agent run 补 PLAN.md 后放行', (pgB.stdout || '').split('\n').find(l => l.startsWith('--- T1')) || '');
+const pgC = run(agentScript, ['run', '--task', '改一行', '--slug', 'g0', '--files', '1', '--cwd', pgDir, '--max-steps', '1', '--timeout', '1']);
+check(!/GATE BLOCK/.test(pgC.stdout), 'agent run L0 不要求 PLAN.md');
 // 闸门证据口径：只校验 ｜ 前的文件清单，输出文本里的路径不算证据文件
 const sg = path.join(root, 'scripts', 'stop-gate.mjs');
 const sgDir = path.join(tmp, 'sg');
