@@ -13,3 +13,5 @@ tests/behavior/.rerun/
 logs/
 .mimocode/
 response.md
+# 本机 Hook 配置含绝对路径（node 路径 + 包根），换机即失效，不入库
+.trae/hooks.json
