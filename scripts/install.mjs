@@ -2,8 +2,10 @@
 /**
  * 安装器：把技能与 Agent 复制到目标位置。
  * 用法：
- *   node scripts/install.mjs --target trae-user [--dry-run] [--force] [--remove]
- *   node scripts/install.mjs --target project [--tool trae|generic] [--dry-run] [--force] [--remove]
+ *   node scripts/install.mjs --target trae-user [--dry-run] [--force] [--remove] [--auto-update] [--no-auto-check]
+ *   node scripts/install.mjs --target project [--tool trae|generic] [--dry-run] [--force] [--remove] [--auto-update]
+ *
+ * 安装后写 .agent-install.json（版本、来源、autoCheck/autoApply）；update.mjs 靠它判断是否需要更新。
  */
 import fs from 'node:fs';
 import os from 'node:os';
@@ -32,6 +34,7 @@ if (!['trae', 'generic'].includes(tool)) {
 }
 
 const skillsSrc = path.join(pkgRoot, 'skills');
+const pkgVersion = JSON.parse(fs.readFileSync(path.join(pkgRoot, 'package.json'), 'utf8')).version;
 const names = fs.readdirSync(skillsSrc).filter(n => fs.existsSync(path.join(skillsSrc, n, 'SKILL.md')));
 if (!names.length) {
   console.error('源目录没有技能: ' + skillsSrc);
@@ -83,6 +86,32 @@ if (agentsMdDst) {
   if (fs.existsSync(agentsMdDst)) console.log('SKIP 已存在 AGENTS.md: ' + agentsMdDst);
   else if (dryRun) console.log('DRY  COPY ' + src + ' -> ' + agentsMdDst);
   else { fs.copyFileSync(src, agentsMdDst); copied++; console.log('COPY ' + agentsMdDst); }
+}
+
+const manifestPath = path.join(skillsDst, '.agent-install.json');
+if (!dryRun) {
+  if (remove) {
+    if (fs.existsSync(manifestPath)) { fs.rmSync(manifestPath, { force: true }); console.log('REMOVE ' + manifestPath); }
+  } else {
+    let old = {};
+    try { old = JSON.parse(fs.readFileSync(manifestPath, 'utf8')); } catch { /* 无旧清单 */ }
+    const autoCheck = has('no-auto-check') ? false : (has('auto-check') ? true : old.autoCheck !== false);
+    const autoApply = has('no-auto-update') ? false : (has('auto-update') ? true : old.autoApply === true);
+    const manifest = {
+      name: 'agent-workbench',
+      version: pkgVersion,
+      installedAt: new Date().toISOString(),
+      target,
+      tool,
+      skillsDir: skillsDst,
+      source: { type: 'local', path: pkgRoot, url: 'https://github.com/luxuefeng525-creator/maomi.git' },
+      autoCheck,
+      autoApply,
+      lastCheckAt: old.lastCheckAt || null,
+    };
+    fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
+    console.log('MANIFEST ' + manifestPath + ' version=' + pkgVersion + ' autoCheck=' + autoCheck + ' autoApply=' + autoApply);
+  }
 }
 
 console.log('---');

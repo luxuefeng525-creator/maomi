@@ -288,6 +288,31 @@ check(evoWin.status === 0 && /days=7/.test(evoWin.stdout) && /skippedOld=1/.test
 const evoAll = run(path.join(root, 'scripts', 'evolve.mjs'), ['--root', evoRoot, '--runs', evoDays, '--guard', path.join(tmp, 'no-guard.log'), '--days', '0']);
 check(evoAll.status === 0 && /skippedOld=0/.test(evoAll.stdout) && /PROPOSAL x3/.test(evoAll.stdout), 'evolve --days 0 取全量', (evoAll.stdout || '').trim().split('\n')[0]);
 
+// 14. 版本同步、安装清单、自更新
+const pkgJson = JSON.parse(fs.readFileSync(path.join(root, 'package.json'), 'utf8'));
+const changelogVersion = fs.readFileSync(path.join(root, 'CHANGELOG.md'), 'utf8').match(/^## (\d+\.\d+\.\d+)/m)?.[1];
+check(pkgJson.version === changelogVersion, 'package.json 版本与 CHANGELOG 首条一致', `${pkgJson.version} / ${changelogVersion}`);
+const projDir = path.join(tmp, 'proj-install');
+fs.mkdirSync(projDir, { recursive: true });
+const instReal = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--force', '--auto-update'], projDir);
+const installManifest = path.join(projDir, '.agent', 'skills', '.agent-install.json');
+let mfData = {};
+try { mfData = JSON.parse(fs.readFileSync(installManifest, 'utf8')); } catch { /* 断言会失败 */ }
+check(instReal.status === 0 && mfData.version === pkgJson.version && mfData.autoApply === true, 'install 写安装清单', JSON.stringify({ version: mfData.version, autoApply: mfData.autoApply }));
+const updateScript = path.join(root, 'scripts', 'update.mjs');
+const upCheck = run(updateScript, ['--manifest', installManifest, '--repo', root, '--check']);
+check(upCheck.status === 0 && /status=NEWEST/.test(upCheck.stdout), 'update --check 同版本判 NEWEST', (upCheck.stdout || '').trim());
+mfData.version = '0.0.1';
+fs.writeFileSync(installManifest, JSON.stringify(mfData, null, 2) + '\n', 'utf8');
+const upApply = run(updateScript, ['--manifest', installManifest, '--repo', root, '--apply', '--timeout', '120000']);
+const afterMf = JSON.parse(fs.readFileSync(installManifest, 'utf8'));
+check(upApply.status === 0 && /status=UPDATED/.test(upApply.stdout) && afterMf.version === pkgJson.version, 'update --apply 重装并升版本', (upApply.stdout || '').trim());
+check(fs.existsSync(path.join(projDir, '.agent', 'skills', 'prompt-discipline', 'SKILL.md')), 'update 后技能文件落地');
+afterMf.autoCheck = false;
+fs.writeFileSync(installManifest, JSON.stringify(afterMf, null, 2) + '\n', 'utf8');
+const ssProj = run(path.join(root, 'scripts', 'session-start.mjs'), ['--cwd', projDir, '--no-receipt']);
+check(ssProj.status === 0 && new RegExp('VERSION ' + pkgJson.version.replace(/\./g, '\\.')).test(ssProj.stdout), 'session-start 注入安装版本', (ssProj.stdout || '').split('\n').find(l => l.startsWith('VERSION')) || '');
+
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
 console.log(`PASS=${pass} FAIL=${fail}`);

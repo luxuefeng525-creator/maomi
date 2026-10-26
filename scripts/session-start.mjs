@@ -3,12 +3,16 @@
  * 会话自举：读取账本，输出「下一件 + 状态」，供 SessionStart Hook 注入上下文。
  * 用法：node scripts/session-start.mjs [--cwd <目录>] [--file <tasks.json>] [--json]
  * 作为 Hook 时从 stdin 读 JSON（含 cwd / workspace_roots）；纯文本输出会被注入模型上下文。
- * 只读，不修改任何文件；始终退出码 0，不阻断会话。
+ * 默认只读；安装清单 autoCheck=true 时比对上游版本，autoApply=true 才自动重装；始终退出码 0，不阻断会话。
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { fileURLToPath } from 'node:url';
 import { nextTask, validateLedger } from '../skills/project-orchestrator/scripts/task.mjs';
 import { fitSections } from './context-budget.mjs';
+
+const pkgRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const args = process.argv.slice(2);
 const getArg = n => { const i = args.indexOf('--' + n); return i >= 0 ? args[i + 1] : undefined; };
@@ -66,6 +70,36 @@ const memLine = fs.existsSync(memoryIdx)
   : `MEMORY MISSING（${memRoot ? memRoot : '.agent-memory'}；可跑 project-memory init）`;
 const cfgLine = fs.existsSync(projectMd) ? 'CONFIG .agent/project.md OK' : 'CONFIG .agent/project.md MISSING';
 
+// 版本自检：有安装清单时比对上游；autoApply=true 才自动重装
+const installManifest = [
+  path.join(cwd, '.trae', 'skills', '.agent-install.json'),
+  path.join(cwd, '.agent', 'skills', '.agent-install.json'),
+].find(p => fs.existsSync(p));
+let versionLine = '';
+if (installManifest) {
+  try {
+    const m = JSON.parse(fs.readFileSync(installManifest, 'utf8'));
+    versionLine = `VERSION ${m.version || '?'}`;
+    if (m.autoCheck !== false) {
+      const upd = path.join(pkgRoot, 'scripts', 'update.mjs');
+      const r = spawnSync(process.execPath, [upd, '--manifest', installManifest, '--check', '--quiet', '--no-write', '--timeout', '8000'], { encoding: 'utf8', timeout: 12000 });
+      const v = String(r.stdout || '').split('\n').find(l => l.startsWith('VERSION'));
+      if (v && /status=UPDATE/.test(v)) {
+        const latest = v.match(/latest=([\d.]+)/)?.[1] || '';
+        if (m.autoApply === true) {
+          const a = spawnSync(process.execPath, [upd, '--manifest', installManifest, '--apply', '--quiet', '--timeout', '30000'], { encoding: 'utf8', timeout: 40000 });
+          const av = String(a.stdout || '').split('\n').find(l => l.startsWith('VERSION'));
+          versionLine = av && /UPDATED/.test(av) ? `UPDATE applied latest=${latest}（重载 IDE 生效）` : `UPDATE pending latest=${latest}（自动更新失败，手动跑 node scripts/update.mjs --apply）`;
+        } else {
+          versionLine = `UPDATE available latest=${latest}（node scripts/update.mjs --apply）`;
+        }
+      } else if (v && /status=NEWEST/.test(v)) {
+        versionLine += ' newest';
+      }
+    }
+  } catch { /* 清单损坏或网络失败不阻断会话 */ }
+}
+
 const indexFile = path.join(cwd, '.agent-index', 'repo.json');
 let indexLine = 'INDEX missing（跑 repo-index.mjs build）';
 let indexStatus = 'missing';
@@ -78,7 +112,7 @@ if (fs.existsSync(indexFile)) {
   } catch { indexStatus = 'broken'; indexLine = 'INDEX broken（重建）'; }
 }
 
-const out = { cwd, ledger: ledgerFile ? path.relative(cwd, ledgerFile).split(path.sep).join('/') : null, invalid, projectConfig: fs.existsSync(projectMd), memory: fs.existsSync(memoryIdx), index: indexStatus };
+const out = { cwd, ledger: ledgerFile ? path.relative(cwd, ledgerFile).split(path.sep).join('/') : null, invalid, projectConfig: fs.existsSync(projectMd), memory: fs.existsSync(memoryIdx), index: indexStatus, version: versionLine || null };
 if (!args.includes('--no-receipt')) {
   try {
     const dir = path.join(cwd, '.agent-runs');
@@ -98,6 +132,7 @@ else {
     { name: 'LEDGER', text: ledgerLine, priority: 1, ref: ledgerFile || '' },
     ...(nextLine ? [{ name: 'NEXT', text: nextLine, priority: 1, ref: ledgerFile || '' }] : []),
     { name: 'INDEX', text: indexLine, priority: 2, ref: indexFile },
+    ...(versionLine ? [{ name: 'VERSION', text: versionLine, priority: 2, ref: installManifest }] : []),
     { name: 'MEMORY', text: memLine, priority: 3, ref: memoryIdx },
   ];
   console.log(fitSections(sections, budget).text);

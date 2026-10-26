@@ -10,23 +10,40 @@
 # 预览
 node scripts/install.mjs --target trae-user --dry-run
 
-# 安装到 Trae 用户级（三个技能 + Agent 人格）
-node scripts/install.mjs --target trae-user
+# 安装到 Trae 用户级（6 个技能 + Agent 人格；装上后可自更新）
+node scripts/install.mjs --target trae-user --auto-update
 
 # 或安装到当前仓库
-node scripts/install.mjs --target project --tool trae
-node scripts/install.mjs --target project --tool generic
+node scripts/install.mjs --target project --tool trae --auto-update
+node scripts/install.mjs --target project --tool generic --auto-update
 ```
 
-安装后重载 IDE，技能列表出现 `project-orchestrator`、`project-memory`、`ui-ux-benchmark`。
+安装后重载 IDE，技能列表出现 `project-orchestrator`、`project-memory`、`ui-ux-benchmark`、`code-review`、`skill-audit`、`prompt-discipline`。
 
-## 三个技能
+## 安装后自动更新
+
+安装器写 `.agent-install.json`（版本、来源、`autoCheck` / `autoApply`）。之后：
+
+```powershell
+node scripts/update.mjs --check   # 比对本地与上游版本，不改文件
+node scripts/update.mjs --apply   # 上游更新则拉取并重装
+```
+
+- 上游优先级：`--repo` > 清单记录的源码路径 > 克隆/更新 `~/.trae-cn/agent-workbench-src`。
+- 网络失败只报告，不动已装文件；版本相同不重装。
+- `session-start.mjs` 会注入 `VERSION` 行；`autoCheck` 默认开，`autoApply` 只有安装时加 `--auto-update` 才开。自动更新失败会降级成提示，不阻断会话。
+- 关掉检查：安装时加 `--no-auto-check`。
+
+## 技能
 
 | 技能 | 解决什么 | 关键约束 |
 | --- | --- | --- |
 | `project-orchestrator` | 长任务跑偏、跳步、交付无证据 | 定档 L0/L1/L2；8 环；三处必停；汇报六段 |
 | `project-memory` | 跨会话丢上下文、重复踩坑 | 四类条目；只追加；失效不删除；关键词检索 |
 | `ui-ux-benchmark` | 「好看点」无法验收、AI 味模板 | 3 家对标；文案三检查；15 项闭环；三处签收 |
+| `code-review` | 提交前漏看风险 | 改动范围、兼容性、错误处理逐项过 |
+| `skill-audit` | 自建技能缺触发词/验证步骤 | 触发词、适用/禁用、最小示例、引用路径 |
+| `prompt-discipline` | 回答浅、偷懒、提示词反复重写 | 需求四段；先推理后行动；证据收尾；6 个模板 |
 
 ## 设计原则（可被脚本检查）
 
@@ -61,13 +78,16 @@ node scripts/pre-tool-guard.mjs --event <事件.json>           # PreToolUse 守
 node scripts/snapshot.mjs create --cwd . --label T1           # 任务前快照（git 基线，只存改动）
 node scripts/snapshot.mjs restore --cwd . --id <id> --prune   # 回滚（自动先拍 pre-restore）
 node skills/project-orchestrator/scripts/task.mjs next --file docs/<任务>/tasks.json
-node tests/run.mjs                       # 单元自测 29 项
+node scripts/install.mjs --target trae-user --auto-update        # 安装技能 + 清单（开启自动更新）
+node scripts/update.mjs --check                                # 比对上游版本
+node scripts/update.mjs --apply                                # 有新版本则重装
+node tests/run.mjs                       # 单元自测 54 项
 node tests/eval.mjs                      # 判分式场景自测：pass / partial / fail / infra_fail
 node tests/behavior/rerun.mjs --times 3  # 行为场景回放：每场景 3 次，比对判定漂移
 node scripts/behavior-external.mjs list  # 跨模型适配器：codex / mimo / 自定义
 node scripts/behavior-external.mjs matrix --providers codex,mimo-deepseek --scenarios B14-long-context-extract,B15-json-only
 node scripts/run-log.mjs start --root .agent-runs --task "任务名" --tier L1
-node scripts/evolve.mjs --root .agent-memory --min 2   # 重复踩坑 → 规则候选
+node scripts/evolve.mjs --root .agent-memory --min 2 --days 7   # 最近 7 天重复踩坑 → 规则候选
 node skills/ui-ux-benchmark/scripts/ui-audit.mjs --files "src/pages/order.vue"
 node skills/project-memory/scripts/memory.mjs search --root .agent-memory --query "关键词"
 ```

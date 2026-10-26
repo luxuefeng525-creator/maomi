@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.20.6 — 2026-10-26
+
+**装上就会自己查新版：安装清单 + 自更新脚本 + 会话自检。**
+
+- `install.mjs` 安装后写 `.agent-install.json`（版本、target/tool、来源、autoCheck/autoApply）；`--auto-update` 开启自动重装，`--no-auto-check` 关闭版本检查；`--remove` 同时删清单。
+- 新增 `scripts/update.mjs`：`--check` 比对本地与上游版本；`--apply` 拉取上游并重装。上游优先级 `--repo` > 清单里的 `source.path` > 克隆/更新 `~/.trae-cn/agent-workbench-src`；网络失败只报告，不动已装文件，版本相同不重装。
+- `session-start.mjs`：有安装清单时注入 `VERSION` 行；`autoCheck` 开则比对上游，`autoApply` 开才自动重装，失败降级为提示，不阻断会话。
+- 版本同步：自测新增断言，`package.json` 版本必须等于 CHANGELOG 首条版本。
+- README 补自更新与许可证说明；LICENSE 为 MIT。
+
+自测新增 5 条（安装清单、check 同版本、apply 重装升版、技能文件落地、session-start 版本行），加版本一致性 1 条 → **PASS=54 FAIL=0**。
+
 ## 0.20.5 — 2026-10-26
 
 **进化提案加时间窗与去重，老问题不再反复冒出来。**
