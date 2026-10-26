@@ -324,6 +324,25 @@ fs.writeFileSync(installManifest, JSON.stringify(mfNow, null, 2) + '\n', 'utf8')
 const ssDue = run(path.join(root, 'scripts', 'session-start.mjs'), ['--cwd', projDir, '--no-receipt']);
 check(ssDue.status === 0 && /VERSION .* newest/.test(ssDue.stdout), 'session-start 到期后查上游', (ssDue.stdout || '').split('\n').find(l => l.startsWith('VERSION')) || '');
 
+// 15. 全局同名异源技能：默认保留、--force 先备份、--remove 不删异源
+const colDir = path.join(tmp, 'proj-collision');
+const colSkillDir = path.join(colDir, '.agent', 'skills', 'code-review');
+fs.mkdirSync(colSkillDir, { recursive: true });
+fs.writeFileSync(path.join(colSkillDir, 'SKILL.md'), '# 第三方 code-review\n内容不同，不能覆盖。\n', 'utf8');
+const colInst = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--auto-update', '--check-hours', '12'], colDir);
+let colMf = {};
+try { colMf = JSON.parse(fs.readFileSync(path.join(colDir, '.agent', 'skills', '.agent-install.json'), 'utf8')); } catch { /* 断言会失败 */ }
+check(colInst.status === 0 && /CONFLICT/.test(colInst.stdout) && fs.readFileSync(path.join(colSkillDir, 'SKILL.md'), 'utf8').includes('第三方') && !colMf.skills?.['code-review'], 'install 异源同名保留不覆盖');
+check(fs.existsSync(path.join(colDir, '.agent', 'skills', 'prompt-discipline', 'SKILL.md')), '冲突时其余技能照常安装');
+const colForce = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--force'], colDir);
+const baks = fs.readdirSync(path.join(colDir, '.agent', 'skills')).filter(n => n.startsWith('code-review.bak-'));
+check(/BACKUP\+COPY/.test(colForce.stdout) && baks.length === 1 && fs.readFileSync(path.join(colDir, '.agent', 'skills', baks[0], 'SKILL.md'), 'utf8').includes('第三方'), '--force 先备份再覆盖');
+const rmDir = path.join(tmp, 'proj-foreign');
+fs.mkdirSync(path.join(rmDir, '.agent', 'skills', 'code-review'), { recursive: true });
+fs.writeFileSync(path.join(rmDir, '.agent', 'skills', 'code-review', 'SKILL.md'), '# 第三方 code-review\n', 'utf8');
+const rmForeign = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'generic', '--remove'], rmDir);
+check(rmForeign.status === 0 && /keptForeign=1/.test(rmForeign.stdout) && fs.existsSync(path.join(rmDir, '.agent', 'skills', 'code-review', 'SKILL.md')), '--remove 不删非本包技能');
+
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
 console.log(`PASS=${pass} FAIL=${fail}`);

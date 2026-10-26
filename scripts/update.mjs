@@ -102,7 +102,7 @@ if (mode === 'apply' && status > 0) {
   const tool = manifest.tool || 'trae';
   const argv = [
     path.join(repo.dir, 'scripts', 'install.mjs'),
-    '--target', target, '--tool', tool, '--force',
+    '--target', target, '--tool', tool,
   ];
   if (manifest.autoCheck) argv.push('--auto-check');
   if (manifest.autoApply) argv.push('--auto-update');
@@ -114,6 +114,8 @@ if (mode === 'apply' && status > 0) {
   });
   const out = ((inst.stdout || '') + (inst.stderr || '')).trim();
   if (inst.status !== 0) fail('重装失败: ' + out.split('\n').slice(-2).join(' | '), 3);
+  result.conflicts = Number((out.match(/conflicts=(\d+)/) || [])[1] || 0);
+  result.backedUp = Number((out.match(/backedUp=(\d+)/) || [])[1] || 0);
   const m = JSON.parse(fs.readFileSync(manifestFile, 'utf8'));
   m.version = latest;
   m.installedAt = new Date().toISOString();
@@ -128,6 +130,9 @@ if (mode === 'apply' && status > 0) {
 
 if (has('json')) console.log(JSON.stringify(result, null, 2));
 else {
-  console.log(`VERSION installed=${installed} latest=${latest} status=${result.status === 'UPDATE' && result.applied ? 'UPDATED' : result.status} via=${repo.how}`);
+  const cf = result.conflicts ? ` conflicts=${result.conflicts}` : '';
+  const bk = result.backedUp ? ` backedUp=${result.backedUp}` : '';
+  console.log(`VERSION installed=${installed} latest=${latest} status=${result.status === 'UPDATE' && result.applied ? 'UPDATED' : result.status} via=${repo.how}${cf}${bk}`);
   if (result.status === 'UPDATE' && !result.applied) console.log('提示：运行 node scripts/update.mjs --apply 完成更新');
+  if (result.conflicts) console.log('CONFLICT 有同名异源技能被保留；确需替换加 --force（会先备份）');
 }

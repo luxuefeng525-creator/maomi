@@ -31,6 +31,8 @@ node scripts/update.mjs --apply   # 上游更新则拉取并重装
 
 - 上游优先级：`--repo` > 清单记录的源码路径 > 克隆/更新 `~/.trae-cn/agent-workbench-src`。
 - 网络失败只报告，不动已装文件；版本相同不重装。
+- 同名技能按内容哈希判归属：异源默认保留并报 `CONFLICT`；`--force` 才覆盖，且先备份成 `<skill>.bak-<时间戳>`。
+- `--remove` 只删清单记录过的本包技能，不会删同名第三方技能。
 - `session-start.mjs` 会注入 `VERSION` 行；`autoCheck` 默认开，`autoApply` 只有安装时加 `--auto-update` 才开。自动更新失败会降级成提示，不阻断会话。
 - 检查间隔用 `--check-hours`（默认 24，当前项目配的是 12）：未到期只报版本，不联网。
 - 关掉检查：安装时加 `--no-auto-check`。
