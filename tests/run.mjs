@@ -275,6 +275,18 @@ fs.writeFileSync(evoGuard, [
 ].join('\n') + '\n', 'utf8');
 const evo = run(path.join(root, 'scripts', 'evolve.mjs'), ['--root', evoRoot, '--runs', evoRuns, '--guard', evoGuard]);
 check(evo.status === 0 && /run=2/.test(evo.stdout) && /guard=2/.test(evo.stdout) && /PROPOSAL x2/.test(evo.stdout), 'evolve 聚类评测失败与闸门拦截', (evo.stdout || '').trim().split('\n')[0]);
+// 时间窗 + 同出处去重：旧记录排除，同一条记录里的重复 fail 只算一次
+const evoDays = path.join(tmp, 'evo-days.jsonl');
+const iso = ms => new Date(Date.now() - ms).toISOString();
+fs.writeFileSync(evoDays, [
+  JSON.stringify({ time: iso(86400000), verdict: 'partial', fails: ['FAIL 内容精确 docs/a.md', 'FAIL 内容精确 docs/a.md'] }),
+  JSON.stringify({ time: iso(2 * 86400000), verdict: 'fail', fails: ['FAIL 内容精确 docs/a.md'] }),
+  JSON.stringify({ time: iso(30 * 86400000), verdict: 'partial', fails: ['FAIL 内容精确 docs/a.md'] }),
+].join('\n') + '\n', 'utf8');
+const evoWin = run(path.join(root, 'scripts', 'evolve.mjs'), ['--root', evoRoot, '--runs', evoDays, '--guard', path.join(tmp, 'no-guard.log')]);
+check(evoWin.status === 0 && /days=7/.test(evoWin.stdout) && /skippedOld=1/.test(evoWin.stdout) && /skippedDup=1/.test(evoWin.stdout) && /PROPOSAL x2/.test(evoWin.stdout), 'evolve 只收 7 天内并去重', (evoWin.stdout || '').trim().split('\n')[0]);
+const evoAll = run(path.join(root, 'scripts', 'evolve.mjs'), ['--root', evoRoot, '--runs', evoDays, '--guard', path.join(tmp, 'no-guard.log'), '--days', '0']);
+check(evoAll.status === 0 && /skippedOld=0/.test(evoAll.stdout) && /PROPOSAL x3/.test(evoAll.stdout), 'evolve --days 0 取全量', (evoAll.stdout || '').trim().split('\n')[0]);
 
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');

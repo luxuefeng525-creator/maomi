@@ -44,4 +44,4 @@
 3. 同一坑第 2 次 → `memory.mjs append --type pitfall` → `evolve.mjs` 聚类 → 人工确认后写 `rules/agent-rules.md`。
 4. `agent run` 出现 blocked 且项目有 `.agent-memory/` 时，自动跑一次 `evolve.mjs` 只报告候选，不自动改规则。
 
-`evolve.mjs` 三个来源：记忆 pitfall、`logs/external-results.jsonl` 的 fail 明细、`.agent-runs/guard.log` 的 ask/deny。`infra_fail` 不计入。
+`evolve.mjs` 三个来源：记忆 pitfall、`logs/external-results.jsonl` 的 fail 明细、`.agent-runs/guard.log` 的 ask/deny。默认只收**最近 7 天**（`--days 0` 取全量），同来源同出处的重复条目自动去重；`infra_fail` 不计入。提案仍需人工确认后才写规则。

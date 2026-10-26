@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 /**
  * 自进化提案：把重复出现的坑、评测失败、闸门拦截聚类成规则候选。
- * 用法：node scripts/evolve.mjs --root .agent-memory [--min 2] [--write]
+ * 用法：node scripts/evolve.mjs --root .agent-memory [--min 2] [--days 7] [--write]
  *       可选：--runs logs/external-results.jsonl  --guard .agent-runs/guard.log
+ * --days 默认 7（只收最近 7 天），0 表示不限时间；同来源同出处的重复条目自动去重。
  * 默认只打印；--write 追加到 <root>/evolution/proposals-YYYYMMDD.md。
  * 提案必须人工确认后才写入 rules/agent-rules.md 或技能，脚本不自动改规则。
  */
@@ -16,6 +17,8 @@ if (!root || root === true) { console.error('缺少 --root'); process.exit(1); }
 const rootAbs = path.resolve(root);
 if (!fs.existsSync(rootAbs)) { console.error('目录不存在: ' + rootAbs); process.exit(1); }
 const min = Number(getArg('min') || 2);
+const days = Number(getArg('days') ?? 7);
+const cutoff = days > 0 ? Date.now() - days * 86400000 : 0;
 const write = args.includes('--write');
 const runsFile = getArg('runs') || path.join(process.cwd(), 'logs', 'external-results.jsonl');
 const guardFile = getArg('guard') || path.join(process.cwd(), '.agent-runs', 'guard.log');
@@ -35,15 +38,28 @@ const files = [];
 })(rootAbs);
 
 const items = [];
+const seen = new Set();
+let skippedDup = 0, skippedOld = 0;
+/** 时间窗判断：无时间字段按当前处理，避免旧格式记录被全部丢弃 */
+function inWindow(value) {
+  if (!cutoff || !value) return true;
+  const t = Date.parse(value);
+  return Number.isNaN(t) ? true : t >= cutoff;
+}
 function pushItem(text, ref, source) {
   const t = String(text || '').trim();
   if (t.length < 6) return;
+  const key = `${source}|${ref}|${norm(t)}`;
+  if (seen.has(key)) { skippedDup++; return; }
+  seen.add(key);
   items.push({ text: t, source, ref, b: bigrams(norm(t)) });
 }
 for (const file of files) {
   fs.readFileSync(file, 'utf8').split(/\r?\n/).forEach((line, i) => {
-    const m = line.match(/^- \[pitfall\]\s+\S+\s+\S+\s+\|\s*([^|]+)\|.*id:\s*([0-9a-f]{8})/);
-    if (m) pushItem(m[1], `${path.relative(rootAbs, file)}:${i + 1}`, 'pitfall');
+    const m = line.match(/^- \[pitfall\]\s+(\d{4}-\d{2}-\d{2})\s+(\d{2}:\d{2})\s+\|\s*([^|]+)\|.*id:\s*([0-9a-f]{8})/);
+    if (!m) return;
+    if (!inWindow(m[1] + 'T' + m[2] + ':00')) { skippedOld++; return; }
+    pushItem(m[3], `${path.relative(rootAbs, file)}:${i + 1}`, 'pitfall');
   });
 }
 // 评测失败：只取 fail 明细，infra_fail 不算模型失败
@@ -51,6 +67,8 @@ if (fs.existsSync(runsFile)) {
   fs.readFileSync(runsFile, 'utf8').split(/\r?\n/).forEach((line, i) => {
     if (!line.trim()) return;
     let o; try { o = JSON.parse(line); } catch { return; }
+    if (o.verdict === 'infra_fail') return; // 通道/超时故障不算模型行为
+    if (!inWindow(o.time)) { skippedOld++; return; }
     if (!Array.isArray(o.fails)) return;
     for (const f of o.fails) pushItem(String(f).replace(/^FAIL\s+/, ''), `${path.relative(process.cwd(), runsFile)}:${i + 1}`, 'run');
   });
@@ -60,6 +78,7 @@ if (fs.existsSync(guardFile)) {
   fs.readFileSync(guardFile, 'utf8').split(/\r?\n/).forEach((line, i) => {
     if (!line.trim()) return;
     let o; try { o = JSON.parse(line); } catch { return; }
+    if (!inWindow(o.time)) { skippedOld++; return; }
     if (o.decision === 'ask' || o.decision === 'deny') pushItem(o.reason, `${path.relative(process.cwd(), guardFile)}:${i + 1}`, 'guard');
   });
 }
@@ -80,7 +99,7 @@ clusters.sort((a, b) => b.length - a.length);
 
 const count = s => items.filter(x => x.source === s).length;
 const stamp = new Date().toISOString().slice(0, 10);
-console.log(`EVOLVE root=${rootAbs} items=${items.length} (pitfall=${count('pitfall')} run=${count('run')} guard=${count('guard')}) clusters=${clusters.length} min=${min}`);
+console.log(`EVOLVE root=${rootAbs} items=${items.length} (pitfall=${count('pitfall')} run=${count('run')} guard=${count('guard')}) clusters=${clusters.length} min=${min} days=${days} skippedOld=${skippedOld} skippedDup=${skippedDup}`);
 for (const g of clusters) {
   console.log(`PROPOSAL x${g.length} | [${g[0].source}] ${g[0].text}`);
   for (const it of g) console.log(`  - ${it.ref}`);

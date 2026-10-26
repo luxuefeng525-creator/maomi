@@ -92,7 +92,7 @@ node skills/project-memory/scripts/memory.mjs search --root .agent-memory --quer
 | 自动执行 | 有，协议 + selfcheck 汇总门禁；`rules/agent-rules.md` 每步注入并留 sha256 指纹（`--dry-run` 可预览） |
 | 模型行为评估 | 有，16 场景 / 79 断言；宿主 48 会话 48/48 pass；夹具复跑 48/48 稳定 |
 | 提示词纪律 | 248 条 TRAE 提示词 → 153 条精简；9 条注入 `rules/agent-rules.md`，反偷懒协议与 6 个模板沉淀为 `skills/prompt-discipline/`；执行器推理强度 `high` |
-| 自进化 | `evolve.mjs` 聚类记忆坑 + 评测失败 + 闸门拦截，产出规则候选；人工确认后才写规则 |
+| 自进化 | `evolve.mjs` 聚类记忆坑 + 评测失败 + 闸门拦截，默认只收最近 7 天并去重，产出规则候选；人工确认后才写规则 |
 | 跨模型评测 | 有适配器 + 协议；两条通道实测：`mimo-agnes` 17 场景 **16 pass / 1 partial**、`codex`（代理 57321）16 场景 **14 pass / 2 partial / 1 fail**；`--with-rules` 注入硬规则后 B13 双方 5/5 合规 |
 | 一键诊断 | 有，node / 门禁 / 注册表 / Hook / 账本 / 索引 / 记忆 七层三态 + NEXT |
 | 验收指纹 | 有，sha256 清单 `create` / `diff`，未改动按哈希判定 |
