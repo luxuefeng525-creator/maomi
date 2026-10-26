@@ -1,0 +1,29 @@
+{
+  "task": "双代理并行演练",
+  "tier": "L2",
+  "updated": "2026-10-25",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "代理A写文件",
+      "deps": [],
+      "files": [
+        "docs/drill/agent-a.md"
+      ],
+      "status": "done",
+      "evidence": "docs/drill/agent-a.md",
+      "assignee": "agent-A"
+    },
+    {
+      "id": "T2",
+      "title": "代理B写文件",
+      "deps": [],
+      "files": [
+        "docs/drill/agent-b.md"
+      ],
+      "status": "done",
+      "evidence": "docs/drill/agent-b.md",
+      "assignee": "agent-B"
+    }
+  ]
+}

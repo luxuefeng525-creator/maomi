@@ -1,0 +1,25 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [18, 20]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Registry check
+        run: node scripts/index-skills.mjs --check
+      - name: Skill gate
+        run: node scripts/validate.mjs
+      - name: Unit checks
+        run: node tests/run.mjs
+      - name: Scenario eval
+        run: node tests/eval.mjs

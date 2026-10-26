@@ -1,0 +1,13 @@
+node_modules/
+.agent-memory/
+.agent-runs/
+.agent-index/
+tests/.tmp/
+tests/.eval/
+*.log
+.DS_Store
+tests/behavior/.sandbox/
+tests/behavior/.external/
+tests/behavior/.model-runs/
+tests/behavior/.rerun/
+logs/

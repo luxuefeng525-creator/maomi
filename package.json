@@ -1,0 +1,18 @@
+{
+  "name": "agent-workbench",
+  "version": "0.17.2",
+  "description": "Evidence-first AI agent and skills: stage gates, task ledger, project memory, UI benchmark, scenario eval and run traces.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "validate": "node scripts/validate.mjs",
+    "registry": "node scripts/index-skills.mjs --check",
+    "test": "node tests/run.mjs",
+    "eval": "node tests/eval.mjs",
+    "run:log": "node scripts/run-log.mjs",
+    "install:trae": "node scripts/install.mjs --target trae-user",
+    "install:project": "node scripts/install.mjs --target project --tool trae"
+  },
+  "files": ["AGENTS.md", "agents", "skills", "scripts", "tests", "docs", "LICENSE", "NOTICE"]
+}

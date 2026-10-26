@@ -1,0 +1,9 @@
+# 运行产物与测试现场不进 npm 包
+logs/
+.agent-runs/
+.agent-index/
+tests/.tmp/
+tests/.eval/
+tests/.rerun/
+tests/.model-runs/
+tests/.sandbox/

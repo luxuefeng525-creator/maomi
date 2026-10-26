@@ -1,0 +1,23 @@
+# NOTICE · 思想来源与许可
+
+本项目规则与脚本为自写，未复制第三方源码或成段文案。以下项目提供设计思路。
+
+| 项目 | 许可 | 借鉴内容 |
+| --- | --- | --- |
+| obra/superpowers | MIT | 首动作加载、阶段链、Critical 阻塞 |
+| Pimzino/claude-code-spec-workflow | MIT | steering 三文档 |
+| eyaltoledano/claude-task-master | MIT + Commons Clause | 任务账本字段与依赖门控（仅思路） |
+| wshobson/agents | MIT | 超限拆 references、结构门禁 |
+| anthropics/skills | 根目录无 LICENSE；README 称多数 Apache-2.0 | SKILL.md 双字段与渐进加载 |
+| alphagov/govuk-design-system / govuk-frontend | MIT | 错误摘要契约、焦点可见 |
+| w3c/aria-practices | W3C Software and Document License | 弹层键盘表与 role/state 表 |
+| radix-ui/primitives | MIT | `data-state` 状态断言 |
+| carbon-design-system/carbon | Apache-2.0 | 动效时长与 reduced-motion |
+| uswds/uswds | NOASSERTION（未取到 LICENSE 正文） | 刻度而非裸 px |
+| Shopify/polaris | MIT + 附加限制 | 仅文案机制，视觉未取 |
+| basicmachines-co/basic-memory | AGPL-3.0 | 文件为真源、索引可重建 |
+| doobidoo/mcp-memory-service | Apache-2.0 | 追加写、合并、受控遗忘 |
+| getzep/graphiti | Apache-2.0 | 失效不删除 |
+| modelcontextprotocol/servers | MIT | 幂等去重 |
+
+如权利人认为引用不妥，请开 issue，我们会调整或移除。

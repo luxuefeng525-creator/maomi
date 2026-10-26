@@ -1,0 +1,41 @@
+{
+  "note": "外部模型适配器。args 里的 {cwd} / {response} / {prompt} 由 behavior-external.mjs 替换；promptVia=stdin|arg；capture=file|stdout。新增模型只改这里，不改脚本。",
+  "providers": {
+    "codex": {
+      "desc": "Codex CLI → 本地协议代理 57321 → Agnes 上游（agnes-3.0-flash）",
+      "cmd": "E:/DevData/npm-global/codex.cmd",
+      "args": [
+        "exec",
+        "-m", "agnes-3.0-flash",
+        "-C", "{cwd}",
+        "--skip-git-repo-check",
+        "--sandbox", "workspace-write",
+        "--output-last-message", "{response}",
+        "-"
+      ],
+      "promptVia": "stdin",
+      "capture": "file"
+    },
+    "mimo-agnes": {
+      "desc": "MiMo CLI · agnes/agnes-3.0-flash（实测支持原生 tool_calls）",
+      "cmd": "C:/Users/Administrator/.mimocode/bin/mimo.exe",
+      "args": ["run", "--dir", "{cwd}", "-m", "agnes/agnes-3.0-flash", "--dangerously-skip-permissions", "--format", "default", "{prompt}"],
+      "promptVia": "arg",
+      "capture": "stdout"
+    },
+    "mimo-deepseek": {
+      "desc": "MiMo CLI · deepseek/deepseek-v4-pro（key 读 ~/.config/mimocode/mimocode.jsonc，当前值在 api.deepseek.com 返回 401）",
+      "cmd": "C:/Users/Administrator/.mimocode/bin/mimo.exe",
+      "args": ["run", "--dir", "{cwd}", "-m", "deepseek/deepseek-v4-pro", "--format", "default", "{prompt}"],
+      "promptVia": "arg",
+      "capture": "stdout"
+    },
+    "mimo-glm": {
+      "desc": "MiMo CLI · ZhipuAI/GLM-4.5",
+      "cmd": "C:/Users/Administrator/.mimocode/bin/mimo.exe",
+      "args": ["run", "--dir", "{cwd}", "-m", "modelscope/ZhipuAI/GLM-4.5", "--format", "default", "{prompt}"],
+      "promptVia": "arg",
+      "capture": "stdout"
+    }
+  }
+}
