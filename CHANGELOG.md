@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.20.10 — 2026-10-26
+
+**去假绿：Hook 只写文件不等于生效；账本不再只报最新一个。**
+
+- `doctor.mjs` hook 检查升级为「配置齐全 + 宿主是否真加载」两段判定：三事件齐全但 `.agent-runs/session-start.log` 里无真实会话回执时，报 `DEGRADED hook` 并给按钮级指引（设置 → Hooks → 项目 → 启用 → 重启），不再只看得见配置就报 `ok`。合成回执（`source=check` / `session=verify-*|check-*|manual*`）一律排除，避免自检脚本自己造假绿。
+- `session-start.mjs` 账本聚合：除最新账本外，新增 `LEDGERS` 行列出其余仍含 `todo/doing/blocked` 的账本；`--json` 输出加 `otherLedgers`。原先只报 `docs` 下最新一个 `tasks.json`，会漏掉其余未完成任务。
+- 自测新增 2 条（三事件齐全但宿主未触发判 degraded、合成回执不计数）→ **PASS=65 FAIL=0**。
+
 ## 0.20.9 — 2026-10-26
 
 **开发前必须先出文档，从「写在规则里」升级为「程序拦截」；补开工入口与记忆。**

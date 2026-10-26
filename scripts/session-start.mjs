@@ -31,15 +31,41 @@ const explicit = getArg('file');
 
 function findLedger() {
   if (explicit) return path.resolve(cwd, explicit);
+  return allLedgers()[0]?.p || null;
+}
+
+/**
+ * 列出 docs 下各任务的 tasks.json，按最近修改倒序。
+ * 只认最新一个会漏掉其余未完成账本，导致「做到哪」看不全。
+ * @returns {Array<{p:string,t:number}>} 账本路径与 mtime
+ */
+function allLedgers() {
   const docs = path.join(cwd, 'docs');
-  if (!fs.existsSync(docs)) return null;
+  if (!fs.existsSync(docs)) return [];
   const files = [];
   for (const d of fs.readdirSync(docs)) {
     const p = path.join(docs, d, 'tasks.json');
     if (fs.existsSync(p)) files.push({ p, t: fs.statSync(p).mtimeMs });
   }
   files.sort((a, b) => b.t - a.t);
-  return files[0]?.p || null;
+  return files;
+}
+
+/**
+ * 汇总所有账本的未完成数，找出还有 todo/doing/blocked 的那些。
+ * @returns {Array<{rel:string,todo:number,doing:number,blocked:number}>} 按账本 mtime 倒序
+ */
+function openLedgers() {
+  const out = [];
+  for (const f of allLedgers()) {
+    try {
+      const tasks = JSON.parse(fs.readFileSync(f.p, 'utf8')).tasks || [];
+      const c = k => tasks.filter(t => t.status === k).length;
+      const open = c('todo') + c('doing') + c('blocked');
+      if (open > 0) out.push({ rel: path.relative(cwd, f.p).split(path.sep).join('/'), todo: c('todo'), doing: c('doing'), blocked: c('blocked') });
+    } catch { /* 坏账本交给 doctor 报，这里跳过 */ }
+  }
+  return out;
 }
 
 const projectMd = path.join(cwd, '.agent', 'project.md');
@@ -51,6 +77,7 @@ const ledgerFile = findLedger();
 let ledgerLine = 'LEDGER NONE 未找到 docs/*/tasks.json';
 let nextLine = '';
 let invalid = 0;
+let extraLedgersLine = '';
 if (ledgerFile && fs.existsSync(ledgerFile)) {
   try {
     const data = JSON.parse(fs.readFileSync(ledgerFile, 'utf8'));
@@ -65,6 +92,9 @@ if (ledgerFile && fs.existsSync(ledgerFile)) {
     ledgerLine = 'LEDGER BROKEN ' + e.message;
   }
 }
+// 只报最新一个账本会漏掉其余未完成的：把还有 todo/doing/blocked 的都列出来（排除已作为 LEDGER 的那个）
+const others = openLedgers().filter(o => o.rel !== path.relative(cwd, ledgerFile || '').split(path.sep).join('/'));
+if (others.length) extraLedgersLine = 'LEDGERS 其余未完成 ' + others.length + ' 个 | ' + others.map(o => `${o.rel}(todo=${o.todo} doing=${o.doing} blocked=${o.blocked})`).join(' ; ');
 
 const memLine = fs.existsSync(memoryIdx)
   ? `MEMORY ${path.relative(cwd, memoryIdx) || memoryIdx} ${fs.readFileSync(memoryIdx, 'utf8').split(/\r?\n/).length} 行`
@@ -116,7 +146,7 @@ if (fs.existsSync(indexFile)) {
   } catch { indexStatus = 'broken'; indexLine = 'INDEX broken（重建）'; }
 }
 
-const out = { cwd, ledger: ledgerFile ? path.relative(cwd, ledgerFile).split(path.sep).join('/') : null, invalid, projectConfig: fs.existsSync(projectMd), memory: fs.existsSync(memoryIdx), index: indexStatus, version: versionLine || null };
+const out = { cwd, ledger: ledgerFile ? path.relative(cwd, ledgerFile).split(path.sep).join('/') : null, invalid, projectConfig: fs.existsSync(projectMd), memory: fs.existsSync(memoryIdx), index: indexStatus, version: versionLine || null, otherLedgers: openLedgers().filter(o => o.rel !== path.relative(cwd, ledgerFile || '').split(path.sep).join('/')) };
 if (!args.includes('--no-receipt')) {
   try {
     const dir = path.join(cwd, '.agent-runs');
@@ -135,6 +165,7 @@ else {
     { name: 'CONFIG', text: cfgLine, priority: 1, ref: projectMd },
     { name: 'LEDGER', text: ledgerLine, priority: 1, ref: ledgerFile || '' },
     ...(nextLine ? [{ name: 'NEXT', text: nextLine, priority: 1, ref: ledgerFile || '' }] : []),
+    ...(extraLedgersLine ? [{ name: 'LEDGERS', text: extraLedgersLine, priority: 2, ref: ledgerFile || '' }] : []),
     { name: 'INDEX', text: indexLine, priority: 2, ref: indexFile },
     ...(versionLine ? [{ name: 'VERSION', text: versionLine, priority: 2, ref: installManifest }] : []),
     { name: 'MEMORY', text: memLine, priority: 3, ref: memoryIdx },

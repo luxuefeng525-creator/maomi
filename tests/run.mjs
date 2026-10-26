@@ -194,6 +194,33 @@ let docPackJson = {};
 try { docPackJson = JSON.parse(docPack.stdout); } catch { /* 断言会失败 */ }
 check(docPack.status === 0 && ['ok', 'degraded'].includes(docPackJson.verdict), 'doctor 本包不判 fail', `verdict=${docPackJson.verdict}`);
 
+// doctor 去假绿：hooks.json 三事件齐全但宿主从未触发时，必须判 degraded 并给按钮级指引，不许报 ok
+const fakeHookProj = path.join(tmp, 'doc-fakehook');
+fs.mkdirSync(path.join(fakeHookProj, '.trae'), { recursive: true });
+fs.writeFileSync(path.join(fakeHookProj, '.trae', 'hooks.json'), JSON.stringify({
+  version: 1, hooks: {
+    SessionStart: [{ hooks: [{ type: 'command', command: 'node x.mjs', timeout: 10 }] }],
+    PreToolUse: [{ hooks: [{ type: 'command', command: 'node y.mjs', timeout: 10 }] }],
+    Stop: [{ loop_limit: 5, hooks: [{ type: 'command', command: 'node z.mjs', timeout: 10 }] }],
+  },
+}, null, 2) + '\n', 'utf8');
+const docFake = run(doctor, ['--cwd', fakeHookProj, '--json']);
+let docFakeJson = {};
+try { docFakeJson = JSON.parse(docFake.stdout); } catch { /* 断言会失败 */ }
+const fakeHookCheck = (docFakeJson.checks || []).find(c => c.name === 'hook') || {};
+check(fakeHookCheck.state === 'degraded' && /从未触发/.test(String(fakeHookCheck.detail || '')), 'doctor 三事件齐全但宿主未触发时判 degraded 不假绿', `state=${fakeHookCheck.state} detail=${fakeHookCheck.detail || ''}`);
+
+// 合成回执（source=check / session=verify-*）不算真实触发；只有宿主真调过才算 ok
+fs.mkdirSync(path.join(fakeHookProj, '.agent-runs'), { recursive: true });
+fs.writeFileSync(path.join(fakeHookProj, '.agent-runs', 'session-start.log'),
+  JSON.stringify({ ts: '2026-01-01T00:00:00.000Z', session: 'verify-001', event: 'SessionStart', cwd: fakeHookProj }) + '\n' +
+  JSON.stringify({ ts: '2026-01-01T00:00:01.000Z', session: 'check-hook', event: 'SessionStart', source: 'check', cwd: fakeHookProj }) + '\n', 'utf8');
+const docFake2 = run(doctor, ['--cwd', fakeHookProj, '--json']);
+let docFake2Json = {};
+try { docFake2Json = JSON.parse(docFake2.stdout); } catch { /* 断言会失败 */ }
+const fakeHookCheck2 = (docFake2Json.checks || []).find(c => c.name === 'hook') || {};
+check(fakeHookCheck2.state === 'degraded', 'doctor 合成回执不算宿主触发（仍判 degraded）', `state=${fakeHookCheck2.state}`);
+
 // 11. 验收指纹（fingerprint）
 const fp = path.join(root, 'scripts', 'fingerprint.mjs');
 const fpRepo = path.join(tmp, 'fprepo');
