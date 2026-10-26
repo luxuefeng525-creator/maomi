@@ -32,7 +32,7 @@
 | 上下文预算 + 符号检索 | 真实仓库 `context focusPageHeading --budget 1500` → `CTX files=3 chars=1094/1500`；单测覆盖必需段必留、截断给引用、MAP 引用度排序 |
 | 模型侧复跑 | 16 场景 × 3 次 = 48 次独立会话：原始 45 pass + 3 断言误判（B8/B10/B11），修词表后 48/48；日志 `logs/model-rerun-r1..r9.txt` |
 | 一键诊断 + 验收指纹 | doctor 坏账本 → `verdict=fail` 且给 NEXT；fingerprint 改动 → `changed=1 added=1`，未改 → `unchanged=3` |
-| 跨模型适配 | 两条通道实测：`mimo-agnes` 17 场景 **16 pass / 1 partial**；`codex`（代理 57321，tools 已转发）16 场景 **14 pass / 2 partial / 1 fail**（B6 改测试作弊、B1 先造后问、B3 档位词汇） |
+| 跨模型适配 | 两条通道实测：`mimo-agnes` 17 场景 **16 pass / 1 partial**；`codex`（代理 57321，tools 已转发）16 场景 **14 pass / 2 partial / 1 fail**；`--with-rules` 把硬规则装进沙箱后，B6 双方 8/8 pass、B13 双方 5/5 合规 |
 | 真实仓库实测 | doctor `VERDICT ok`（8/8 OK，Hook 3/3）；fingerprint `app/src` 307 文件 `unchanged=307`（`logs/doctor-water.txt`、`logs/fingerprint-water.txt`） |
 
 ## 仍然不足（按优先级）

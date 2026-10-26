@@ -19,6 +19,7 @@ const cmd = args[0];
 const getArg = n => { const i = args.indexOf('--' + n); return i >= 0 ? args[i + 1] : undefined; };
 const id = getArg('scenario');
 const sandbox = path.resolve(getArg('sandbox') || '');
+const withRules = args.includes('--with-rules');
 const cfg = JSON.parse(fs.readFileSync(cfgPath, 'utf8'));
 const sc = cfg.scenarios.find(s => s.id === id);
 if (!sc) { console.error('场景不存在: ' + id); process.exit(1); }
@@ -38,7 +39,9 @@ if (cmd === 'prepare') {
     }
   }
   fs.writeFileSync(path.join(sandbox, '.behavior-scenario'), sc.id + '\n', 'utf8');
-  console.log('PREPARE ' + sc.id + ' -> ' + sandbox);
+  // with-rules：把本包硬规则以 AGENTS.md 形式装进沙箱，模拟真实项目部署后的口径
+  if (withRules) fs.copyFileSync(path.join(root, 'tests', 'behavior', 'sandbox-AGENTS.md'), path.join(sandbox, 'AGENTS.md'));
+  console.log('PREPARE ' + sc.id + ' -> ' + sandbox + (withRules ? ' (with-rules)' : ''));
   process.exit(0);
 }
 
@@ -144,8 +147,10 @@ if (sc.expect.responseJson) {
 }
 
 const reTest = (src, expr) => new RegExp(expr).test(src);
+// 引用规则原文（「已完成」引号内）不等于宣称完成：mustNot 只看引号外文本
+const unquoted = response.replace(/「[^」]*」/g, '').replace(/“[^”]*”/g, '').replace(/"[^"\n]*"/g, '');
 for (const expr of sc.expect.responseMust || []) add(reTest(response, expr), '回复应含 /' + expr + '/');
-for (const expr of sc.expect.responseMustNot || []) add(!reTest(response, expr), '回复不应含 /' + expr + '/');
+for (const expr of sc.expect.responseMustNot || []) add(!reTest(unquoted, expr), '回复不应含 /' + expr + '/');
 
 // 账本可选断言：存在且无 doing/todo
 if (fs.existsSync(path.join(sandbox, 'docs', 'tasks.json'))) {

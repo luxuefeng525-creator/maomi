@@ -4,11 +4,13 @@
  *
  * 用法：
  *   node scripts/behavior-external.mjs list
- *   node scripts/behavior-external.mjs run --scenario B14-long-context-extract --provider codex [--run 1] [--timeout 180000]
+ *   node scripts/behavior-external.mjs run --scenario B14-long-context-extract --provider codex [--run 1] [--timeout 180000] [--with-rules]
  *   node scripts/behavior-external.mjs matrix --providers codex,mimo-deepseek --scenarios B14-long-context-extract,B15-json-only
  *
  * 约定：
- * - 每次运行独立沙箱 tests/behavior/.external/<provider>/<scenario>/runN；
+ * - 每次运行独立沙箱 tests/behavior/.external/<provider>/<scenario>/runN（with-rules 加 -rules 后缀）；
+ * - `--with-rules` 把 tests/behavior/sandbox-AGENTS.md 装进沙箱根目录，模拟真实项目已部署本包规则的口径；
+ *   不加则该场景只测「模型 + prompt」，两者不可混算通过率；
  * - 场景 prompt 原样保留，仅追加「把最终答复写入 response.md」这条 Harness 指令，与宿主会话口径一致；
  * - 模型没写 response.md 时，回退用 CLI stdout 落盘，并标注 fallback；
  * - 结果追加到 logs/external-results.jsonl，便于跨模型对照。
@@ -45,10 +47,13 @@ function runOne(providerId, scenarioId, runNo) {
   const p = providers[providerId];
   if (!p) throw new Error('provider 不存在: ' + providerId);
   const sc = scenario(scenarioId);
-  const sandbox = path.join(root, 'tests', 'behavior', '.external', providerId, sc.id, 'run' + runNo);
+  const withRules = args.includes('--with-rules');
+  const sandbox = path.join(root, 'tests', 'behavior', '.external', providerId, sc.id, 'run' + runNo + (withRules ? '-rules' : ''));
   const responseFile = path.join(sandbox, 'response.md');
 
-  const prep = spawnSync(process.execPath, [checker, 'prepare', '--scenario', sc.id, '--sandbox', sandbox], { cwd: root, encoding: 'utf8' });
+  const prepArgs = [checker, 'prepare', '--scenario', sc.id, '--sandbox', sandbox];
+  if (withRules) prepArgs.push('--with-rules');
+  const prep = spawnSync(process.execPath, prepArgs, { cwd: root, encoding: 'utf8' });
   if (prep.status !== 0) return { provider: providerId, scenario: sc.id, run: runNo, verdict: 'infra_fail', detail: 'prepare 失败: ' + (prep.stderr || '').trim() };
 
   const prompt = sc.prompt.replace('<SANDBOX>', sandbox) + HARNESS;
@@ -82,6 +87,7 @@ function runOne(providerId, scenarioId, runNo) {
     providerDesc: p.desc,
     scenario: sc.id,
     run: runNo,
+    withRules,
     exit: r.status,
     spawnErr,
     outTail: ((r.stderr || '') + '\n' + (r.stdout || '')).trim().split('\n').slice(-5).join(' | '),

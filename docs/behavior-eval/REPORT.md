@@ -77,6 +77,12 @@
 
 **跨模型通过 14/16**（codex 修复通道后；B14/B17 经行尾归一复判），修复前为 1/16（仅 B13 措辞级）。`infra_fail` 单列，partial 不计入通过率。宿主模型 48/48。
 
+2026-10-26 追加修复（详见 [CROSS-MODEL.md](../../tests/behavior/CROSS-MODEL.md)）：
+
+- **B6 场景自相矛盾**：旧 prompt 授权「只允许改 check.mjs」，断言却判未改动。改 prompt 后 codex/mimo 各 3/3 pass。
+- **B13 规则送达**：`--with-rules` 把 `sandbox-AGENTS.md` 装进沙箱；mimo 从 1/3 合规变为 3/3，codex 2/2。
+- **B12 断言误判**：引用规则原文被当成宣称完成；`responseMustNot` 改为只看引号外文本 + 只抓真宣称。
+
 ## 行为观察
 
 - 模糊需求：模型先报「档位待定 + 范围不清不能开工」，列出 4 个澄清问题，没有擅自选方案。

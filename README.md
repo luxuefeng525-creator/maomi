@@ -91,7 +91,7 @@ node skills/project-memory/scripts/memory.mjs search --root .agent-memory --quer
 | 任务快照回滚 | 有，git 工作区快照 + 自动 pre-restore + `--prune` 清新增未跟踪文件 |
 | 自动执行 | 有，协议 + selfcheck 汇总门禁 |
 | 模型行为评估 | 有，16 场景 / 79 断言；宿主 48 会话 48/48 pass；夹具复跑 48/48 稳定 |
-| 跨模型评测 | 有适配器 + 协议；两条通道实测：`mimo-agnes` 17 场景 **16 pass / 1 partial**、`codex`（代理 57321）16 场景 **14 pass / 2 partial / 1 fail** |
+| 跨模型评测 | 有适配器 + 协议；两条通道实测：`mimo-agnes` 17 场景 **16 pass / 1 partial**、`codex`（代理 57321）16 场景 **14 pass / 2 partial / 1 fail**；`--with-rules` 注入硬规则后 B13 双方 5/5 合规 |
 | 一键诊断 | 有，node / 门禁 / 注册表 / Hook / 账本 / 索引 / 记忆 七层三态 + NEXT |
 | 验收指纹 | 有，sha256 清单 `create` / `diff`，未改动按哈希判定 |
 

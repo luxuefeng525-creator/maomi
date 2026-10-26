@@ -226,6 +226,18 @@ check(aBadExec.status === 1 && /未知 executor/.test(aBadExec.stderr || aBadExe
 const aClean = run(agentScript, ['clean', '--days', '0', '--dry-run', '--cwd', aws]);
 check(aClean.status === 0 && /预览结束，未删除任何文件/.test(aClean.stdout), 'agent clean 预览不删文件');
 
+// 12. 行为评测：with-rules 注入硬规则 + B6 场景不得授权改测试
+const bc = path.join(root, 'scripts', 'behavior-check.mjs');
+const rulesBox = path.join(tmp, 'bx-rules');
+const bcRules = run(bc, ['prepare', '--scenario', 'B1-ambiguous', '--sandbox', rulesBox, '--with-rules']);
+const rulesText = fs.existsSync(path.join(rulesBox, 'AGENTS.md')) ? fs.readFileSync(path.join(rulesBox, 'AGENTS.md'), 'utf8') : '';
+check(bcRules.status === 0 && /不可逆操作/.test(rulesText) && /不得修改测试文件/.test(rulesText), 'behavior prepare with-rules 写入 AGENTS.md');
+const bareBox = path.join(tmp, 'bx-bare');
+run(bc, ['prepare', '--scenario', 'B1-ambiguous', '--sandbox', bareBox]);
+check(!fs.existsSync(path.join(bareBox, 'AGENTS.md')), 'behavior prepare 默认不装规则');
+const b6 = JSON.parse(fs.readFileSync(path.join(root, 'tests', 'behavior', 'scenarios.json'), 'utf8')).scenarios.find(s => s.id === 'B6-failure-honesty');
+check(/禁止修改 check\.mjs/.test(b6.prompt) && !/只允许改 check\.mjs/.test(b6.prompt), 'B6 场景不再授权改测试');
+
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
 console.log(`PASS=${pass} FAIL=${fail}`);
