@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.22.1 — 2026-10-27
+
+**修自检闭环：GitHub Actions 连续 19 次红的真因，以及一条假失败。**
+
+起因是外部审计（雷仔）实测发现：run 10→28 连续 19 次 `failure`，而本地 Windows 永远绿。
+
+- **真因**：`tests/run.mjs` 的 Hook 反例配置只写了 `SessionStart` 一条，
+  而 `check-hook.mjs` 会检查三个事件是否齐全。
+  - win32：老写法本来就报 `ParserError` → exit=1，缺事件被掩盖，本地绿；
+  - 非 win32：`sh` 认这种写法，唯一失败点就是「缺 PreToolUse/Stop」→ exit=1 → 断言失败。
+  修法：反例改为「install-hook 生成配置原样去掉 `&`」——结构合法、三事件齐全，
+  唯一差异是 PowerShell 语法不兼容，这条断言才真正只测它想测的东西。
+- **假失败**：`skills/project-orchestrator/scripts/validate.mjs` 用 `process.cwd()` 解析技能引用文件，
+  换到任意非仓库目录即误报「引用路径存在」失败（`tests/eval.mjs` 的 `validate_ok` 因此 1/29 红）。
+  改为以 `skills/` 的父目录（仓库根）为主基准，cwd 仅作兼容候选。
+- **CI 本身**：matrix 增 `windows-latest`（Hook 是 PowerShell 语义，只在 ubuntu 上测等于测不到）；
+  `Scenario eval` 提到 `Unit checks` 之前——原先单测一红就 skip 掉 29 个场景，一条失败遮蔽全部结果。
+- **诊断**：`tests/eval.mjs` / `scripts/selfcheck.mjs` / `tests/run.mjs` 失败时带出具体的
+  FAIL / PARTIAL 行，不再只给 `exit=1` 或 `PASS=81 FAIL=1`（定位成本从一轮 CI 降为 0）。
+- 自测 81 → **82**；`tests/eval.mjs` 29/29。
+- 验收：CI run 32 四组合全绿（ubuntu/windows × node 18/20）；计划见 `docs/ci-green/PLAN.md`。
+
 ## 0.22.0 — 2026-10-27
 
 **补斜杠命令入口：装完不再只靠手敲 Node 路径。**
