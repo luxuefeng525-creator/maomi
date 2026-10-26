@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.19.0 — 2026-10-26
+
+- **新增 `agent.mjs clean`**：清理工具自身产物（评测沙箱、复跑副本、单测临时目录、执行器会话库、回复落盘），`--dry-run` 预览、`--days n` 设阈值（默认 7 天）。实测一次回收 **48.92MB**，其中 `.mimocode/` 单目录占 49.9MB。
+- **`run` 结束默认清理执行器自身产物**（`.mimocode` / `response.md`），`--keep` 才保留 —— 对标 OpenHands `SANDBOX_KEEP_RUNTIME_ALIVE` 默认 false 的机制。
+- **修复假完成误判（重要）**：此前把执行器自己写的 `response.md`、`.mimocode/` 会话库、账本目录都当成任务产物，导致 codex 没写 `hello.txt` 也被判 `DONE`。现在这些自身产物从产物集合中排除，实测同一任务改为正确 `BLOCK T1 | 无产物变更（疑似假完成）`。
+- **`run` 增加阻塞提示**：有 `blocked` 任务时明确打印「交付不完整」及原因，避免与 `STOPGATE ALLOW` 混淆。
+- **新增 `docs/usage.md`**：如何用（一条命令自主执行 / 换执行器 / 分步指挥 / 清理 / 判读结果 / 常见坑），含四个执行器实测状态表。
+- **执行器可换已验证**：`--executor codex` 能跑通且失败时优雅返回 `BLOCK`，不崩溃。
+- **对标清理机制**写入 `docs/benchmark-vs-github.md`：OpenHands（默认不保留 runtime）、SWE-agent（`reset` / `reset_for_new_attempt`）、BenchFlow（沙箱加固清注入物），逐条标注采纳与未采纳理由。
+- `.gitignore` 增 `.mimocode/`、`response.md`；`tests/run.mjs` **36/36 PASS**（新增 clean 预览断言）。
+
 ## 0.18.0 — 2026-10-26
 
 **从「任务调度器」变成「能自主干活的 Agent」。** 此前 `agent.mjs` 只有 plan / step / guard / status / finish，每一步仍需外部手动驱动，用户感知不到 Agent 在干活。

@@ -53,6 +53,25 @@
 | 容器沙箱运行时 | 宿主已有权限模型；本包只做规则与脚本，不接管执行环境 |
 | 向量记忆 | 几十万字符规模关键词够用；引入 embedding 带来索引漂移与依赖 |
 
+## 清理与重置机制对标（2026-10-26）
+
+用户诉求：「要加强也得会清理不需要的东西、多余的数据」。实测本仓 `.mimocode/` 已堆到 **49.9MB**（执行器会话库），确实该管。只抄机制，不搬代码：
+
+| 来源 | 机制（实测/文档口径） | 本包采纳 |
+| --- | --- | --- |
+| OpenHands | `SANDBOX_KEEP_RUNTIME_ALIVE` 默认 `false`——会话结束默认**不保留**运行时；`SANDBOX_PAUSE_CLOSED_RUNTIMES` 默认 `false`，即停止而非暂停；`DockerWorkspace` 用 context manager 自动清理容器 | **已采纳**：`agent.mjs run` 结束默认删除执行器自身产物（`.mimocode` / `response.md`），`--keep` 才保留 |
+| SWE-agent | `Environment.reset()` 把环境恢复到干净状态；`reset_for_new_attempt()` 在同一实例重试前重置仓库与环境变量；`Repository.get_reset_commands()` 给出重置命令清单 | **部分采纳**：`run` 账本存在即续跑、`--force` 才重建；未引入容器级 reset（本包不接管执行环境） |
+| BenchFlow | agent 与 verifier 之间「加固沙箱」防作弊：杀掉残留 agent 进程、把构建配置文件还原为 agent 前快照、删除 agent 注入的 `conftest.py` / `sitecustomize.py` / `*.pth` | **未采纳**：本项目为 Node 包，Python 注入物规则不适用；等价风险已由「执行器产物不计入任务产物」覆盖 |
+
+新增命令：
+
+```powershell
+node scripts/agent.mjs clean --dry-run    # 预览，不删
+node scripts/agent.mjs clean --days 7     # 清理 7 天前的工具产物
+```
+
+清理范围只含工具自身产物（评测沙箱、复跑副本、单测临时目录、执行器会话库、回复落盘），**不触碰源码与提交记录**。
+
 ## 复跑
 
 ```powershell

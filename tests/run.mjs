@@ -223,6 +223,8 @@ check(aFin.status === 1 && /STOPGATE BLOCK/.test(aFin.stdout), 'agent finish 未
 // run 依赖外部模型，单测只验证执行器校验（确定性、不联网）
 const aBadExec = run(agentScript, ['run', '--task', 't', '--executor', 'no-such-executor', '--cwd', aws]);
 check(aBadExec.status === 1 && /未知 executor/.test(aBadExec.stderr || aBadExec.stdout), 'agent run 拒绝未知执行器');
+const aClean = run(agentScript, ['clean', '--days', '0', '--dry-run', '--cwd', aws]);
+check(aClean.status === 0 && /预览结束，未删除任何文件/.test(aClean.stdout), 'agent clean 预览不删文件');
 
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');

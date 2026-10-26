@@ -1,0 +1,27 @@
+{
+  "task": "写一个 hello.txt，内容 hello",
+  "tier": "L0",
+  "profile": "package",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "实现",
+      "deps": [],
+      "files": [],
+      "status": "blocked",
+      "evidence": "",
+      "note": "无产物变更（疑似假完成）｜0 | 2026-10-26T08:13:59.761794Z  INFO rmcp::transport::streamable_http_client: delete session success session_id=\"0d000874-eb3c-4e1b-8f40-f6a877bdeb81\" | 2026-10-26T08:13:59.761874Z  INFO serve_inner: rmcp::service: serve finished quit_reason=Cancelled"
+    },
+    {
+      "id": "T2",
+      "title": "测试",
+      "deps": [
+        "T1"
+      ],
+      "files": [],
+      "status": "todo",
+      "evidence": ""
+    }
+  ],
+  "updated": "2026-10-26"
+}

@@ -7,7 +7,8 @@
  *   node scripts/agent.mjs plan   --task "<目标>" [--slug <目录名>] [--files <n>] [--cross <n>]
  *                                 [--schema] [--api] [--route] [--profile package|app] [--cwd <目录>]
  *   node scripts/agent.mjs run    --task "<目标>" [--executor <id>] [--max-steps <n>] [--timeout <ms>]
- *                                 [--slug <目录名>] [--files <n>] [--cross <n>] [--cwd <目录>]
+ *                                 [--slug <目录名>] [--files <n>] [--cross <n>] [--keep] [--cwd <目录>]
+ *   node scripts/agent.mjs clean  [--days <n>] [--dry-run] [--cwd <目录>]
  *   node scripts/agent.mjs step   [--cwd <目录>] [--file <tasks.json>] [--json]
  *   node scripts/agent.mjs guard  --tool <工具名> --input '<JSON>' [--cwd <目录>]
  *   node scripts/agent.mjs status [--cwd <目录>] [--file <tasks.json>]
@@ -229,7 +230,11 @@ function cmdRun() {
     console.log(`--- ${t.id} ${t.title} 开始 ---`);
     const r = runExecutor(stepPrompt(task, t, slug), executor, timeout);
     const after = changedPaths();
-    const added = before && after ? [...after].filter(x => !before.has(x)) : [];
+    // 执行器自身产物（response.md / .mimocode 会话库）与账本目录不算任务产物，否则会误判成完成
+    const SELF_OUT = /^(response\.md|\.mimocode\/|\.agent-runs\/|\.agent-index\/)/;
+    const added = before && after
+      ? [...after].filter(x => !before.has(x) && !SELF_OUT.test(x) && !x.startsWith('docs/' + slug + '/'))
+      : [];
     // 执行器输出可能带 ANSI 颜色码，写进账本前必须剥掉
     const clean = s => String(s).replace(/\u001b\[[0-9;]*m/g, '');
     const tail = clean(r.out || '').split('\n').filter(Boolean).slice(-3).join(' | ').slice(0, 300);
@@ -261,8 +266,80 @@ function cmdRun() {
   const finalData = readLedger(file).data;
   const stats = ['todo', 'doing', 'blocked', 'done'].map(k => `${k}=${finalData.tasks.filter(x => x.status === k).length}`).join(' ');
   console.log(`RUN 结束 | 执行 ${executed} 步 | ${stats}`);
+  const blockedList = finalData.tasks.filter(x => x.status === 'blocked');
+  if (blockedList.length) {
+    console.log(`WARN ${blockedList.length} 个任务阻塞未完成（闸门允许交接，但交付不完整）：`);
+    for (const b of blockedList) console.log(`  ${b.id} ${b.title} | ${b.note || '无原因记录'}`);
+  }
   console.log(`STOPGATE ${gate && gate.continue === true ? 'ALLOW' : 'BLOCK'} | ${gate ? JSON.stringify(gate) : '输出无法解析'}`);
+  // 对标 OpenHands SANDBOX_KEEP_RUNTIME_ALIVE=false：默认不保留执行器运行时产物
+  if (!has('keep')) {
+    let n = 0;
+    for (const rel of ['.mimocode', 'response.md']) {
+      const abs = path.join(cwd, rel);
+      if (fs.existsSync(abs)) { fs.rmSync(abs, { recursive: true, force: true }); n++; }
+    }
+    if (n) console.log(`CLEAN 已清理执行器自身产物 ${n} 项（--keep 可保留）`);
+  }
   process.exitCode = gate && gate.continue === true ? 0 : 1;
+}
+
+/** 清理目标：Agent 自己产生的临时与过期产物；用户源码与提交从不在此列 */
+const CLEAN_TARGETS = [
+  { rel: 'tests/behavior/.external', desc: '跨模型评测沙箱（含千文件夹具）' },
+  { rel: 'tests/behavior/.model-runs', desc: '宿主模型会话产物' },
+  { rel: 'tests/behavior/.rerun', desc: '夹具复跑副本' },
+  { rel: 'tests/behavior/.sandbox', desc: '行为场景沙箱' },
+  { rel: 'tests/.tmp', desc: '单测临时目录' },
+  { rel: 'tests/.eval', desc: '评测临时目录' },
+  { rel: '.mimocode', desc: '执行器会话库（mimo 在 cwd 生成）' },
+  { rel: 'response.md', desc: '执行器最后一条回复落盘' },
+];
+
+/** 按天数判定是否过期；0 表示不看时间全清 */
+function olderThan(abs, days) {
+  if (days <= 0) return true;
+  try { return (Date.now() - fs.statSync(abs).mtimeMs) / 86400000 >= days; } catch { return false; }
+}
+
+/** 统计目录体积，用于报告回收量 */
+function sizeOf(abs) {
+  let total = 0;
+  const walk = p => {
+    let st;
+    try { st = fs.lstatSync(p); } catch { return; }
+    if (st.isDirectory()) {
+      let names = [];
+      try { names = fs.readdirSync(p); } catch { return; }
+      for (const n of names) walk(path.join(p, n));
+    } else total += st.size;
+  };
+  walk(abs);
+  return total;
+}
+
+function cmdClean() {
+  const days = Number(getArg('days') || 7);
+  const dry = has('dry-run');
+  let freed = 0;
+  let removed = 0;
+  console.log(`[清理] 阈值 ${days} 天${dry ? ' · 仅预览（--dry-run）' : ''}`);
+  for (const t of CLEAN_TARGETS) {
+    const abs = path.join(cwd, t.rel);
+    if (!fs.existsSync(abs)) continue;
+    if (!olderThan(abs, days)) { console.log(`SKIP ${t.rel} 未过期`); continue; }
+    const bytes = sizeOf(abs);
+    if (dry) {
+      console.log(`WOULD ${t.rel} ${(bytes / 1024).toFixed(0)}KB · ${t.desc}`);
+    } else {
+      fs.rmSync(abs, { recursive: true, force: true });
+      console.log(`DEL  ${t.rel} ${(bytes / 1024).toFixed(0)}KB · ${t.desc}`);
+      removed++;
+      freed += bytes;
+    }
+  }
+  if (dry) console.log('预览结束，未删除任何文件');
+  else console.log(`清理完成：删除 ${removed} 项，回收 ${(freed / 1024 / 1024).toFixed(2)}MB`);
 }
 
 function cmdStep() {
@@ -336,12 +413,13 @@ function cmdFinish() {
 try {
   if (cmd === 'plan') cmdPlan();
   else if (cmd === 'run') cmdRun();
+  else if (cmd === 'clean') cmdClean();
   else if (cmd === 'step') cmdStep();
   else if (cmd === 'guard') cmdGuard();
   else if (cmd === 'status') cmdStatus();
   else if (cmd === 'finish') cmdFinish();
   else {
-    console.error('用法: plan | step | guard | status | finish（详见文件头注释）');
+    console.error('用法: plan | run | clean | step | guard | status | finish（详见文件头注释）');
     process.exit(1);
   }
 } catch (e) {

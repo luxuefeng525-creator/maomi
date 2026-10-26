@@ -11,3 +11,5 @@ tests/behavior/.external/
 tests/behavior/.model-runs/
 tests/behavior/.rerun/
 logs/
+.mimocode/
+response.md
