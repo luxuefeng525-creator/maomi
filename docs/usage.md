@@ -20,6 +20,7 @@ Agent 会自动：定档 → 建账本 → 逐步调执行器 → 判产物 → 
 ```
 [档位] L1 · 单端 · 2 个文件
 [执行器] mimo-agnes · 最多 6 步 · 单步超时 480000ms
+[规则] rules/agent-rules.md sha256=0f6807e1c205 chars=832
 LEDGER docs/my-task/tasks.json 共 3 件
 
 --- T1 实现 开始 ---
@@ -31,6 +32,14 @@ DONE T3
 RUN 结束 | 执行 3 步 | todo=0 blocked=0 done=3
 STOPGATE ALLOW
 ```
+
+`[规则]` 那行说明本步注入了哪版规则。规则文件是 `rules/agent-rules.md`（不可逆先确认、禁改测试、无证据不算完成、只改要求文件 + 提示词纪律），每步注入，运行后留下 `.agent-runs/rules.json` 指纹。想看实际发出去的提示词：
+
+```powershell
+node scripts/agent.mjs run --task "..." --slug my-task --dry-run
+```
+
+`--dry-run` 不写账本、不动工作区；`--no-rules` 只用于对照实验，正常执行不要关。
 
 **关键参数**
 
@@ -45,6 +54,8 @@ STOPGATE ALLOW
 | `--timeout <ms>` | 单步超时 | 480000 |
 | `--slug <name>` | 账本目录名 | 时间戳 |
 | `--keep` | 保留执行器自身产物（`.mimocode` / `response.md`） | 默认**清理** |
+| `--dry-run` | 只打印首步提示词（含注入规则），不写账本、不调模型 | 关 |
+| `--no-rules` | 关闭规则注入（仅对照实验用） | 关（默认注入） |
 
 ## 2. 换执行器（同一任务横向比模型）
 

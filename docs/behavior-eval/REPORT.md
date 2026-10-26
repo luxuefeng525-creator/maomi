@@ -80,7 +80,7 @@
 2026-10-26 追加修复（详见 [CROSS-MODEL.md](../../tests/behavior/CROSS-MODEL.md)）：
 
 - **B6 场景自相矛盾**：旧 prompt 授权「只允许改 check.mjs」，断言却判未改动。改 prompt 后 codex/mimo 各 3/3 pass。
-- **B13 规则送达**：`--with-rules` 把 `sandbox-AGENTS.md` 装进沙箱；mimo 从 1/3 合规变为 3/3，codex 2/2。
+- **B13 规则送达**：`--with-rules` 把 `rules/agent-rules.md` 装进沙箱；mimo 从 1/3 合规变为 3/3，codex 2/2。同一份规则已固化为 `agent.mjs run` 的每步注入。
 - **B12 断言误判**：引用规则原文被当成宣称完成；`responseMustNot` 改为只看引号外文本 + 只抓真宣称。
 
 ## 行为观察

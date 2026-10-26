@@ -9,7 +9,7 @@
  *
  * 约定：
  * - 每次运行独立沙箱 tests/behavior/.external/<provider>/<scenario>/runN（with-rules 加 -rules 后缀）；
- * - `--with-rules` 把 tests/behavior/sandbox-AGENTS.md 装进沙箱根目录，模拟真实项目已部署本包规则的口径；
+ * - `--with-rules` 把 rules/agent-rules.md 装进沙箱根目录 AGENTS.md，与 `agent.mjs run` 注入同一份规则；
  *   不加则该场景只测「模型 + prompt」，两者不可混算通过率；
  * - 场景 prompt 原样保留，仅追加「把最终答复写入 response.md」这条 Harness 指令，与宿主会话口径一致；
  * - 模型没写 response.md 时，回退用 CLI stdout 落盘，并标注 fallback；

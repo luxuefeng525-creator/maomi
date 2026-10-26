@@ -7,7 +7,7 @@
  *   node scripts/agent.mjs plan   --task "<目标>" [--slug <目录名>] [--files <n>] [--cross <n>]
  *                                 [--schema] [--api] [--route] [--profile package|app] [--cwd <目录>]
  *   node scripts/agent.mjs run    --task "<目标>" [--executor <id>] [--max-steps <n>] [--timeout <ms>]
- *                                 [--slug <目录名>] [--files <n>] [--cross <n>] [--keep] [--cwd <目录>]
+ *                                 [--slug <目录名>] [--files <n>] [--cross <n>] [--keep] [--dry-run] [--no-rules] [--cwd <目录>]
  *   node scripts/agent.mjs clean  [--days <n>] [--dry-run] [--cwd <目录>]
  *   node scripts/agent.mjs step   [--cwd <目录>] [--file <tasks.json>] [--json]
  *   node scripts/agent.mjs guard  --tool <工具名> --input '<JSON>' [--cwd <目录>]
@@ -18,6 +18,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 import { readLedger, writeLedger, depsMissing, nextTask, validateLedger } from '../skills/project-orchestrator/scripts/task.mjs';
@@ -33,6 +34,17 @@ const asJson = has('json');
 const cwd = path.resolve(getArg('cwd') || process.cwd());
 const guardScript = path.join(scriptDir, 'pre-tool-guard.mjs');
 const stopScript = path.join(scriptDir, 'stop-gate.mjs');
+const rulesFile = path.join(root, 'rules', 'agent-rules.md');
+
+/** 读取注入规则；缺失时返回空串，由调用方打印警告但不阻断 */
+function loadRules() {
+  try { return fs.readFileSync(rulesFile, 'utf8').trim(); } catch { return ''; }
+}
+
+/** 规则指纹：写进运行证据，便于回答「这次执行到底注入了哪版规则」 */
+function rulesFingerprint(text) {
+  return crypto.createHash('sha256').update(text, 'utf8').digest('hex').slice(0, 12);
+}
 
 /** 阶段模板：L2 在业务项目跑全 8 环，在包/库项目裁掉「后台同批」「三端对账」 */
 const STAGES_APP = {
@@ -179,9 +191,11 @@ function runExecutor(prompt, specId, timeout) {
   return { ok: !r.error && r.status === 0, status: r.status, out: ((r.stdout || '') + (r.stderr || '')).trim() };
 }
 
-/** 单步提示词：限定范围，禁止模型自改账本 */
-function stepPrompt(task, t, slug) {
-  return [
+/** 单步提示词：规则置顶、限定范围，禁止模型自改账本 */
+function stepPrompt(task, t, slug, rules = '') {
+  const lines = [];
+  if (rules) lines.push('【执行规则（必须遵守）】', rules, '');
+  lines.push(
     '你是执行器，只完成当前这一步，不要越界。',
     '',
     '总目标：' + task,
@@ -193,7 +207,8 @@ function stepPrompt(task, t, slug) {
     '2. 不要修改 docs/' + slug + '/tasks.json（状态由调度器维护）。',
     '3. 测试/验收步骤优先跑最小相关命令，避免全量长耗时套件。',
     '4. 完成后用一句话说明做了什么、改了哪些文件。',
-  ].join('\n');
+  );
+  return lines.join('\n');
 }
 
 /** 自主执行：定档 → 建账 → 逐步调执行器 → 记账 → 闸门验收 */
@@ -211,13 +226,36 @@ function cmdRun() {
   fs.mkdirSync(path.dirname(file), { recursive: true });
   // 账本已存在则续跑，不覆盖进度；确需重建加 --force
   const resumed = fs.existsSync(file) && !has('force');
-  if (!resumed) writeLedger(file, data);
-  const board = readLedger(file).data;
+  // 规则注入默认开启；--no-rules 仅用于对照实验，正常执行不要关
+  const rules = has('no-rules') ? '' : loadRules();
+  // dry-run 只预览提示词，不写账本、不动工作区
+  const board = resumed ? readLedger(file).data : data;
   const rel = path.relative(cwd, file).split(path.sep).join('/');
   console.log(`[档位] ${board.tier}${resumed ? '（续跑，沿用已有账本）' : ' · ' + reasons.join(' / ')}`);
   console.log(`[执行器] ${executor} · 最多 ${maxSteps} 步 · 单步超时 ${timeout}ms`);
+  console.log(`[规则] ${rules ? `${path.relative(root, rulesFile).split(path.sep).join('/')} sha256=${rulesFingerprint(rules)} chars=${rules.length}` : '未注入（--no-rules）'}`);
   console.log(`LEDGER ${rel} 共 ${board.tasks.length} 件`);
   console.log('');
+
+  if (has('dry-run')) {
+    const n = nextTask(board);
+    if (!n) { console.log('无待办步骤'); return; }
+    console.log(stepPrompt(task, n.task, slug, rules));
+    return;
+  }
+  if (!resumed) writeLedger(file, data);
+  // 留运行证据：这次执行注入的规则版本，clean 不清理（属于审计记录）
+  if (rules) {
+    const dir = path.join(cwd, '.agent-runs');
+    fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(path.join(dir, 'rules.json'), JSON.stringify({
+      file: path.relative(root, rulesFile).split(path.sep).join('/'),
+      sha256: rulesFingerprint(rules),
+      chars: rules.length,
+      injectedAt: new Date().toISOString(),
+      executor,
+    }, null, 2) + '\n', 'utf8');
+  }
 
   let executed = 0;
   while (executed < maxSteps) {
@@ -228,7 +266,7 @@ function cmdRun() {
     if (t.status === 'todo') { t.status = 'doing'; writeLedger(file, cur); }
     const before = changedPaths();
     console.log(`--- ${t.id} ${t.title} 开始 ---`);
-    const r = runExecutor(stepPrompt(task, t, slug), executor, timeout);
+    const r = runExecutor(stepPrompt(task, t, slug, rules), executor, timeout);
     const after = changedPaths();
     // 执行器自身产物（response.md / .mimocode 会话库）与账本目录不算任务产物，否则会误判成完成
     const SELF_OUT = /^(response\.md|\.mimocode\/|\.agent-runs\/|\.agent-index\/)/;

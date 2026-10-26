@@ -225,6 +225,24 @@ const aBadExec = run(agentScript, ['run', '--task', 't', '--executor', 'no-such-
 check(aBadExec.status === 1 && /未知 executor/.test(aBadExec.stderr || aBadExec.stdout), 'agent run 拒绝未知执行器');
 const aClean = run(agentScript, ['clean', '--days', '0', '--dry-run', '--cwd', aws]);
 check(aClean.status === 0 && /预览结束，未删除任何文件/.test(aClean.stdout), 'agent clean 预览不删文件');
+const aDry = run(agentScript, ['run', '--task', '演示任务', '--slug', 'demo', '--cwd', aws, '--dry-run']);
+check(aDry.status === 0 && /【执行规则/.test(aDry.stdout) && /不可逆操作/.test(aDry.stdout), 'agent run 默认注入执行规则', (aDry.stdout || '').split('\n').find(l => l.startsWith('[规则]')) || '');
+const aDryNo = run(agentScript, ['run', '--task', '演示任务', '--slug', 'demo', '--cwd', aws, '--dry-run', '--no-rules']);
+check(aDryNo.status === 0 && !/【执行规则/.test(aDryNo.stdout), 'agent run --no-rules 不注入');
+// 闸门证据口径：只校验 ｜ 前的文件清单，输出文本里的路径不算证据文件
+const sg = path.join(root, 'scripts', 'stop-gate.mjs');
+const sgDir = path.join(tmp, 'sg');
+fs.mkdirSync(path.join(sgDir, 'docs', 'x'), { recursive: true });
+const sgLedger = file => path.join(sgDir, 'docs', 'x', 'tasks.json');
+const writeSg = evidence => fs.writeFileSync(sgLedger(), JSON.stringify({
+  task: '闸门证据', tier: 'L0', tasks: [{ id: 'T1', title: '实现', deps: [], files: [], status: 'done', evidence }],
+}) + '\n', 'utf8');
+writeSg('执行器输出｜→ Read docs\\x\\missing.json');
+const sgOk = run(sg, ['--cwd', sgDir]);
+check(sgOk.status === 0 && /continue/.test(sgOk.stdout), 'stop-gate 忽略输出文本里的路径');
+writeSg('docs/missing.md｜执行器输出');
+const sgBad = run(sg, ['--cwd', sgDir]);
+check(sgBad.status === 0 && /证据文件不存在/.test(sgBad.stdout), 'stop-gate 仍拦真实缺失证据');
 
 // 12. 行为评测：with-rules 注入硬规则 + B6 场景不得授权改测试
 const bc = path.join(root, 'scripts', 'behavior-check.mjs');

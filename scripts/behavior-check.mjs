@@ -39,8 +39,8 @@ if (cmd === 'prepare') {
     }
   }
   fs.writeFileSync(path.join(sandbox, '.behavior-scenario'), sc.id + '\n', 'utf8');
-  // with-rules：把本包硬规则以 AGENTS.md 形式装进沙箱，模拟真实项目部署后的口径
-  if (withRules) fs.copyFileSync(path.join(root, 'tests', 'behavior', 'sandbox-AGENTS.md'), path.join(sandbox, 'AGENTS.md'));
+  // with-rules：把执行器同一份硬规则装进沙箱 AGENTS.md，模拟真实项目部署后的口径
+  if (withRules) fs.copyFileSync(path.join(root, 'rules', 'agent-rules.md'), path.join(sandbox, 'AGENTS.md'));
   console.log('PREPARE ' + sc.id + ' -> ' + sandbox + (withRules ? ' (with-rules)' : ''));
   process.exit(0);
 }

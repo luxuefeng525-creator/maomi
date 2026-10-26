@@ -62,10 +62,14 @@ if (doing.length) reasons.push('仍有进行中任务：' + doing.map(t => t.id)
 const n = nextTask(data);
 if (n && n.task.status === 'todo') reasons.push('仍有可执行任务未完成：' + n.task.id + ' ' + n.task.title);
 
+// 证据形如「文件清单｜执行器输出」：只校验 ｜ 前的文件清单，避免把输出文本里的路径误判成证据文件
 const missingEvidence = tasks.filter(t => {
   if (t.status !== 'done' || !t.evidence) return false;
-  const e = String(t.evidence);
-  return e.includes('/') && /\.[a-z0-9]+$/i.test(e) && !fs.existsSync(path.resolve(cwd, e));
+  const head = String(t.evidence).split('｜')[0];
+  return head.split(/[,，]/).map(s => s.trim()).filter(Boolean).some(tok => {
+    if (!/[\\/]/.test(tok) || !/\.[a-z0-9]+$/i.test(tok)) return false;
+    return !fs.existsSync(path.resolve(cwd, tok));
+  });
 });
 if (missingEvidence.length) reasons.push('证据文件不存在：' + missingEvidence.map(t => t.id + '(' + t.evidence + ')').join('，'));
 

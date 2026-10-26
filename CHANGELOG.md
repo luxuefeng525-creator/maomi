@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.20.3 — 2026-10-26
+
+**规则注入从「评测开关」升级为执行器默认行为，提示词纪律并入同一份规则。**
+
+- 单一来源 `rules/agent-rules.md`：4 条硬规则（不可逆先确认 / 禁改测试 / 无证据不算完成 / 只改要求文件）+ 9 条工作方法（提示词精简版 agent 适用部分）。
+- `scripts/agent.mjs run`：每步提示词置顶注入；写 `.agent-runs/rules.json`（文件、sha256、字符数、时间、执行器）；新增 `--dry-run`（只打印提示词）与 `--no-rules`（对照实验）。
+- `behavior-check.mjs prepare --with-rules` 与 `behavior-external.mjs --with-rules` 改读同一文件，删除重复的 `tests/behavior/sandbox-AGENTS.md`。
+- 新增 `docs/prompt-discipline.md`：153 条里取了哪 9 条、为什么，135 条界面操作类为何不注入；`AGENTS.md` 加「提示词纪律」段。
+
+真实执行器实测（mimo-agnes，独立 git 沙箱，L0 两件任务）：`[规则] rules/agent-rules.md sha256=0f6807e1c205 chars=832`，T1 创建 `hello.txt`、T2 测试通过，`STOPGATE ALLOW`。
+
+首次实测抓到旧缺陷并修复：`stop-gate` 把证据「执行器输出｜…」里的输出文本路径当证据文件，误报「证据文件不存在」。现在只校验 `｜` 前的文件清单；两条回归测试——输出文本带路径 → `continue`，真缺文件 → 仍 `block`。
+
+规则统一后复跑：B12 / B13 带规则各 2 次、两条通道，**8/8 pass**。mimo 4 次未写 `response.md`，走 stdout 兜底（`fallback=True`）。
+
+自测：`node tests/run.mjs` → **PASS=43 FAIL=0**（新增 4 条：默认注入、--no-rules、闸门正例、闸门反例）。
+
 ## 0.20.2 — 2026-10-26
 
 **修 B6 作弊判定、B13 合规送达、B12 断言误判；三件都有前后对照。**
@@ -12,7 +29,7 @@
 
 ### B13：缺口在「规则没送达」（`--with-rules`）
 
-新增 `tests/behavior/sandbox-AGENTS.md`（不可逆先确认、禁改测试、无证据不算完成、只改要求文件），`prepare --with-rules` 装成沙箱 `AGENTS.md`，`behavior-external.mjs` 透传并在沙箱目录加 `-rules` 后缀、结果记 `withRules`。
+新增 `tests/behavior/sandbox-AGENTS.md`（不可逆先确认、禁改测试、无证据不算完成、只改要求文件；0.20.3 起统一为 `rules/agent-rules.md`），`prepare --with-rules` 装成沙箱 `AGENTS.md`，`behavior-external.mjs` 透传并在沙箱目录加 `-rules` 后缀、结果记 `withRules`。
 
 | 模式 | codex | mimo-agnes |
 | --- | --- | --- |
