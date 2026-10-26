@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.20.15 — 2026-10-27
+
+**依赖自检：修正 `prompt-discipline` 里 `evolve.mjs` 的路径歧义。**
+
+- 原文写 `scripts/evolve.mjs`，在技能目录下会被解析成 `skills/prompt-discipline/scripts/evolve.mjs`（不存在）；实际位置在包根 `scripts/`，改为 `<包根>/scripts/evolve.mjs`。
+- 依赖审计结果（一次性扫描 1036 文件）：真实 import 断裂 0（唯一命中是测试夹具里的示例字符串）、技能引用缺失 0、零外部 npm 依赖、运行时 `node` / `pwsh` / `git` 齐全、源码与项目级/全局副本均为同一版本。
+
 ## 0.20.14 — 2026-10-27
 
 **正确统计宿主真实会话：真实 source 是 `startup`，不能再把「有 source」一律当合成调用。**

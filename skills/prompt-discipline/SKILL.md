@@ -56,7 +56,7 @@ description: 提示词与推理纪律。把模糊需求改写成可验收指令�
 | --- | --- | --- |
 | 同一提示词第 3 次 | 抽成一句话模板或命令 | 项目 rules、命令库 |
 | 同一流程第 3 次 | 沉淀成 Skill：写适用/禁用 + 最小示例 | `skills/<name>/SKILL.md` |
-| 同一坑第 2 次 | 记 pitfall → 聚类提案 → 人工确认 | `.agent-memory/` → `scripts/evolve.mjs` → `rules/agent-rules.md` |
+| 同一坑第 2 次 | 记 pitfall → 聚类提案 → 人工确认 | `.agent-memory/` → `<包根>/scripts/evolve.mjs` → `rules/agent-rules.md` |
 
 进化闭环：`memory.mjs append` 记坑 → `evolve.mjs` 聚类出提案 → 人确认后写规则或技能 → 下次执行自动注入。没有人工确认，不自动改规则。
 
