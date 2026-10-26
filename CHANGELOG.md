@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.23.0 — 2026-10-27
+
+**doctor 不再对「本包在子目录」误报 Hook 未生效。**
+
+现象：在 `opensource/agent-workbench` 跑 `doctor` 恒报 `DEGRADED hook | 宿主机从未触发`，
+而同一时刻父目录 `桶装水开发/.agent-runs` 里躺着 4 条 `source=startup` 的真实会话回执 ——
+宿主（Trae）的项目根是**父目录**，回执写在父级，本包 cwd 看不到。
+
+- `scripts/doctor.mjs` 新增 `findUpstreamRuns()`：本目录无回执时**向上最多 5 级**查找父级 `.agent-runs`，
+  命中真实会话回执或新鲜心跳（≤1440 分钟）即判 `ok`，detail 写明「证据在父级 <路径> —— 宿主项目根是父目录」。
+- 判定口径完全复用 `countHostFires` / `readHeartbeat`：**父级只有合成回执（`source=check`）仍然判 degraded**，
+  不允许借父级造假绿。
+- 测试隔离修正：原「三事件齐全但无回执」用例的沙箱放在 `tests/.tmp`（仓库内），
+  会被父级查找命中外层真实回执；改为系统临时目录（`os.tmpdir()`），让该用例只测它想测的东西。
+- 自测 82 → **84**：新增「父级仅合成回执仍 degraded」「父级真实回执判 ok 且 detail 含父级」。
+- 计划见 `docs/doctor-upstream/PLAN.md`。
+
 ## 0.22.1 — 2026-10-27
 
 **修自检闭环：GitHub Actions 连续 19 次红的真因，以及一条假失败。**

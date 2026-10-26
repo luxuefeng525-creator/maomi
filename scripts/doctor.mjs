@@ -68,6 +68,29 @@ function readHeartbeat(f) {
   } catch { return null; }
 }
 
+/**
+ * 向上查父级 .agent-runs 回执：宿主（Trae 等）的项目根可能是本包所在仓库的父目录，
+ * 此时 Hook 照常触发，但回执写在父级 .agent-runs —— 只看自己 cwd 会误报「从未触发」。
+ * 只在「本目录配置齐全但没有回执证据」时调用；判定口径与 countHostFires 完全一致（合成回执仍排除）。
+ * @param {string} start - 起始目录（通常是 doctor 的 cwd）
+ * @returns {{dir:string,fired:number,beat:object|null}|null} 最近一级有真实证据的父目录
+ */
+function findUpstreamRuns(start) {
+  let dir = path.resolve(start);
+  for (let i = 0; i < 5; i++) {
+    const up = path.dirname(dir);
+    if (!up || up === dir) return null; // 到盘符根
+    dir = up;
+    const runs = path.join(dir, '.agent-runs');
+    if (!fs.existsSync(runs)) continue;
+    const fired = countHostFires(path.join(runs, 'session-start.log'));
+    const beat = readHeartbeat(path.join(runs, 'hook-heartbeat.json'));
+    if (fired > 0) return { dir, fired, beat: null };
+    if (beat && beat.ageMin <= 1440) return { dir, fired: 0, beat };
+  }
+  return null;
+}
+
 const run = (script, argv = [], timeout = 20000) => {
   const r = spawnSync(process.execPath, [path.join(root, script), ...argv], { cwd: root, encoding: 'utf8', timeout });
   return { ok: r.status === 0, out: ((r.stdout || '') + (r.stderr || '')).trim(), timeout: r.error?.code === 'ETIMEDOUT' };
@@ -107,8 +130,18 @@ else {
         } else if (beat && beat.ageMin <= 1440) {
           add('hook', 'ok', `3/3 事件，PreToolUse 心跳 ${beat.ageMin} 分钟前（SessionStart 待下次会话自举）`, '');
         } else {
-          add('hook', 'degraded', `3/3 已配置，但宿主机从未触发（回执 0 条真实会话、无心跳）`,
-            '打开 Trae → 设置 → Hooks → 项目 → 启用 → 重启；只写 .trae/hooks.json 不会被加载');
+          // 本目录没有回执：宿主可能把项目根设在父目录（回执落在父级 .agent-runs），
+          // 只看自己 cwd 会误报「从未触发」，让使用者去重复启用 Hook。
+          const up = findUpstreamRuns(cwd);
+          if (up) {
+            const ev = up.fired > 0
+              ? `真实会话回执 ${up.fired} 次`
+              : `PreToolUse 心跳 ${up.beat.ageMin} 分钟前`;
+            add('hook', 'ok', `3/3 事件，证据在父级 ${up.dir}（${ev}）——宿主项目根是父目录`, '');
+          } else {
+            add('hook', 'degraded', `3/3 已配置，但宿主机从未触发（回执 0 条真实会话、无心跳，父级 5 层内也无）`,
+              '打开 Trae → 设置 → Hooks → 项目 → 启用 → 重启；只写 .trae/hooks.json 不会被加载');
+          }
         }
       }
     } catch (e) { add('hook', 'fail', 'hooks.json 非法: ' + e.message, '修 JSON 或重跑 install-hook'); }

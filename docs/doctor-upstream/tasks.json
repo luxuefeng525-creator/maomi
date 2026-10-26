@@ -1,0 +1,36 @@
+{
+  "task": "doctor 向上查父级 hook 回执，消除误报",
+  "tier": "L1",
+  "profile": "package",
+  "tasks": [
+    {
+      "id": "T1",
+      "title": "实现",
+      "deps": [],
+      "files": [],
+      "status": "done",
+      "evidence": "scripts/doctor.mjs｜新增 findUpstreamRuns（向上 5 级查 .agent-runs，判定口径复用 countHostFires）；本包 doctor 由 degraded → ok，detail 指向父级 F:\\开发软件\\桶装水开发"
+    },
+    {
+      "id": "T2",
+      "title": "测试",
+      "deps": [
+        "T1"
+      ],
+      "files": [],
+      "status": "done",
+      "evidence": "tests/run.mjs｜PASS=84 FAIL=0；新增 2 条（父级仅合成回执仍 degraded、父级真实回执判 ok 且 detail 含父级）"
+    },
+    {
+      "id": "T3",
+      "title": "验收",
+      "deps": [
+        "T2"
+      ],
+      "files": [],
+      "status": "todo",
+      "evidence": ""
+    }
+  ],
+  "updated": "2026-10-27"
+}

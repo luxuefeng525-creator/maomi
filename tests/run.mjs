@@ -5,6 +5,7 @@
  */
 import fs from 'node:fs';
 import path from 'node:path';
+import os from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
@@ -243,7 +244,10 @@ try { docPackJson = JSON.parse(docPack.stdout); } catch { /* 断言会失败 */ 
 check(docPack.status === 0 && ['ok', 'degraded'].includes(docPackJson.verdict), 'doctor 本包不判 fail', `verdict=${docPackJson.verdict}`);
 
 // doctor 去假绿：hooks.json 三事件齐全但宿主从未触发时，必须判 degraded 并给按钮级指引，不许报 ok
-const fakeHookProj = path.join(tmp, 'doc-fakehook');
+// 放在系统临时目录：本用例要验「没有任何回执证据 → degraded」。
+// 若留在仓库内（tests/.tmp），doctor 新增的父级查找会命中外层真实宿主的回执，
+// 那是另一套证据，不该让本用例变绿（测试隔离，非放宽判定）。
+const fakeHookProj = fs.mkdtempSync(path.join(os.tmpdir(), 'doc-fakehook-'));
 fs.mkdirSync(path.join(fakeHookProj, '.trae'), { recursive: true });
 fs.writeFileSync(path.join(fakeHookProj, '.trae', 'hooks.json'), JSON.stringify({
   version: 1, hooks: {
@@ -298,6 +302,41 @@ let docBeatJson = {};
 try { docBeatJson = JSON.parse(docBeat.stdout); } catch { /* 断言会失败 */ }
 const beatCheck = (docBeatJson.checks || []).find(c => c.name === 'hook') || {};
 check(beatCheck.state === 'ok' && /心跳/.test(String(beatCheck.detail || '')), 'doctor 心跳新鲜时判 ok（区分「未启用」与「本会话错过 SessionStart」）', `state=${beatCheck.state} detail=${beatCheck.detail || ''}`);
+
+// 10c. doctor 向上查父级回执（宿主项目根是父目录时不该误报「从未触发」）
+const upParent = path.join(tmp, 'upparent');
+const upChild = path.join(upParent, 'sub', 'pkg');
+fs.mkdirSync(path.join(upChild, '.trae'), { recursive: true });
+fs.mkdirSync(path.join(upParent, '.agent-runs'), { recursive: true });
+const upNode = process.execPath.split(path.sep).join('/');
+const upSs = path.join(root, 'scripts', 'session-start.mjs').split(path.sep).join('/');
+const upCmd = `${process.platform === 'win32' ? '& ' : ''}"${upNode}" "${upSs}"`;
+fs.writeFileSync(path.join(upChild, '.trae', 'hooks.json'), JSON.stringify({
+  version: 1,
+  hooks: {
+    SessionStart: [{ hooks: [{ type: 'command', command: upCmd, timeout: 20 }] }],
+    PreToolUse: [{ matcher: 'RunCommand', hooks: [{ type: 'command', command: upCmd, timeout: 20 }] }],
+    Stop: [{ hooks: [{ type: 'command', command: upCmd, timeout: 30 }] }],
+  },
+}, null, 2) + '\n', 'utf8');
+// (a) 父级只有合成回执（source=check）→ 必须仍 degraded，不许借父级假绿
+fs.writeFileSync(path.join(upParent, '.agent-runs', 'session-start.log'),
+  JSON.stringify({ ts: new Date().toISOString(), session: 'check-hook', event: 'SessionStart', source: 'check', cwd: upParent }) + '\n', 'utf8');
+const upSynthRun = run(doctor, ['--cwd', upChild, '--json']);
+let upSynthJson = {};
+try { upSynthJson = JSON.parse(upSynthRun.stdout); } catch { /* 断言会失败 */ }
+const upSynthHook = (upSynthJson.checks || []).find(c => c.name === 'hook') || {};
+check(upSynthHook.state === 'degraded', 'doctor 父级只有合成回执时不假绿', `state=${upSynthHook.state} detail=${upSynthHook.detail || ''}`);
+
+// (b) 父级补一条真实会话回执 → ok，且 detail 必须写明「父级」
+fs.appendFileSync(path.join(upParent, '.agent-runs', 'session-start.log'),
+  JSON.stringify({ ts: new Date().toISOString(), session: 'abc123def456', event: 'SessionStart', source: 'startup', cwd: upParent }) + '\n', 'utf8');
+const upRealRun = run(doctor, ['--cwd', upChild, '--json']);
+let upRealJson = {};
+try { upRealJson = JSON.parse(upRealRun.stdout); } catch { /* 断言会失败 */ }
+const upRealHook = (upRealJson.checks || []).find(c => c.name === 'hook') || {};
+check(upRealHook.state === 'ok' && /父级/.test(String(upRealHook.detail || '')),
+  'doctor 向上查父级真实回执（子目录部署场景）', `state=${upRealHook.state} detail=${upRealHook.detail || ''}`);
 
 // 10b. Hook 命令必须能被宿主真实 shell 执行（Windows 宿主是 PowerShell）
 // 背景：`"node.exe" "x.mjs"` 在 cmd/bash 合法，在 PowerShell 报 ParserError，
