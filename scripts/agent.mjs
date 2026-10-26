@@ -6,6 +6,8 @@
  * 用法：
  *   node scripts/agent.mjs plan   --task "<目标>" [--slug <目录名>] [--files <n>] [--cross <n>]
  *                                 [--schema] [--api] [--route] [--profile package|app] [--cwd <目录>]
+ *   node scripts/agent.mjs run    --task "<目标>" [--executor <id>] [--max-steps <n>] [--timeout <ms>]
+ *                                 [--slug <目录名>] [--files <n>] [--cross <n>] [--cwd <目录>]
  *   node scripts/agent.mjs step   [--cwd <目录>] [--file <tasks.json>] [--json]
  *   node scripts/agent.mjs guard  --tool <工具名> --input '<JSON>' [--cwd <目录>]
  *   node scripts/agent.mjs status [--cwd <目录>] [--file <tasks.json>]
@@ -95,30 +97,13 @@ function cmdPlan() {
   const task = getArg('task');
   if (!task) { console.error('缺少 --task'); process.exit(1); }
   const profile = getArg('profile') || 'package';
-  const o = {
-    files: Number(getArg('files') || 1),
-    cross: Number(getArg('cross') || 0),
-    schema: has('schema'),
-    api: has('api'),
-    route: has('route'),
-  };
-  const { tier, reasons } = decideTier(o);
-  const table = profile === 'app' ? STAGES_APP : STAGES_PACKAGE;
-  const stages = table[tier];
+  const { data, tier, reasons } = buildLedger(task, readImpact(), profile);
   const slug = getArg('slug') || 'task-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12);
   const file = path.join(cwd, 'docs', slug, 'tasks.json');
   if (fs.existsSync(file) && !has('force')) {
     console.error(`账本已存在，未覆盖：${file}（确需覆盖加 --force）`);
     process.exit(1);
   }
-  const data = {
-    task,
-    tier,
-    profile,
-    tasks: stages.map(([id, title], i) => ({
-      id, title, deps: i ? [stages[i - 1][0]] : [], files: [], status: 'todo', evidence: '',
-    })),
-  };
   const invalid = validateLedger(data);
   if (invalid.length) { console.error('账本非法：' + invalid.join('；')); process.exit(1); }
   fs.mkdirSync(path.dirname(file), { recursive: true });
@@ -131,6 +116,153 @@ function cmdPlan() {
     for (const t of data.tasks) console.log(`  ${t.id} ${t.title}${t.deps.length ? ' <- ' + t.deps.join(',') : ''}`);
     console.log(`下一步：node scripts/agent.mjs step --cwd ${cwd}`);
   }
+}
+
+/** 读取影响面参数（文件数/端数/schema/接口/路由） */
+function readImpact() {
+  return {
+    files: Number(getArg('files') || 1),
+    cross: Number(getArg('cross') || 0),
+    schema: has('schema'),
+    api: has('api'),
+    route: has('route'),
+  };
+}
+
+/** 按档位生成账本数据；plan 与 run 共用，避免两套构造逻辑 */
+function buildLedger(task, o, profile) {
+  const { tier, reasons } = decideTier(o);
+  const table = profile === 'app' ? STAGES_APP : STAGES_PACKAGE;
+  const stages = table[tier];
+  const data = {
+    task,
+    tier,
+    profile,
+    tasks: stages.map(([id, title], i) => ({
+      id, title, deps: i ? [stages[i - 1][0]] : [], files: [], status: 'todo', evidence: '',
+    })),
+  };
+  return { data, tier, reasons };
+}
+
+const providersFile = path.join(root, 'tests', 'behavior', 'providers.json');
+
+/** 读取外部执行器定义；直接复用 tests/behavior/providers.json，不另造配置 */
+function executorSpec(id) {
+  if (!fs.existsSync(providersFile)) return null;
+  try {
+    return (JSON.parse(fs.readFileSync(providersFile, 'utf8')).providers || {})[id] || null;
+  } catch { return null; }
+}
+
+/** 工作区改动集合（git status 后两列之后的路径）；非 git 仓库返回 null */
+function changedPaths() {
+  const r = spawnSync('git', ['status', '--porcelain'], { cwd, encoding: 'utf8' });
+  if (r.status !== 0) return null;
+  return new Set((r.stdout || '').split('\n').filter(Boolean).map(l => l.slice(3).trim()));
+}
+
+/** 调外部执行器跑一步：返回退出码、输出，不抛异常 */
+function runExecutor(prompt, specId, timeout) {
+  const p = executorSpec(specId);
+  if (!p) return { ok: false, status: null, out: '未知 executor: ' + specId };
+  const vars = { cwd, response: path.join(cwd, 'response.md'), prompt };
+  const argv = (p.args || []).map(a => String(a).replace(/\{(cwd|response|prompt)\}/g, (_, k) => vars[k] ?? ''));
+  const r = spawnSync(p.cmd, argv, {
+    cwd,
+    encoding: 'utf8',
+    timeout,
+    input: p.promptVia === 'stdin' ? prompt : undefined,
+    shell: process.platform === 'win32' && /\.(cmd|ps1)$/i.test(p.cmd),
+  });
+  return { ok: !r.error && r.status === 0, status: r.status, out: ((r.stdout || '') + (r.stderr || '')).trim() };
+}
+
+/** 单步提示词：限定范围，禁止模型自改账本 */
+function stepPrompt(task, t, slug) {
+  return [
+    '你是执行器，只完成当前这一步，不要越界。',
+    '',
+    '总目标：' + task,
+    '当前步骤：' + t.id + ' ' + t.title,
+    '工作目录：' + cwd,
+    '',
+    '要求：',
+    '1. 只做这一步，不要提前做后续步骤。',
+    '2. 不要修改 docs/' + slug + '/tasks.json（状态由调度器维护）。',
+    '3. 测试/验收步骤优先跑最小相关命令，避免全量长耗时套件。',
+    '4. 完成后用一句话说明做了什么、改了哪些文件。',
+  ].join('\n');
+}
+
+/** 自主执行：定档 → 建账 → 逐步调执行器 → 记账 → 闸门验收 */
+function cmdRun() {
+  const task = getArg('task');
+  if (!task) { console.error('缺少 --task'); process.exit(1); }
+  const executor = getArg('executor') || 'mimo-agnes';
+  if (!executorSpec(executor)) { console.error('未知 executor: ' + executor); process.exit(1); }
+  const maxSteps = Number(getArg('max-steps') || 6);
+  const timeout = Number(getArg('timeout') || 480000);
+  const profile = getArg('profile') || 'package';
+  const { data, reasons } = buildLedger(task, readImpact(), profile);
+  const slug = getArg('slug') || 'run-' + new Date().toISOString().replace(/[-:T]/g, '').slice(0, 12);
+  const file = path.join(cwd, 'docs', slug, 'tasks.json');
+  fs.mkdirSync(path.dirname(file), { recursive: true });
+  // 账本已存在则续跑，不覆盖进度；确需重建加 --force
+  const resumed = fs.existsSync(file) && !has('force');
+  if (!resumed) writeLedger(file, data);
+  const board = readLedger(file).data;
+  const rel = path.relative(cwd, file).split(path.sep).join('/');
+  console.log(`[档位] ${board.tier}${resumed ? '（续跑，沿用已有账本）' : ' · ' + reasons.join(' / ')}`);
+  console.log(`[执行器] ${executor} · 最多 ${maxSteps} 步 · 单步超时 ${timeout}ms`);
+  console.log(`LEDGER ${rel} 共 ${board.tasks.length} 件`);
+  console.log('');
+
+  let executed = 0;
+  while (executed < maxSteps) {
+    const cur = readLedger(file).data;
+    const n = nextTask(cur);
+    if (!n) break;
+    const t = n.task;
+    if (t.status === 'todo') { t.status = 'doing'; writeLedger(file, cur); }
+    const before = changedPaths();
+    console.log(`--- ${t.id} ${t.title} 开始 ---`);
+    const r = runExecutor(stepPrompt(task, t, slug), executor, timeout);
+    const after = changedPaths();
+    const added = before && after ? [...after].filter(x => !before.has(x)) : [];
+    // 执行器输出可能带 ANSI 颜色码，写进账本前必须剥掉
+    const clean = s => String(s).replace(/\u001b\[[0-9;]*m/g, '');
+    const tail = clean(r.out || '').split('\n').filter(Boolean).slice(-3).join(' | ').slice(0, 300);
+    const isVerify = /测试|验收/.test(t.title);
+    // 测试/验收步不必然产文件；其余步骤必须有真实变更，否则视为假完成
+    const ok = r.ok && (isVerify || added.length > 0);
+    const fresh = readLedger(file).data;
+    const target = fresh.tasks.find(x => x.id === t.id);
+    if (ok) {
+      target.status = 'done';
+      target.evidence = (added.length ? added.slice(0, 5).join(', ') : '执行器输出') + '｜' + tail;
+      console.log(`DONE ${t.id} | 变更 ${added.length} 个文件`);
+    } else {
+      target.status = 'blocked';
+      const why = r.ok ? '无产物变更（疑似假完成）' : (r.status === null ? '执行器超时或无法启动' : '执行器退出 ' + r.status);
+      target.note = why + '｜' + tail;
+      console.log(`BLOCK ${t.id} | ${why}`);
+    }
+    writeLedger(file, fresh);
+    executed++;
+    console.log('   ' + tail);
+    if (!ok) break;
+  }
+
+  console.log('');
+  const fin = spawnSync(process.execPath, [stopScript, '--cwd', cwd, '--file', file], { encoding: 'utf8' });
+  let gate = null;
+  try { gate = JSON.parse((fin.stdout || '').trim()); } catch { /* 解析失败按未放行 */ }
+  const finalData = readLedger(file).data;
+  const stats = ['todo', 'doing', 'blocked', 'done'].map(k => `${k}=${finalData.tasks.filter(x => x.status === k).length}`).join(' ');
+  console.log(`RUN 结束 | 执行 ${executed} 步 | ${stats}`);
+  console.log(`STOPGATE ${gate && gate.continue === true ? 'ALLOW' : 'BLOCK'} | ${gate ? JSON.stringify(gate) : '输出无法解析'}`);
+  process.exitCode = gate && gate.continue === true ? 0 : 1;
 }
 
 function cmdStep() {
@@ -203,6 +335,7 @@ function cmdFinish() {
 
 try {
   if (cmd === 'plan') cmdPlan();
+  else if (cmd === 'run') cmdRun();
   else if (cmd === 'step') cmdStep();
   else if (cmd === 'guard') cmdGuard();
   else if (cmd === 'status') cmdStatus();

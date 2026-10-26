@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.18.0 — 2026-10-26
+
+**从「任务调度器」变成「能自主干活的 Agent」。** 此前 `agent.mjs` 只有 plan / step / guard / status / finish，每一步仍需外部手动驱动，用户感知不到 Agent 在干活。
+
+- **新增 `agent.mjs run`**：一条命令输入自然语言目标 → 定档 → 建账本 → 逐步调用外部执行器（默认 `mimo-agnes`，复用 `tests/behavior/providers.json`，不另造配置）→ 用 `git status` 差集判定产物 → 记账 → `stop-gate` 验收。
+  - 假完成防护：非测试/验收步必须有真实文件变更，否则判 `blocked` 并写 `note`，不记 done
+  - 续跑：账本已存在则沿用进度，不覆盖（确需重建加 `--force`）
+  - 账本只由调度器写状态，提示词明令执行器不得改 `tasks.json`
+  - 执行器输出的 ANSI 颜色码在写入账本前剥离
+- **真实自主执行验证**（无人工逐步指挥）：任务「新增 skill-audit 技能」
+  - T1 实现 → 执行器自主写 `skills/skill-audit/SKILL.md`
+  - T2 测试 → 完成
+  - T3 验收 → 执行器自主重建 `registry.json`（skills=5）
+  - 结果：`RUN 结束 | 执行 3 步 | todo=0 blocked=0 done=3`，`STOPGATE ALLOW`
+- `tests/run.mjs` 增 1 条确定性断言（run 拒绝未知执行器），全量 **35/35 PASS**
+- 已知噪音：mimo 偶发 `Error: FOREIGN KEY constraint failed`（其自身 session DB 报错），不影响任务判定
+
 ## 0.17.4 — 2026-10-26
 
 - **新增 `scripts/agent.mjs` 编排入口**：把「定档 → 建账本 → 闸门预检 → 验收」串成闭环，此前只有分散的零件，缺胶水层。

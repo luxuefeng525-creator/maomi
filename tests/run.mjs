@@ -220,6 +220,9 @@ const aStep = run(agentScript, ['step', '--cwd', aws]);
 check(/NEXT T1/.test(aStep.stdout), 'agent step 给出下一件');
 const aFin = run(agentScript, ['finish', '--cwd', aws]);
 check(aFin.status === 1 && /STOPGATE BLOCK/.test(aFin.stdout), 'agent finish 未完成时阻断');
+// run 依赖外部模型，单测只验证执行器校验（确定性、不联网）
+const aBadExec = run(agentScript, ['run', '--task', 't', '--executor', 'no-such-executor', '--cwd', aws]);
+check(aBadExec.status === 1 && /未知 executor/.test(aBadExec.stderr || aBadExec.stdout), 'agent run 拒绝未知执行器');
 
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');
