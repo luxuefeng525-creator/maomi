@@ -1,6 +1,6 @@
 {
   "name": "maomi-workbench",
-  "version": "0.24.0",
+  "version": "0.24.1",
   "description": "Evidence-first AI agent and skills: stage gates, task ledger, project memory, UI benchmark, scenario eval and run traces.",
   "type": "module",
   "license": "MIT",

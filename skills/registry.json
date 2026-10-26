@@ -1,101 +1,7 @@
 {
-  "generatedAt": "2026-10-26T19:04:50.411Z",
+  "generatedAt": "2026-10-26T20:02:02.286Z",
   "count": 40,
   "skills": [
-    {
-      "name": "project-orchestrator",
-      "description": "通用项目总控工作流。用户提出「做项目 / 新功能 / 端到端开发 / 走全流程 / 交付一个功能」时加载：先定档 L0/L1/L2，再按 8 环推进，只调用核心技能与项目已声明的技能，三处必停，交付必须带命令证据。纯问答、单行改动、只读查询不要加载。",
-      "triggers": [
-        "做项目",
-        "新功能",
-        "全流程",
-        "端到端",
-        "交付功能",
-        "走流程"
-      ],
-      "path": "skills/project-orchestrator/SKILL.md",
-      "bytes": 6811,
-      "sha256": "5298a4f3c664ddb1"
-    },
-    {
-      "name": "project-memory",
-      "description": "项目记忆读写协议与工具。任务结束、拍板决策、踩坑修复、口径变更、恢复上下文、整理记忆时加载。规定写什么、写多细、怎么检索、如何失效而不删除。默认根目录 .agent-memory/，随仓库走。",
-      "triggers": [
-        "记忆",
-        "上下文",
-        "踩坑",
-        "决策",
-        "交接",
-        "恢复任务"
-      ],
-      "path": "skills/project-memory/SKILL.md",
-      "bytes": 3455,
-      "sha256": "a675d096053ae290"
-    },
-    {
-      "name": "ui-ux-benchmark",
-      "description": "通用的 UI/UX 对标与验收技能。客户用大白话提界面需求、说「好看点 / 像某个站」、开发网页或客户端页面时加载：先抽 3 个同行真实页面做对标，再按具体化 / 人性化 / 差异化写文案，用逻辑闭环清单逐项验收，关键节点人工签收。纯后端、纯逻辑改动不加载。",
-      "triggers": [
-        "好看点",
-        "高级点",
-        "大气",
-        "简洁",
-        "像 XX",
-        "参考 XX",
-        "年轻人喜欢",
-        "用大白话描述页面"
-      ],
-      "path": "skills/ui-ux-benchmark/SKILL.md",
-      "bytes": 5002,
-      "sha256": "3f5231c41943937c"
-    },
-    {
-      "name": "code-review",
-      "description": "证据优先的代码审查协议。用户说「审查一下 / 看看有没有问题 / 这段改动靠谱吗 / review」时加载：先拿真实 diff，再按六类风险逐项核对，结论必须带文件行号与命令输出，禁止凭印象说「看起来没问题」。纯问答、单行拼写、只读查询不要加载。",
-      "triggers": [
-        "审查",
-        "代码审查",
-        "review",
-        "看下改动",
-        "有没有问题",
-        "靠谱吗"
-      ],
-      "path": "skills/code-review/SKILL.md",
-      "bytes": 3101,
-      "sha256": "f0fa987f51247983"
-    },
-    {
-      "name": "skill-audit",
-      "description": "审查 SKILL.md 是否缺失触发词与验证步骤。用户说「检查这个技能 / 看看 skill 有没有触发词 / 审计技能质量 / 给 SKILL.md 过一遍」时加载。纯新建技能、纯问答不加载。",
-      "triggers": [
-        "检查技能",
-        "审查 SKILL.md",
-        "skill 审计",
-        "技能质量",
-        "缺触发词吗",
-        "有没有验证步骤"
-      ],
-      "path": "skills/skill-audit/SKILL.md",
-      "bytes": 2321,
-      "sha256": "128e221636255e18"
-    },
-    {
-      "name": "prompt-discipline",
-      "description": "提示词与推理纪律。把模糊需求改写成可验收指令，强制先推理后行动、用证据收尾，并把重复踩坑沉淀成规则与技能。用于用户说 AI 偷懒、答得浅、推理不够，或需要沉淀提示词与工作流时。",
-      "triggers": [
-        "AI 偷懒",
-        "推理不深",
-        "答得浅",
-        "先思考再动手",
-        "提示词优化",
-        "沉淀技能",
-        "复盘",
-        "自进化"
-      ],
-      "path": "skills/prompt-discipline/SKILL.md",
-      "bytes": 3440,
-      "sha256": "573bad6a9baa988d"
-    },
     {
       "name": "cavecrew",
       "description": "When to delegate to `cavecrew-investigator` (locate code), `cavecrew-builder` (1-2 file edit) or `cavecrew-reviewer` (diff review) instead of working inline or using `Explore`. Their output is compressed, so main context lasts longer.",
@@ -212,6 +118,21 @@
       "path": "skills/caveman-stats/SKILL.md",
       "bytes": 1964,
       "sha256": "4632f1611a56483d"
+    },
+    {
+      "name": "code-review",
+      "description": "证据优先的代码审查协议。用户说「审查一下 / 看看有没有问题 / 这段改动靠谱吗 / review」时加载：先拿真实 diff，再按六类风险逐项核对，结论必须带文件行号与命令输出，禁止凭印象说「看起来没问题」。纯问答、单行拼写、只读查询不要加载。",
+      "triggers": [
+        "审查",
+        "代码审查",
+        "review",
+        "看下改动",
+        "有没有问题",
+        "靠谱吗"
+      ],
+      "path": "skills/code-review/SKILL.md",
+      "bytes": 3101,
+      "sha256": "f0fa987f51247983"
     },
     {
       "name": "design-system-lead",
@@ -364,6 +285,53 @@
       "sha256": "40755753acdb83fb"
     },
     {
+      "name": "project-memory",
+      "description": "项目记忆读写协议与工具。任务结束、拍板决策、踩坑修复、口径变更、恢复上下文、整理记忆时加载。规定写什么、写多细、怎么检索、如何失效而不删除。默认根目录 .agent-memory/，随仓库走。",
+      "triggers": [
+        "记忆",
+        "上下文",
+        "踩坑",
+        "决策",
+        "交接",
+        "恢复任务"
+      ],
+      "path": "skills/project-memory/SKILL.md",
+      "bytes": 3455,
+      "sha256": "a675d096053ae290"
+    },
+    {
+      "name": "project-orchestrator",
+      "description": "通用项目总控工作流。用户提出「做项目 / 新功能 / 端到端开发 / 走全流程 / 交付一个功能」时加载：先定档 L0/L1/L2，再按 8 环推进，只调用核心技能与项目已声明的技能，三处必停，交付必须带命令证据。纯问答、单行改动、只读查询不要加载。",
+      "triggers": [
+        "做项目",
+        "新功能",
+        "全流程",
+        "端到端",
+        "交付功能",
+        "走流程"
+      ],
+      "path": "skills/project-orchestrator/SKILL.md",
+      "bytes": 6811,
+      "sha256": "5298a4f3c664ddb1"
+    },
+    {
+      "name": "prompt-discipline",
+      "description": "提示词与推理纪律。把模糊需求改写成可验收指令，强制先推理后行动、用证据收尾，并把重复踩坑沉淀成规则与技能。用于用户说 AI 偷懒、答得浅、推理不够，或需要沉淀提示词与工作流时。",
+      "triggers": [
+        "AI 偷懒",
+        "推理不深",
+        "答得浅",
+        "先思考再动手",
+        "提示词优化",
+        "沉淀技能",
+        "复盘",
+        "自进化"
+      ],
+      "path": "skills/prompt-discipline/SKILL.md",
+      "bytes": 3440,
+      "sha256": "573bad6a9baa988d"
+    },
+    {
       "name": "safe-refactor",
       "description": "Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket structural edits.",
       "triggers": [
@@ -375,6 +343,21 @@
       "path": "skills/safe-refactor/SKILL.md",
       "bytes": 791,
       "sha256": "4ac4a3afcdfbab91"
+    },
+    {
+      "name": "skill-audit",
+      "description": "审查 SKILL.md 是否缺失触发词与验证步骤。用户说「检查这个技能 / 看看 skill 有没有触发词 / 审计技能质量 / 给 SKILL.md 过一遍」时加载。纯新建技能、纯问答不加载。",
+      "triggers": [
+        "检查技能",
+        "审查 SKILL.md",
+        "skill 审计",
+        "技能质量",
+        "缺触发词吗",
+        "有没有验证步骤"
+      ],
+      "path": "skills/skill-audit/SKILL.md",
+      "bytes": 2321,
+      "sha256": "128e221636255e18"
     },
     {
       "name": "surgical-patch",
@@ -389,6 +372,23 @@
       "path": "skills/surgical-patch/SKILL.md",
       "bytes": 759,
       "sha256": "c388228e4acf947d"
+    },
+    {
+      "name": "ui-ux-benchmark",
+      "description": "通用的 UI/UX 对标与验收技能。客户用大白话提界面需求、说「好看点 / 像某个站」、开发网页或客户端页面时加载：先抽 3 个同行真实页面做对标，再按具体化 / 人性化 / 差异化写文案，用逻辑闭环清单逐项验收，关键节点人工签收。纯后端、纯逻辑改动不加载。",
+      "triggers": [
+        "好看点",
+        "高级点",
+        "大气",
+        "简洁",
+        "像 XX",
+        "参考 XX",
+        "年轻人喜欢",
+        "用大白话描述页面"
+      ],
+      "path": "skills/ui-ux-benchmark/SKILL.md",
+      "bytes": 5002,
+      "sha256": "3f5231c41943937c"
     },
     {
       "name": "ultracave",

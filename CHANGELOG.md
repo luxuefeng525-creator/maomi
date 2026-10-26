@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.24.1 — 2026-10-27
+
+**修 CI 全红：registry 必须与「签出到哪台机器」无关。**
+
+1. **行尾归一**（真 bug 修复）：`scripts/index-skills.mjs` 原先用原始字节算 `bytes`/`sha256`。
+   GitHub Actions 默认 `core.autocrlf=true`，签出成 CRLF → 每个技能 hash 全变 →
+   `REGISTRY_DRIFT` 报「差异 41 项」。现在读入即 `\r\n → \n` 归一，Windows 本地（LF）与 CI（CRLF）得到同一条目。
+2. **技能顺序归一**：原先按 `fs.readdirSync` 顺序输出，各文件系统/签出顺序不同 → 新 clone 与本地
+   首个技能就不是同一个（实测 clone 首个 = `cavecrew`，本地 = `project-orchestrator`）。现在显式 `.sort()`，
+   registry 顺序在任意机器上稳定。
+3. **回归两条**：`tests/run.mjs` 新增「LF/CRLF 生成同一条目」与「技能顺序稳定排序」断言，
+   单测 85 → 87 项；真红复现已用 `git clone` 到临时目录（autocrlf=true）验证修复前 drift、修复后 OK。
+
+> 0.24.0 的 tag 已推送且 CI 红，故不回收 tag，直接 0.24.1 修正（0.24.0 从未发布到 npm）。
+
 ## 0.24.0 — 2026-10-27
 
 **六项增强：修掉「检查即污染工作区」的真 bug，补上中文技能路由与分发通道。**

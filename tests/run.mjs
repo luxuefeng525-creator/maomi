@@ -569,7 +569,35 @@ let nameMf = {};
 try { nameMf = JSON.parse(fs.readFileSync(path.join(nameDir, '.agent', 'skills', '.agent-install.json'), 'utf8')); } catch { /* 断言会失败 */ }
 check(nameInst.status === 0 && nameMf.name === pkgName, '安装清单包名跟随 package.json', `manifest=${nameMf.name} pkg=${pkgName}`);
 
+// 顺序无关：registry 的技能顺序必须稳定（按名排序），不能跟着文件系统 readdir 顺序漂
+const regNames = (regData.skills || []).map(s => s.name);
+check(regNames.length > 0 && JSON.stringify(regNames) === JSON.stringify([...regNames].sort()),
+  '注册表技能顺序稳定排序（不依赖目录读取顺序）', `first=${regNames[0] || '-'}`);
+
+// 行尾无关：同一份技能，签出成 LF 或 CRLF，registry 的 bytes/sha256 必须一致
+// （否则 autocrlf=true 的机器/CI 一 clone 就 REGISTRY_DRIFT，v0.24.0 实测 41 项全红）
+const body = '---\nname: eol-probe\ndescription: 行尾归一探针技能，用于断言 CRLF 与 LF 生成同一份注册表条目。\ntriggers:\n  - 行尾探针\n---\n\n# 探针\n\n正文一行。\n';
+for (const [tag, text] of [['lf', body], ['crlf', body.replace(/\n/g, '\r\n')]]) {
+  const d = path.join(tmp, 'eol-' + tag, 'eol-probe');
+  fs.mkdirSync(d, { recursive: true });
+  fs.writeFileSync(path.join(d, 'SKILL.md'), text, 'utf8');
+}
+const eolRead = tag => {
+  const out = path.join(tmp, `eol-${tag}.json`);
+  const r = run(regScript, ['--skills', path.join(tmp, 'eol-' + tag), '--out', out]);
+  let d = {};
+  try { d = JSON.parse(fs.readFileSync(out, 'utf8')); } catch { /* 断言会失败 */ }
+  return { status: r.status, entry: (d.skills || [])[0] || {} };
+};
+const eolLf = eolRead('lf');
+const eolCrlf = eolRead('crlf');
+check(
+  eolLf.status === 0 && eolCrlf.status === 0 &&
+  eolLf.entry.sha256 && eolLf.entry.sha256 === eolCrlf.entry.sha256 && eolLf.entry.bytes === eolCrlf.entry.bytes,
+  '注册表行尾归一（LF/CRLF 同一条目）',
+  `lf=${eolLf.entry.sha256}/${eolLf.entry.bytes} crlf=${eolCrlf.entry.sha256}/${eolCrlf.entry.bytes}`
+);
+
 fs.rmSync(tmp, { recursive: true, force: true });
-console.log('---');
 console.log(`PASS=${pass} FAIL=${fail}`);
 if (fail) process.exitCode = 1;

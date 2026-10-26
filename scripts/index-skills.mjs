@@ -28,11 +28,15 @@ if (!fs.existsSync(skillsDir)) { console.error('技能目录不存在: ' + skill
 const skills = [];
 const warnings = [];
 const notices = [];
-for (const dirName of fs.readdirSync(skillsDir)) {
+// 目录读取顺序各文件系统不同（NTFS / git checkout / CI 都可能不同）→ 必须显式排序，
+// 否则同一份仓库在不同机器上生成的 registry 技能顺序不同（v0.24.0 实测：新 clone 与本地首个技能就不是同一个）。
+for (const dirName of fs.readdirSync(skillsDir).sort()) {
   const dir = path.join(skillsDir, dirName);
   const file = path.join(dir, 'SKILL.md');
   if (!fs.existsSync(file)) continue;
-  const raw = fs.readFileSync(file, 'utf8');
+  // 行尾归一：registry 里的 bytes/sha256 必须与「签出到哪台机器」无关。
+  // 否则 autocrlf=true 的 clone（CI、新机器）拿到 CRLF → 每个技能 hash 都变 → REGISTRY_DRIFT 全红（v0.24.0 实测 41 项）。
+  const raw = fs.readFileSync(file, 'utf8').replace(/\r\n/g, '\n');
   const bytes = Buffer.byteLength(raw, 'utf8');
   const fm = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
   const fmLines = (fm?.[1] || '').split(/\r?\n/);
