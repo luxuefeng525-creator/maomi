@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org
+          package-manager-cache: false # 发布构建绝不使用缓存
 
       - name: 校验 tag 与 package.json 版本一致
         run: |
@@ -43,7 +44,11 @@ jobs:
       - name: 发布前自检（registry + 技能门禁 + 场景评测 + 单测）
         run: npm run prepublishOnly
 
-      - name: npm publish
+      - name: npm publish（Trusted Publishing / OIDC，无需 token）
+        # 发布走 npm Trusted Publishing：靠 id-token: write 换 OIDC 令牌，不再需要任何 secret。
+        # 前置（一次性，在 npmjs.com 上做）：包 → Settings → Trusted Publisher → GitHub Actions，
+        #   用户=luxuefeng525-creator，仓库=maomi，工作流文件名=release.yml（环境留空）。
+        # 配置后须在 2 天内完成首次发布，否则该配置过期作废。
+        # 备选（仍想用 token）：解开下面 env，且该 token 必须勾选「Bypass 2FA」+ 读写包权限，
+        #   否则 registry 会以 403「You may not perform that action with these credentials」拒绝。
         run: npm publish --access public --provenance
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
