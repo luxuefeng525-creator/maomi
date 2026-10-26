@@ -70,8 +70,8 @@ node scripts/agent.mjs run --task "..." --executor mimo-agnes --slug t-agnes
 
 | id | 命令 | 状态 | 实测证据 |
 | --- | --- | --- | --- |
-| `mimo-agnes` | `mimo.exe -m agnes/agnes-3.0-flash` | **可用** | 同任务 `DONE`，`hello.txt`=`hello`，37.3s |
-| `codex` | `codex.cmd exec -m agnes-3.0-flash --sandbox danger-full-access` | **可用** | 同任务 `DONE`，`hello.txt`=`hello`，46.5s |
+| `mimo-agnes` | `mimo.exe -m agnes/agnes-3.0-flash --variant high` | **可用** | 同任务 `DONE`+`STOPGATE ALLOW`，`hello.txt`=`hello`；B15 评测 pass |
+| `codex` | `codex.cmd exec -m agnes-3.0-flash -c model_reasoning_effort=high --sandbox danger-full-access` | **可用** | 同任务 `DONE`+`STOPGATE ALLOW`，`hello.txt`=`hello`；B15 评测 pass |
 | `mimo-deepseek` | `mimo.exe -m deepseek/deepseek-v4-pro` | 不可用（key 401） | `Authentication Fails ... api key **** is invalid` |
 | `mimo-glm` | `mimo.exe -m modelscope/ZhipuAI/GLM-4.5` | 不可用（模型无 provider） | `Model id ... has no provider supported` |
 

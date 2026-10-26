@@ -8,6 +8,7 @@
 1. 读 `skills/project-orchestrator/SKILL.md`，按判据定档并用一行报档位。
 2. 需要上下文时读 `skills/project-memory/SKILL.md`，先索引后分卷，禁止整份读。
 3. 涉及界面、文案、交互时读 `skills/ui-ux-benchmark/SKILL.md`，先对标后实现。
+4. 用户嫌答得浅、偷懒、推理不够时读 `skills/prompt-discipline/SKILL.md`，按反偷懒协议执行。
 
 ## 硬规则
 

@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-10-26T10:41:28.459Z",
-  "count": 5,
+  "generatedAt": "2026-10-26T10:55:36.859Z",
+  "count": 6,
   "skills": [
     {
       "name": "project-orchestrator",
@@ -78,6 +78,23 @@
       "path": "skills/skill-audit/SKILL.md",
       "bytes": 2321,
       "sha256": "128e221636255e18"
+    },
+    {
+      "name": "prompt-discipline",
+      "description": "提示词与推理纪律。把模糊需求改写成可验收指令，强制先推理后行动、用证据收尾，并把重复踩坑沉淀成规则与技能。用于用户说 AI 偷懒、答得浅、推理不够，或需要沉淀提示词与工作流时。",
+      "triggers": [
+        "AI 偷懒",
+        "推理不深",
+        "答得浅",
+        "先思考再动手",
+        "提示词优化",
+        "沉淀技能",
+        "复盘",
+        "自进化"
+      ],
+      "path": "skills/prompt-discipline/SKILL.md",
+      "bytes": 3431,
+      "sha256": "e7e316f900642e19"
     }
   ],
   "warnings": []

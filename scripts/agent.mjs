@@ -308,6 +308,14 @@ function cmdRun() {
   if (blockedList.length) {
     console.log(`WARN ${blockedList.length} 个任务阻塞未完成（闸门允许交接，但交付不完整）：`);
     for (const b of blockedList) console.log(`  ${b.id} ${b.title} | ${b.note || '无原因记录'}`);
+    // 自进化提示：有项目记忆时跑一次聚类，只报告，不自动改规则
+    const mem = path.join(cwd, '.agent-memory');
+    if (fs.existsSync(mem)) {
+      const evo = spawnSync(process.execPath, [path.join(scriptDir, 'evolve.mjs'), '--root', mem,
+        '--runs', path.join(root, 'logs', 'external-results.jsonl'), '--guard', path.join(cwd, '.agent-runs', 'guard.log')], { encoding: 'utf8' });
+      const prop = String(evo.stdout || '').split('\n').find(l => l.startsWith('PROPOSAL'));
+      if (prop) console.log(`EVOLVE ${prop}｜确认后运行 node scripts/evolve.mjs --root .agent-memory --write 落提案`);
+    }
   }
   console.log(`STOPGATE ${gate && gate.continue === true ? 'ALLOW' : 'BLOCK'} | ${gate ? JSON.stringify(gate) : '输出无法解析'}`);
   // 对标 OpenHands SANDBOX_KEEP_RUNTIME_ALIVE=false：默认不保留执行器运行时产物

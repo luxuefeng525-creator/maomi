@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 const scriptDir = path.dirname(fileURLToPath(import.meta.url));
 const cwd = process.cwd();
 const MAX_BYTES = 8192;
-const CORE = ['project-orchestrator', 'project-memory', 'ui-ux-benchmark'];
+const CORE = ['project-orchestrator', 'project-memory', 'ui-ux-benchmark', 'prompt-discipline'];
 
 const candidates = [
   path.join(cwd, '.agent', 'skills'),

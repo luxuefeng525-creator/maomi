@@ -1,8 +1,10 @@
 #!/usr/bin/env node
 /**
- * 自进化提案：把重复出现的 pitfall 聚类成规则候选。
+ * 自进化提案：把重复出现的坑、评测失败、闸门拦截聚类成规则候选。
  * 用法：node scripts/evolve.mjs --root .agent-memory [--min 2] [--write]
+ *       可选：--runs logs/external-results.jsonl  --guard .agent-runs/guard.log
  * 默认只打印；--write 追加到 <root>/evolution/proposals-YYYYMMDD.md。
+ * 提案必须人工确认后才写入 rules/agent-rules.md 或技能，脚本不自动改规则。
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -15,6 +17,8 @@ const rootAbs = path.resolve(root);
 if (!fs.existsSync(rootAbs)) { console.error('目录不存在: ' + rootAbs); process.exit(1); }
 const min = Number(getArg('min') || 2);
 const write = args.includes('--write');
+const runsFile = getArg('runs') || path.join(process.cwd(), 'logs', 'external-results.jsonl');
+const guardFile = getArg('guard') || path.join(process.cwd(), '.agent-runs', 'guard.log');
 
 const norm = s => String(s).toLowerCase().replace(/[^\u4e00-\u9fa5a-z0-9]/g, '');
 const bigrams = s => { const set = new Set(); for (let i = 0; i < s.length - 1; i++) set.add(s.slice(i, i + 2)); return set; };
@@ -31,10 +35,32 @@ const files = [];
 })(rootAbs);
 
 const items = [];
+function pushItem(text, ref, source) {
+  const t = String(text || '').trim();
+  if (t.length < 6) return;
+  items.push({ text: t, source, ref, b: bigrams(norm(t)) });
+}
 for (const file of files) {
   fs.readFileSync(file, 'utf8').split(/\r?\n/).forEach((line, i) => {
     const m = line.match(/^- \[pitfall\]\s+\S+\s+\S+\s+\|\s*([^|]+)\|.*id:\s*([0-9a-f]{8})/);
-    if (m) items.push({ text: m[1].trim(), id: m[2], ref: `${path.relative(rootAbs, file)}:${i + 1}`, b: bigrams(norm(m[1])) });
+    if (m) pushItem(m[1], `${path.relative(rootAbs, file)}:${i + 1}`, 'pitfall');
+  });
+}
+// 评测失败：只取 fail 明细，infra_fail 不算模型失败
+if (fs.existsSync(runsFile)) {
+  fs.readFileSync(runsFile, 'utf8').split(/\r?\n/).forEach((line, i) => {
+    if (!line.trim()) return;
+    let o; try { o = JSON.parse(line); } catch { return; }
+    if (!Array.isArray(o.fails)) return;
+    for (const f of o.fails) pushItem(String(f).replace(/^FAIL\s+/, ''), `${path.relative(process.cwd(), runsFile)}:${i + 1}`, 'run');
+  });
+}
+// 闸门拦截：ask / deny 的原因聚成候选
+if (fs.existsSync(guardFile)) {
+  fs.readFileSync(guardFile, 'utf8').split(/\r?\n/).forEach((line, i) => {
+    if (!line.trim()) return;
+    let o; try { o = JSON.parse(line); } catch { return; }
+    if (o.decision === 'ask' || o.decision === 'deny') pushItem(o.reason, `${path.relative(process.cwd(), guardFile)}:${i + 1}`, 'guard');
   });
 }
 
@@ -52,11 +78,12 @@ for (let i = 0; i < items.length; i++) {
 }
 clusters.sort((a, b) => b.length - a.length);
 
+const count = s => items.filter(x => x.source === s).length;
 const stamp = new Date().toISOString().slice(0, 10);
-console.log(`EVOLVE root=${rootAbs} pitfalls=${items.length} clusters=${clusters.length} min=${min}`);
+console.log(`EVOLVE root=${rootAbs} items=${items.length} (pitfall=${count('pitfall')} run=${count('run')} guard=${count('guard')}) clusters=${clusters.length} min=${min}`);
 for (const g of clusters) {
-  console.log(`PROPOSAL x${g.length} | ${g[0].text}`);
-  for (const it of g) console.log(`  - ${it.ref} id=${it.id}`);
+  console.log(`PROPOSAL x${g.length} | [${g[0].source}] ${g[0].text}`);
+  for (const it of g) console.log(`  - ${it.ref}`);
 }
 if (!clusters.length) console.log('NO_PROPOSAL');
 
@@ -66,10 +93,10 @@ if (write && clusters.length) {
   const file = path.join(dir, `proposals-${stamp}.md`);
   const L = [`# 规则候选 · ${stamp}`, ''];
   clusters.forEach((g, idx) => {
-    L.push(`## ${idx + 1}. 出现 ${g.length} 次`, '');
-    for (const it of g) L.push(`- ${it.text} ｜ ${it.ref} ｜ id=${it.id}`);
+    L.push(`## ${idx + 1}. 出现 ${g.length} 次 · 来源 ${g[0].source}`, '');
+    for (const it of g) L.push(`- ${it.text} ｜ ${it.ref}`);
     L.push('');
-    L.push('建议：提炼成一条规则写入索引，原条目保留作证据。');
+    L.push('建议：人工确认后提炼成一条规则写入 rules/agent-rules.md，或补进对应技能；原始记录保留作证据。');
     L.push('');
   });
   fs.writeFileSync(file, L.join('\n'), 'utf8');

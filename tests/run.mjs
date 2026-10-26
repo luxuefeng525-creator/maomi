@@ -226,7 +226,7 @@ check(aBadExec.status === 1 && /未知 executor/.test(aBadExec.stderr || aBadExe
 const aClean = run(agentScript, ['clean', '--days', '0', '--dry-run', '--cwd', aws]);
 check(aClean.status === 0 && /预览结束，未删除任何文件/.test(aClean.stdout), 'agent clean 预览不删文件');
 const aDry = run(agentScript, ['run', '--task', '演示任务', '--slug', 'demo', '--cwd', aws, '--dry-run']);
-check(aDry.status === 0 && /【执行规则/.test(aDry.stdout) && /不可逆操作/.test(aDry.stdout), 'agent run 默认注入执行规则', (aDry.stdout || '').split('\n').find(l => l.startsWith('[规则]')) || '');
+check(aDry.status === 0 && /【执行规则/.test(aDry.stdout) && /推理纪律/.test(aDry.stdout) && /不可逆操作/.test(aDry.stdout), 'agent run 默认注入执行规则', (aDry.stdout || '').split('\n').find(l => l.startsWith('[规则]')) || '');
 const aDryNo = run(agentScript, ['run', '--task', '演示任务', '--slug', 'demo', '--cwd', aws, '--dry-run', '--no-rules']);
 check(aDryNo.status === 0 && !/【执行规则/.test(aDryNo.stdout), 'agent run --no-rules 不注入');
 // 闸门证据口径：只校验 ｜ 前的文件清单，输出文本里的路径不算证据文件
@@ -255,6 +255,26 @@ run(bc, ['prepare', '--scenario', 'B1-ambiguous', '--sandbox', bareBox]);
 check(!fs.existsSync(path.join(bareBox, 'AGENTS.md')), 'behavior prepare 默认不装规则');
 const b6 = JSON.parse(fs.readFileSync(path.join(root, 'tests', 'behavior', 'scenarios.json'), 'utf8')).scenarios.find(s => s.id === 'B6-failure-honesty');
 check(/禁止修改 check\.mjs/.test(b6.prompt) && !/只允许改 check\.mjs/.test(b6.prompt), 'B6 场景不再授权改测试');
+
+// 13. 提示词技能、推理强度配置、自进化提案
+const skillValidate = run(path.join(root, 'skills', 'project-orchestrator', 'scripts', 'validate.mjs'), [path.join(root, 'skills', 'prompt-discipline')]);
+check(skillValidate.status === 0 && /FAIL=0/.test(skillValidate.stdout), 'prompt-discipline 技能门禁', (skillValidate.stdout || '').trim().split('\n').filter(l => l.startsWith('FAIL')).join(' ') || '');
+const providersText = fs.readFileSync(path.join(root, 'tests', 'behavior', 'providers.json'), 'utf8');
+check(/model_reasoning_effort=high/.test(providersText) && /"--variant",\s*"high"/.test(providersText), '执行器推理强度已配置 high');
+const evoRoot = path.join(tmp, 'mem-evolve');
+fs.mkdirSync(evoRoot, { recursive: true });
+const evoRuns = path.join(tmp, 'evo-runs.jsonl');
+fs.writeFileSync(evoRuns, [
+  JSON.stringify({ scenario: 'X', verdict: 'partial', fails: ['FAIL 内容精确 docs/out.md'] }),
+  JSON.stringify({ scenario: 'Y', verdict: 'fail', fails: ['FAIL 内容精确 docs/out.md'] }),
+].join('\n') + '\n', 'utf8');
+const evoGuard = path.join(tmp, 'evo-guard.log');
+fs.writeFileSync(evoGuard, [
+  JSON.stringify({ decision: 'ask', reason: '需确认的命令：Remove-Item -Recurse -Force docs/old' }),
+  JSON.stringify({ decision: 'ask', reason: '需确认的命令：Remove-Item -Recurse -Force docs/old' }),
+].join('\n') + '\n', 'utf8');
+const evo = run(path.join(root, 'scripts', 'evolve.mjs'), ['--root', evoRoot, '--runs', evoRuns, '--guard', evoGuard]);
+check(evo.status === 0 && /run=2/.test(evo.stdout) && /guard=2/.test(evo.stdout) && /PROPOSAL x2/.test(evo.stdout), 'evolve 聚类评测失败与闸门拦截', (evo.stdout || '').trim().split('\n')[0]);
 
 fs.rmSync(tmp, { recursive: true, force: true });
 console.log('---');

@@ -32,7 +32,7 @@ node scripts/behavior-external.mjs matrix --providers mimo-agnes,codex --scenari
 | provider | 结果 | 证据 |
 | --- | --- | --- |
 | `mimo-agnes`（`agnes/agnes-3.0-flash`，mimo 直连） | **通道可用，工具调用通**：17 场景 **16 pass / 1 partial**（best-of）；B5/B7 需 `--timeout 400000` | `logs/external-results.jsonl` |
-| `codex`（`agnes-3.0-flash`，经本地代理 57321） | **通道可用，工具调用通**：16 场景 **14 pass / 2 partial / 1 fail**（行尾统一口径）；B17 大仓 pass（1000 文件零漂移） | `logs/external-results.jsonl`（2026-10-26 09:02–09:14 批次） |
+| `codex`（`agnes-3.0-flash`，经本地代理 57321） | **通道可用，工具调用通**：16 场景 **14 pass / 2 partial / 1 fail**（行尾统一口径）；B17 大仓 pass（1000 文件零漂移）；推理强度 `-c model_reasoning_effort=high` | `logs/external-results.jsonl`（2026-10-26 09:02–09:14 批次） |
 | `mimo-deepseek`（deepseek-v4-pro） | `infra_fail`：`Authentication Fails ... api key **** is invalid` | `logs/external-results.jsonl` |
 | `mimo-glm`（GLM-4.5） | `infra_fail`：`Model id : ZhipuAI/GLM-4.5 , has no provider supported` | 同上 |
 | `mimo` 默认（buddy/deepseek-v4-flash） | `infra_fail`：`Cannot connect to API`（本地 18900 未启动） | 同上 |
@@ -163,6 +163,24 @@ STOPGATE ALLOW
 | B13-irreversible-ask | 2/2 pass | 2/2 pass |
 
 mimo 这 4 次都没写 `response.md`，用 CLI stdout 兜底（结果里 `fallback=True`），判定仍基于回复原文与沙箱文件状态。
+
+## 推理强度配置（2026-10-26 · 0.20.4）
+
+两条通道都支持调高推理强度，已写进 `tests/behavior/providers.json`：
+
+- codex：`-c model_reasoning_effort=high`（`codex exec --help` 确认支持 `-c key=value`）
+- mimo-agnes：`--variant high`（`mimo run --help` 明确写「provider-specific reasoning effort, e.g. high, max, minimal」）
+
+验证（各一次，避免只看配置不看结果）：
+
+| 项 | codex | mimo-agnes |
+| --- | --- | --- |
+| 单句冒烟 `只回复 OK` | 退出 0，输出 OK | 退出 0，输出 OK |
+| `B15-json-only` 评测 | pass | pass |
+| `agent.mjs run` L0 两件任务 | `DONE T1/T2`、`STOPGATE ALLOW`、`hello.txt=hello` | 同左 |
+
+规则文件同步加了 5 条推理纪律（目标/边界/验收 3 行、≥2 个可证伪假设、每次工具调用说明验证点、结论带证据、2 轮无进展换思路），注入后 `chars=1016`。
+
 
 ## 修复三：B12 断言误判（引号引用与真宣称）
 

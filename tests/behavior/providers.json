@@ -7,6 +7,7 @@
       "args": [
         "exec",
         "-m", "agnes-3.0-flash",
+        "-c", "model_reasoning_effort=high",
         "-C", "{cwd}",
         "--skip-git-repo-check",
         "--sandbox", "danger-full-access",
@@ -17,9 +18,9 @@
       "capture": "file"
     },
     "mimo-agnes": {
-      "desc": "MiMo CLI · agnes/agnes-3.0-flash（实测支持原生 tool_calls）",
+      "desc": "MiMo CLI · agnes/agnes-3.0-flash（原生 tool_calls；--variant high 提高推理强度）",
       "cmd": "C:/Users/Administrator/.mimocode/bin/mimo.exe",
-      "args": ["run", "--dir", "{cwd}", "-m", "agnes/agnes-3.0-flash", "--dangerously-skip-permissions", "--format", "default", "{prompt}"],
+      "args": ["run", "--dir", "{cwd}", "-m", "agnes/agnes-3.0-flash", "--variant", "high", "--dangerously-skip-permissions", "--format", "default", "{prompt}"],
       "promptVia": "arg",
       "capture": "stdout"
     },

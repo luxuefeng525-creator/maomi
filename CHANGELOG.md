@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.20.4 — 2026-10-26
+
+**提示词沉淀成技能，反偷懒写进规则，推理强度调到 high，进化闭环接上评测失败与闸门拦截。**
+
+- 新技能 `skills/prompt-discipline/`：需求四段、反偷懒协议、推理深度分档、沉淀机制、交付检查表；附 6 个可复制模板 `references/templates.md`。注册表 5 → 6 技能，`index-skills --check` warnings=0。
+- `rules/agent-rules.md` 新增「推理纪律」5 条（3 行目标/边界/验收、≥2 个可证伪假设、每次调用说明验证点、结论带证据、2 轮无进展换思路），注入字符数 832 → 1016。
+- 执行器推理强度写进 `providers.json`：codex `-c model_reasoning_effort=high`、mimo-agnes `--variant high`。实测：单句冒烟两条通道退出 0；B15 两通道 pass；`agent.mjs run` 两通道 `STOPGATE ALLOW`、`hello.txt=hello`。
+- `evolve.mjs` 扩到三个来源：记忆 pitfall、`logs/external-results.jsonl` 的 fail 明细、`.agent-runs/guard.log` 的 ask/deny；`agent run` 阻塞且有 `.agent-memory/` 时自动跑一次只报告候选，人工确认后才写规则。
+- `docs/prompt-discipline.md` 更新：落点表、9 条注入映射、推理强度、进化闭环。
+
+自测：`node tests/run.mjs` → **PASS=46 FAIL=0**（新增：prompt-discipline 门禁、推理强度配置、evolve 聚类三来源）。
+
 ## 0.20.3 — 2026-10-26
 
 **规则注入从「评测开关」升级为执行器默认行为，提示词纪律并入同一份规则。**
