@@ -51,6 +51,30 @@ const bigOver = run(regScript, ['--skills', bigDir, '--out', bigOut, '--check', 
 check(bigOver.status === 1 && /超硬上限/.test(bigOver.stdout),
   '超 --max-bytes 硬上限才判失败', (bigOver.stdout || '').trim().split('\n')[0]);
 
+// 1c. 斜杠命令：6 个模板齐全、有 description、安装时替换 {{PKG_ROOT}}、--remove 不误删第三方命令
+const cmdSrc = path.join(root, 'commands');
+const cmdFiles = fs.existsSync(cmdSrc) ? fs.readdirSync(cmdSrc).filter(f => f.endsWith('.md')) : [];
+check(cmdFiles.length === 6 && cmdFiles.every(f => /^---\r?\n[\s\S]*?description:/.test(fs.readFileSync(path.join(cmdSrc, f), 'utf8'))),
+  'commands 6 个斜杠命令模板齐全且有 description', cmdFiles.join(','));
+check(cmdFiles.every(f => fs.readFileSync(path.join(cmdSrc, f), 'utf8').includes('{{PKG_ROOT}}')),
+  'commands 模板用 {{PKG_ROOT}} 占位（不写死本机路径）');
+
+const cmdProj = path.join(tmp, 'cmd-install');
+fs.mkdirSync(cmdProj, { recursive: true });
+const cmdInst = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'trae'], cmdProj);
+const cmdDst = path.join(cmdProj, '.trae', 'commands');
+const installedCmds = fs.existsSync(cmdDst) ? fs.readdirSync(cmdDst).filter(f => f.endsWith('.md')) : [];
+const aiCmd = path.join(cmdDst, 'ai.md');
+const aiText = fs.existsSync(aiCmd) ? fs.readFileSync(aiCmd, 'utf8') : '';
+check(cmdInst.status === 0 && installedCmds.length === 6 && !aiText.includes('{{PKG_ROOT}}') && /scripts\/session-start\.mjs/.test(aiText),
+  'install 把 6 个命令写到 .trae/commands 并替换 {{PKG_ROOT}}', `installed=${installedCmds.length}`);
+// 第三方命令不能被 --remove 误删
+fs.writeFileSync(path.join(cmdDst, 'third-party.md'), '---\ndescription: 别人的命令\n---\n', 'utf8');
+const cmdRm = run(path.join(root, 'scripts', 'install.mjs'), ['--target', 'project', '--tool', 'trae', '--remove'], cmdProj);
+const afterRm = fs.existsSync(cmdDst) ? fs.readdirSync(cmdDst) : [];
+check(cmdRm.status === 0 && afterRm.length === 1 && afterRm[0] === 'third-party.md',
+  '--remove 只删本包命令，保留第三方命令', afterRm.join(',') || '(空)');
+
 // 2. 记忆四行为
 const mem = path.join(root, 'skills', 'project-memory', 'scripts', 'memory.mjs');
 const memRoot = path.join(tmp, 'mem');

@@ -1,6 +1,6 @@
 {
   "name": "agent-workbench",
-  "version": "0.21.1",
+  "version": "0.22.0",
   "description": "Evidence-first AI agent and skills: stage gates, task ledger, project memory, UI benchmark, scenario eval and run traces.",
   "type": "module",
   "license": "MIT",
@@ -14,5 +14,5 @@
     "install:trae": "node scripts/install.mjs --target trae-user",
     "install:project": "node scripts/install.mjs --target project --tool trae"
   },
-  "files": ["AGENTS.md", "agents", "skills", "scripts", "tests", "docs", "LICENSE", "NOTICE"]
+  "files": ["AGENTS.md", "agents", "commands", "skills", "scripts", "tests", "docs", "LICENSE", "NOTICE"]
 }

@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.22.0 — 2026-10-27
+
+**补斜杠命令入口：装完不再只靠手敲 Node 路径。**
+
+此前本包没有 `commands/`，全局 `~/.trae-cn/commands/` 的 77 个命令没有一个属于本包——开源用户装完不知道从哪开始。
+
+- 新增 6 个命令：`/ai`（开工总入口：报做到哪 + 定档）、`/ai-next`（只报进度）、`/ai-doctor`（体检，含 Hook 是否真在跑）、`/ai-plan`（出 PLAN.md）、`/ai-run`（按账本执行）、`/ai-ship`（交付前验收）。
+- 全部带 `ai-` 前缀：全局已有 `plan.md` / `code-review.md` 等同名命令，不前缀会撞。
+- 命令模板用 `{{PKG_ROOT}}` 占位，**安装时替换成本机真实包根**——否则每个用户的路径都会错。
+- `install.mjs` 新增命令安装：`trae-user` → `~/.trae-cn/commands`，`project` → `.trae/commands`（generic → `.agent/commands`）；清单新增 `commands` 归属表与 `commandsDir`。
+- 归属判定扩展为三类（技能按 SKILL.md 哈希、命令按**渲染后正文**哈希、agent 按文件哈希）；`--remove` 只删清单记录过的命令，第三方命令不动（实测 `removed=46`、`third-party.md` 保留）。
+- README 新增「装完 3 步上手」与命令表；`package.json` files 加 `commands`。
+- 自测新增 4 条 → **PASS=80 FAIL=0**。
+- 计划见 `docs/slash-commands/PLAN.md`。
+
 ## 0.21.1 — 2026-10-27
 
 **修正 0.21.0 的技能分组口径：`brainstorming` / `writing-plans` / `ui-motion` 属包外，不在合并范围。**

@@ -20,6 +20,35 @@ node scripts/install.mjs --target project --tool generic --auto-update
 
 安装后重载 IDE，技能列表出现 `project-orchestrator`、`project-memory`、`ui-ux-benchmark`、`code-review`、`skill-audit`、`prompt-discipline`。
 
+## 装完 3 步上手
+
+```powershell
+# 1. 体检：确认依赖、技能表、Hook 是否真在跑
+node <包根>/scripts/doctor.mjs --cwd .
+
+# 2. 看做到哪、下一件是什么
+node <包根>/scripts/session-start.mjs
+
+# 3. 开工（在对话里直接用斜杠命令，见下表）
+/ai
+```
+
+`<包根>` = clone 下来的目录，例如 `./agent-workbench` 或 `./opensource/agent-workbench`。
+装到 `~/.trae-cn/` 后启动会话会有 `SessionStart` Hook 自动注入上面第 2 步的内容，通常不必手敲。
+
+## 斜杠命令（装到 `--target trae-user` 或 `project` 后可用）
+
+| 命令 | 用途 | 会改文件吗 |
+| --- | --- | --- |
+| `/ai` | 开工总入口：报做到哪 + 定档 L0-L2 + 说明本轮怎么走 | 否 |
+| `/ai-next` | 只报进度：主账本、下一件、其他未完成账本 | 否 |
+| `/ai-doctor` | 环境体检：八层三态 + Hook 是否**真在跑** | 否 |
+| `/ai-plan` | 出 `docs/<任务>/PLAN.md`（L1/L2 硬闸门前置） | 是（只写文档） |
+| `/ai-run` | 按账本逐步执行，缺 PLAN.md 会 `GATE BLOCK` | **是** |
+| `/ai-ship` | 交付前验收：门禁 + 单测 + 账本闸门 | 否 |
+
+命令模板里的 `{{PKG_ROOT}}` 在安装时替换成本机真实路径，所以每个用户拿到的命令都指向自己的包。
+
 ## 安装后自动更新
 
 安装器写 `.agent-install.json`（版本、来源、`autoCheck` / `autoApply`）。之后：

@@ -44,20 +44,36 @@ if (!names.length) {
 }
 
 let skillsDst;
+let commandsDst;
 let agentDst = null;
 let agentsMdDst = null;
 if (target === 'trae-user') {
   const home = os.homedir();
   skillsDst = path.join(home, '.trae-cn', 'skills');
+  commandsDst = path.join(home, '.trae-cn', 'commands');
   agentDst = path.join(home, '.trae-cn', 'agents', 'project-orchestrator.md');
 } else {
   const cwd = process.cwd();
   skillsDst = tool === 'trae' ? path.join(cwd, '.trae', 'skills') : path.join(cwd, '.agent', 'skills');
+  commandsDst = tool === 'trae' ? path.join(cwd, '.trae', 'commands') : path.join(cwd, '.agent', 'commands');
   if (tool === 'generic') agentsMdDst = path.join(cwd, 'AGENTS.md');
 }
 
+/**
+ * 渲染斜杠命令：把 {{PKG_ROOT}} 换成本机包根（正斜杠）。
+ * 命令模板进 git 时必须写占位符，否则开源用户的路径全错。
+ * @param {string} src - 命令模板绝对路径
+ * @returns {string} 可直接写入用户目录的命令正文
+ */
+const renderCommand = src => fs.readFileSync(src, 'utf8').replace(/\{\{PKG_ROOT\}\}/g, pkgRoot.split(path.sep).join('/'));
+
 const actions = [];
 for (const n of names) actions.push({ kind: 'skill', name: n, src: path.join(skillsSrc, n), dst: path.join(skillsDst, n) });
+const commandsSrc = path.join(pkgRoot, 'commands');
+const commandNames = fs.existsSync(commandsSrc)
+  ? fs.readdirSync(commandsSrc).filter(f => f.endsWith('.md')).map(f => path.basename(f, '.md'))
+  : [];
+for (const n of commandNames) actions.push({ kind: 'command', name: n, src: path.join(commandsSrc, n + '.md'), dst: path.join(commandsDst, n + '.md') });
 if (agentDst) actions.push({ kind: 'agent', name: 'orchestrator.md', src: path.join(pkgRoot, 'agents', 'orchestrator.md'), dst: agentDst });
 
 const manifestPath = path.join(skillsDst, '.agent-install.json');
@@ -66,18 +82,42 @@ try { old = JSON.parse(fs.readFileSync(manifestPath, 'utf8')); } catch { /* 无�
 // 迁移旧清单：只有「来源路径相同且没有 skills 归属表」的旧版才整体视为本包
 const adopt = !!(old.source && !old.skills && old.source.path && path.resolve(old.source.path) === pkgRoot);
 const ownedSkills = { ...(old.skills || {}) };
+const ownedCommands = { ...(old.commands || {}) };
 let ownedAgentHash = old.agentHash || null;
 
-/** 技能身份取 SKILL.md 哈希：同名不同内容 = 异源，不能直接覆盖 */
+/** 技能身份取 SKILL.md 哈希；命令取渲染后正文哈希（含本机路径，路径变则需更新） */
 const sha = file => {
   try { return crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex').slice(0, 16); } catch { return null; }
 };
-const identity = a => a.kind === 'skill' ? sha(path.join(a.src, 'SKILL.md')) : sha(a.src);
+const shaText = text => crypto.createHash('sha256').update(text).digest('hex').slice(0, 16);
+const identity = a => a.kind === 'skill' ? sha(path.join(a.src, 'SKILL.md'))
+  : a.kind === 'command' ? shaText(renderCommand(a.src))
+  : sha(a.src);
 const installedIdentity = a => a.kind === 'skill' ? sha(path.join(a.dst, 'SKILL.md')) : sha(a.dst);
+
+/** 记归属 / 清归属：技能、命令、agent 三类分开存 */
+const remember = (a, v) => {
+  if (a.kind === 'skill') ownedSkills[a.name] = v;
+  else if (a.kind === 'command') ownedCommands[a.name] = v;
+  else ownedAgentHash = v;
+};
+const forget = a => {
+  if (a.kind === 'skill') delete ownedSkills[a.name];
+  else if (a.kind === 'command') delete ownedCommands[a.name];
+  else ownedAgentHash = null;
+};
 
 function copyDir(src, dst) {
   fs.mkdirSync(path.dirname(dst), { recursive: true });
   fs.cpSync(src, dst, { recursive: true, force: true });
+}
+
+/** 统一写落盘：技能整目录、命令渲染后写文本、agent 原样复制 */
+function writeAction(a, dst) {
+  if (a.kind === 'skill') { copyDir(a.src, dst); return; }
+  fs.mkdirSync(path.dirname(dst), { recursive: true });
+  if (a.kind === 'command') fs.writeFileSync(dst, renderCommand(a.src), 'utf8');
+  else fs.copyFileSync(a.src, dst);
 }
 
 const stamp = new Date().toISOString().replace(/[-:T]/g, '').slice(0, 14);
@@ -85,7 +125,9 @@ let copied = 0, same = 0, updated = 0, conflicts = 0, backedUp = 0, removed = 0,
 
 for (const a of actions) {
   const exists = fs.existsSync(a.dst);
-  const known = a.kind === 'skill' ? ownedSkills[a.name] : ownedAgentHash;
+  const known = a.kind === 'skill' ? ownedSkills[a.name]
+    : a.kind === 'command' ? ownedCommands[a.name]
+    : ownedAgentHash;
   const ours = adopt || !!known;
   if (remove) {
     if (!exists) continue;
@@ -97,7 +139,7 @@ for (const a of actions) {
     }
     if (dryRun) console.log('DRY  REMOVE ' + a.dst);
     else { fs.rmSync(a.dst, { recursive: true, force: true }); removed++; console.log('REMOVE ' + a.dst); }
-    if (a.kind === 'skill') delete ownedSkills[a.name]; else ownedAgentHash = null;
+    forget(a);
     continue;
   }
 
@@ -105,30 +147,22 @@ for (const a of actions) {
   const have = exists ? installedIdentity(a) : null;
   if (!exists) {
     if (dryRun) console.log('DRY  COPY ' + a.src + ' -> ' + a.dst);
-    else {
-      if (a.kind === 'skill') copyDir(a.src, a.dst);
-      else { fs.mkdirSync(path.dirname(a.dst), { recursive: true }); fs.copyFileSync(a.src, a.dst); }
-      console.log('COPY ' + a.dst);
-    }
+    else { writeAction(a, a.dst); console.log('COPY ' + a.dst); }
     copied++;
-    if (a.kind === 'skill') ownedSkills[a.name] = want; else ownedAgentHash = want;
+    remember(a, want);
     continue;
   }
   if (have === want) {
     same++;
-    if (a.kind === 'skill') ownedSkills[a.name] = want; else ownedAgentHash = want;
+    remember(a, want);
     continue;
   }
   // 内容不同：本包旧版才更新；异源默认保留
   if (ours) {
     if (dryRun) console.log('DRY  UPDATE ' + a.dst);
-    else {
-      if (a.kind === 'skill') copyDir(a.src, a.dst);
-      else fs.copyFileSync(a.src, a.dst);
-      console.log('UPDATE ' + a.dst);
-    }
+    else { writeAction(a, a.dst); console.log('UPDATE ' + a.dst); }
     updated++;
-    if (a.kind === 'skill') ownedSkills[a.name] = want; else ownedAgentHash = want;
+    remember(a, want);
     continue;
   }
   if (force) {
@@ -136,12 +170,11 @@ for (const a of actions) {
     if (dryRun) console.log('DRY  BACKUP ' + a.dst + ' -> ' + bak);
     else {
       fs.renameSync(a.dst, bak);
-      if (a.kind === 'skill') copyDir(a.src, a.dst);
-      else { fs.mkdirSync(path.dirname(a.dst), { recursive: true }); fs.copyFileSync(a.src, a.dst); }
+      writeAction(a, a.dst);
       console.log('BACKUP+COPY ' + bak + ' -> ' + a.dst);
     }
     backedUp++; copied++;
-    if (a.kind === 'skill') ownedSkills[a.name] = want; else ownedAgentHash = want;
+    remember(a, want);
     continue;
   }
   conflicts++;
@@ -157,12 +190,13 @@ if (agentsMdDst) {
 
 if (!dryRun) {
   if (remove) {
-    const left = Object.keys(ownedSkills).length;
+    const left = Object.keys(ownedSkills).length + Object.keys(ownedCommands).length;
     if (left === 0) {
       if (fs.existsSync(manifestPath)) { fs.rmSync(manifestPath, { force: true }); console.log('REMOVE ' + manifestPath); }
     } else {
       old.name = old.name || 'agent-workbench';
       old.skills = ownedSkills;
+      old.commands = ownedCommands;
       fs.writeFileSync(manifestPath, JSON.stringify(old, null, 2) + '\n', 'utf8');
     }
   } else {
@@ -175,16 +209,21 @@ if (!dryRun) {
       target,
       tool,
       skillsDir: skillsDst,
+      commandsDir: commandsDst,
       source: { type: 'local', path: pkgRoot, url: 'https://github.com/luxuefeng525-creator/maomi.git' },
       autoCheck,
       autoApply,
       checkIntervalHours: checkHours > 0 ? checkHours : (old.checkIntervalHours || 24),
       lastCheckAt: old.lastCheckAt || null,
       skills: ownedSkills,
+      commands: ownedCommands,
       agentHash: ownedAgentHash,
     };
     fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2) + '\n', 'utf8');
-    console.log('MANIFEST ' + manifestPath + ' version=' + pkgVersion + ' owned=' + Object.keys(ownedSkills).length + ' autoCheck=' + autoCheck + ' autoApply=' + autoApply + ' checkHours=' + manifest.checkIntervalHours);
+    console.log('MANIFEST ' + manifestPath + ' version=' + pkgVersion
+      + ' owned=' + Object.keys(ownedSkills).length
+      + ' commands=' + Object.keys(ownedCommands).length
+      + ' autoCheck=' + autoCheck + ' autoApply=' + autoApply + ' checkHours=' + manifest.checkIntervalHours);
   }
 }
 
