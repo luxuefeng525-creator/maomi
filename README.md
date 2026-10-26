@@ -54,14 +54,16 @@ node scripts/update.mjs --apply   # 上游更新则拉取并重装
 
 | 分组 | 技能 |
 | --- | --- |
-| 拷问与构思 | `grilling`、`grill-me`、`brainstorming`、`writing-plans` |
+| 拷问 | `grilling`、`grill-me` |
 | 查修 | `diagnose`、`investigate-first` |
 | 产品五件套 | `product-strategist`、`product-manager`、`product-designer`、`ux-researcher`、`design-system-lead` |
 | 界面落地四件 | `finesse-brief`、`finesse-ui`、`finesse-term`、`frame-smith` |
-| 动效 | `ui-motion` |
 | 文风族 | `caveman`、`megacave`、`ultracave`、`caveman-commit` |
 | 文风工具变体 | `caveman-compress`、`caveman-discover`、`caveman-evidence-review`、`caveman-explore`、`caveman-help`、`caveman-learn`、`caveman-manage`、`caveman-optimize`、`caveman-review`、`caveman-setup`、`caveman-stats`、`cavecrew` |
 | 交付纪律 | `lean-build`、`migration`、`safe-refactor`、`surgical-patch`、`verify-and-stop` |
+
+**包外 3 个（需另行安装，不在本包）**：`brainstorming`、`writing-plans`、`ui-motion`。
+它们位于全局 `~/.trae-cn/skills/` 顶层，属独立技能包；本包不复制，避免与上游产生第二份会漂移的副本。
 
 体积分级：`SKILL.md` 超 8KB 只提示「建议拆 references」不计失败（10 个大技能，最大 `finesse-ui` 77KB）；超 `--max-bytes`（默认 128KB）才判错。
 结构门禁 `validate.mjs` 只查自有 6 个（CORE 白名单）；40 个的 frontmatter / name 一致性由 `index-skills.mjs --check` 统一保证。

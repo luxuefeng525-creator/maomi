@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.21.1 — 2026-10-27
+
+**修正 0.21.0 的技能分组口径：`brainstorming` / `writing-plans` / `ui-motion` 属包外，不在合并范围。**
+
+- README 曾把这 3 个写进「内置 34 个」，与实际 `registry.json` 不符（40 = 6 自有 + 34 合并，不含这 3 个）。
+- 已改为「内置 34 个」按实际分组 + 单列「包外 3 个（需另行安装）」并说明不复制原因：避免与上游产生会漂移的第二份副本。
+- 验证：`registry.json` 40 条中 `ui-motion` / `brainstorming` / `writing-plans` 均不存在。
+
 ## 0.21.0 — 2026-10-27
 
 **装本包即得全部 40 个技能：把 `ai-workflow` 的 34 个子技能合并进本包。**
