@@ -21,7 +21,10 @@ const checks = [];
 const run = (name, script, argv = []) => {
   const r = spawnSync(process.execPath, [path.join(root, script), ...argv], { cwd: root, encoding: 'utf8', timeout: 240000 });
   const ok = r.status === 0;
-  checks.push({ name, ok, tail: (r.stdout || r.stderr || '').trim().split('\n').slice(-1)[0] || '' });
+  const lines = (r.stdout || r.stderr || '').trim().split('\n').filter(Boolean);
+  // 失败时带出具体 FAIL 行：只给「PASS=81 FAIL=1」等于把定位成本推给下一轮
+  const failLines = lines.filter(l => /^\s*(FAIL|PARTIAL)/.test(l)).slice(0, 2).join('；');
+  checks.push({ name, ok, tail: ok ? (lines.slice(-1)[0] || '') : (failLines || lines.slice(-1)[0] || '') });
 };
 
 run('registry', 'scripts/index-skills.mjs', ['--check']);
