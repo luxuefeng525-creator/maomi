@@ -55,18 +55,23 @@ node scripts/agent.mjs run --task "..." --executor codex   --slug t-codex
 node scripts/agent.mjs run --task "..." --executor mimo-agnes --slug t-agnes
 ```
 
-现有执行器与**实测状态**（2026-10-26，两个执行器同任务对比）：
+现有执行器与**实测状态**（2026-10-26 修复后，两执行器同任务对照）：
 
 | id | 命令 | 状态 | 实测证据 |
 | --- | --- | --- | --- |
-| `mimo-agnes` | `mimo.exe -m agnes/agnes-3.0-flash` | **可用** | 同任务 `DONE`，产物 `hello.txt` 真实存在，耗时 32.5s |
-| `codex` | `codex.cmd exec -m agnes-3.0-flash` | **不可用（通道缺陷）** | 同任务 `BLOCK`，`hello.txt` 不存在，20.7s 返回；`response.md` 里是 `<tool_call>` 原文 |
+| `mimo-agnes` | `mimo.exe -m agnes/agnes-3.0-flash` | **可用** | 同任务 `DONE`，`hello.txt`=`hello`，37.3s |
+| `codex` | `codex.cmd exec -m agnes-3.0-flash --sandbox danger-full-access` | **可用** | 同任务 `DONE`，`hello.txt`=`hello`，46.5s |
 | `mimo-deepseek` | `mimo.exe -m deepseek/deepseek-v4-pro` | 不可用（key 401） | `Authentication Fails ... api key **** is invalid` |
 | `mimo-glm` | `mimo.exe -m modelscope/ZhipuAI/GLM-4.5` | 不可用（模型无 provider） | `Model id ... has no provider supported` |
 
-**codex 的失败模式值得记住**：模型确实想执行，但把工具调用写成了正文文本（`<tool_call><function=shell>...`），本地协议代理没把它转成原生 `tool_calls`，所以工具从未执行。这不是模型能力问题，是通道问题 —— 换 Claude/GPT 原生 CLI 或修代理才可能解决。
+**codex 修好前有两个坑，都已解决**（排查顺序值得记）：
 
-换执行器不改代码，只加 `providers.json` 条目。
+1. **代理丢 tools**：`responses-to-chat-proxy.py` 里写着「vllm 不支持 tool calling」而主动不传 `tools`，模型只好把 `<tool_call>` 当正文输出。实测上游**支持**（返回规范 `tool_calls`），已改为双向转换（tools 转发 + `function_call` 事件）。
+2. **Windows 沙箱起不来**：`--sandbox workspace-write` 报 `CreateProcessAsUserW failed: 1312`（创建受限令牌失败），改 `--sandbox danger-full-access` 后正常。
+
+注意 `danger-full-access` 意味着执行器可访问整机，只在**受控沙箱目录**里用它跑任务。
+
+换执行器不改代码，只加/改 `providers.json` 条目。
 
 ## 3. 分步指挥（要人工把关时）
 

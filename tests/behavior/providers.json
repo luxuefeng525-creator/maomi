@@ -2,14 +2,14 @@
   "note": "外部模型适配器。args 里的 {cwd} / {response} / {prompt} 由 behavior-external.mjs 替换；promptVia=stdin|arg；capture=file|stdout。新增模型只改这里，不改脚本。",
   "providers": {
     "codex": {
-      "desc": "Codex CLI → 本地协议代理 57321 → Agnes 上游（agnes-3.0-flash）",
+      "desc": "Codex CLI → 本地协议代理 57321 → Agnes 上游（agnes-3.0-flash）。tools 已由代理转发（2026-10-26 修复）；Windows 上 workspace-write 报 CreateProcessAsUserW 1312，改 danger-full-access",
       "cmd": "E:/DevData/npm-global/codex.cmd",
       "args": [
         "exec",
         "-m", "agnes-3.0-flash",
         "-C", "{cwd}",
         "--skip-git-repo-check",
-        "--sandbox", "workspace-write",
+        "--sandbox", "danger-full-access",
         "--output-last-message", "{response}",
         "-"
       ],

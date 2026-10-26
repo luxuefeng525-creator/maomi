@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.20.0 — 2026-10-26
+
+**修好 codex 通道，两个执行器都能真正干活了。**
+
+根因有两层，都实测确认后才动手：
+
+1. **代理主动丢掉 `tools`**（`responses-to-chat-proxy.py` 第 92 行注释「Agnes 后端 vllm 不支持 tool calling」）。探针实测上游 **支持**：同一请求带 `tools` 返回规范 `tool_calls`（`HAS_TOOL_CALLS=true`）。已证伪该假设。
+2. **Windows 沙箱起不来**：`--sandbox workspace-write` 报 `CreateProcessAsUserW failed: 1312`（创建受限令牌失败），改 `--sandbox danger-full-access` 后正常。这一层是修完代理才暴露出来的。
+
+代理改动（本地 `~/.codex/responses-to-chat-proxy.py`，已备份 `.bak-20261026`）：
+
+- `convert_tools` / `convert_tool_choice`：Responses 扁平 tools → Chat `{type,function}`，并转发 `parallel_tool_calls`
+- `convert_responses_input_to_messages`：补 `function_call` 输入项 → `assistant.tool_calls`，多轮工具链不再断
+- `build_responses_body`：`message.tool_calls` → Responses `function_call` output item（纯工具调用不塞空 message）
+- 流式：`delta.tool_calls` → `output_item.added` / `function_call_arguments.delta` / `.done` / `output_item.done`，`completed.output` 同时含 message 与 function_call
+
+修复后同任务对照（各自独立 git 沙箱）：
+
+| 执行器 | 判定 | 产物 | 耗时 |
+| --- | --- | --- | --- |
+| `mimo-agnes` | `DONE` | `hello.txt` = `hello` | 37.3s |
+| `codex` | `DONE` | `hello.txt` = `hello` | 46.5s |
+
+修复前的对照：两者 `BLOCK`；codex 的 `response.md` 里是 `<tool_call>` 正文、以及沙箱 1312 报错。
+
+说明：本次只做单任务执行验证，**未重跑 16 场景行为评测**，`CROSS-MODEL.md` 里 codex 1/16 的历史结论是代理修复前的数据，重跑后才能更新。
+
+`docs/usage.md` 执行器表与 `providers.json` 已同步（codex 改 `--sandbox danger-full-access`）。
+
 ## 0.19.1 — 2026-10-26
 
 **执行器对比实测**（同一任务、各自独立 git 沙箱、同样 180s 超时）：
