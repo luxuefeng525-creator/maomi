@@ -77,7 +77,7 @@ node /path/to/ai-workflow/install.mjs
 ```bash
 node install.mjs --host trae        # 只装到 Trae（可选：agents/claude/trae/traecn/workbuddy/cursor/codex/windsurf/opencode）
 node install.mjs --target /abs/dir  # 装到任意指定目录（其下会再建 ai-workflow/）
-node install.mjs --no-deps          # 只装编排器，不带 38 个依赖技能（宿主已装齐兄弟技能时才用）
+node install.mjs --no-deps          # 只装编排器，不带 36 个依赖技能（宿主已装齐兄弟技能时才用）
 ```
 
 > **注意**：`--no-deps` 有前提。如果目标宿主目录里没有配套的兄弟技能，路由会大面积失配（实测 `F1` 掉到 0.40）。**不确定就别加它**，默认带上依赖最稳。
@@ -161,7 +161,7 @@ ai-workflow
 
 ## 8. 内置了哪些能力（不用记，用到自动调）
 
-共 38 个技能，覆盖：诊断排错、需求梳理、UI 设计、重构（行为不变）、原子提交、验收自检、可视化大屏、工业 SCADA/HMI 大屏等。重点两个：
+共 36 个技能，覆盖：诊断排错、需求梳理、UI 设计、重构（行为不变）、原子提交、验收自检、可视化大屏、工业 SCADA/HMI 大屏等。重点两个：
 
 - 说「大屏 / 数据大屏 / 运营中心 / 指挥中心 / 数字孪生 / 3D 大屏」→ **bigscreen-studio**
 - 说「工业大屏 / SCADA / HMI / 上位机 / 工控屏」→ **industrial-screen**
@@ -235,7 +235,7 @@ ai-workflow/
 ├── scripts/           ← 零依赖脚本（自举/定档/路由/记忆/打包/评测等）
 ├── evals/             ← 命中率用例集
 ├── eval-results/      ← 真实 A/B 评测数据（可删，不影响使用）
-└── skills/            ← 38 个依赖技能，每个都可单独安装
+└── skills/            ← 36 个依赖技能，每个都可单独安装
 ```
 
 ---

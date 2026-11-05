@@ -79,7 +79,7 @@ node install.mjs --target /abs/path/skills   # 装到任意目录
 
 安装内容：把 `SKILL.md` + `scripts/` + `references/` + `evals/` 复制为 `<宿主>/skills/ai-workflow/`。`skills/` 依赖包默认一并复制（离线自包含）；加 `--no-deps` 则只装编排器，技能改由宿主已装版本提供。
 
-> **实测教训（2026-11-05）**：`--no-deps` 只在宿主同级**已装齐兄弟技能**时才安全。曾有一层宿主目录里只有 `ai-workflow` 自己，结果 34 个技能全路由不到（`eval.mjs trigger` 报 `F1=0.40`、6 个正例漏命中）；补全量依赖后 `F1=1.00`。**装完跑一次 `node scripts/eval.mjs trigger` 即可自检**，这是评测最省 token 的用途。
+> **实测教训（2026-11-05）**：`--no-deps` 只在宿主同级**已装齐兄弟技能**时才安全。曾有一层宿主目录里只有 `ai-workflow` 自己，结果 34 个（当时规模）技能全路由不到（`eval.mjs trigger` 报 `F1=0.40`、6 个正例漏命中）；补全量依赖后 `F1=1.00`。**装完跑一次 `node scripts/eval.mjs trigger` 即可自检**，这是评测最省 token 的用途。
 
 ## 使用
 在任意会话输入 `ai-workflow`（或 `/ai-workflow`、进入工作流、开工流程、走流程）即加载并自动连续执行六步。开发中按 `references/routing.md` 自动调用命中技能，不等你点名；也可直接点名某技能（优先）。
