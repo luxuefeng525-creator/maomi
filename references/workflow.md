@@ -17,7 +17,7 @@
 2. **文档**：目标、边界、可测验收标准、接口契约、数据模型、影响面。无文档不写实现。
 3. **实现**：一次只改一个模块；先写失败测试再实现（红→绿）。**L2 大任务且含 ≥3 独立模块**时，可转「子代理并行拆解」（`references/parallel.md`）：先 `node scripts/decompose.mjs --dir <repo>` 取模块依赖结构，契约（HUB）先串行建，叶节点（LEAF）按隔离文件所有权并行派发，每任务两阶段审查。这是受控并行，与「单上下文 juggling 多模块」的乱改不同。
 4. **测试**：单元 + 接口 + 链路冒烟；真实数据，禁 mock；造数用后回滚零残留。
-5. **验收**：浏览器 DOM 断言 + 截图 + 控制台；零 FAIL、控制台零未定性异常。Web/UI 交付物统一用 `scripts/verify-visual.mjs --url <地址或HTML>` 跑 1920×1080 截图自检（控制台报错 + 面板溢出检测），`ok:true` 且 `audit.overflow` 为空才算通过（对标 anthropics/webapp-testing 与 big-screen 的截图自检机制）。
+5. **验收**：浏览器 DOM 断言 + 截图 + 控制台；零 FAIL、控制台零未定性异常。Web/UI 交付物统一用 `scripts/verify-visual.mjs --url <地址或HTML>` 跑 1920×1080 截图自检（控制台报错 + 面板溢出检测），`ok:true` 且 `audit.overflow` 为空才算通过（对标 anthropics/webapp-testing 与 big-screen 的截图自检机制）。**L1 多文件 / L2 在此环之前先派一个全新只读子代理独立审 diff**（不看本次实现过程，两阶段：规格合规 → 代码质量），再走本环验收——对标 Claude Code「独立审查」。
 6. **文档同步**：接口、字段、命令、口径变更同批更新，与实现一致。
 7. **一致性**：数据 ↔ 接口 ↔ 界面三方对账（项目具备该结构时）。
 8. **交付**：按项目命令 build / 重启 / 健康检查，贴原始输出；提交走 `node scripts/git-atomic.mjs plan` 原子拆分（一逻辑一提交、关注点分离、卫生检查），message 用 `caveman-commit`，细则 `references/git-workflow.md`。
