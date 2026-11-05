@@ -57,8 +57,10 @@ function runTrigger(routePath, cases) {
     const first = out.split('\n').find(l => /^\d+\.\s+\S+/.test(l.trim())) || '';
     const m = first.trim().match(/^\d+\.\s+(\S+)/);
     const hit = out.includes('ROUTE_NONE') ? null : (m ? m[1] : null);
+    // accept：命中任一可接受技能即算对（语义近义对，避免为标签硬改触发词）
+    const accept = Array.isArray(c.accept) ? c.accept : (c.expect ? [c.expect] : null);
     const correct = c.should_trigger
-      ? (hit !== null && (!c.expect || hit === c.expect))
+      ? (hit !== null && (!accept || accept.includes(hit)))
       : (hit === null);
     const kind = c.should_trigger ? (correct ? 'TP' : 'FN') : (correct ? 'TN' : 'FP');
     return { id: c.id, query: c.query, expect: c.expect ?? null, hit, kind };
