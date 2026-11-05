@@ -18,6 +18,33 @@ node scripts/browser.mjs \
 
 `--module-dir` 指向**装了 playwright/playwright-core 的项目目录**；技能装在全局时必填。
 
+## `e2e.order.example.json` — 登录 → 立即购买 → 确认页 → 提交（下单）
+
+⚠️ **会真实创建订单**：链路是「先建单、再支付」。支付通道未配置时 `/payment/prepay` 返回 **503**，但**订单已经创建**——不要拿支付失败当「下单失败」。
+
+```bash
+cp examples/e2e.order.example.json ./my-order.json
+# 替换 __BASE_URL__ / __PHONE__ / __PASSWORD__ / __TOKEN_KEY__ / __PRODUCT_ID__ / __STORE_ID__
+
+node scripts/browser.mjs --module-dir "D:/your-project/app" \
+  --steps ./my-order.json --out ./evidence --timeout 20000 --overall 180000
+```
+
+提交后**必须用订单接口核验**（页面可能因支付 503 停在订单中心，不代表没下单）：
+
+```bash
+TOKEN=$(curl -s -X POST "$API/auth/phone-login" -H 'Content-Type: application/json' \
+  -d '{"phone":"__PHONE__","password":"__PASSWORD__","tenantId":1}' | node -e "...取 data.accessToken...")
+curl -s -H "Authorization: Bearer $TOKEN" "$API/order/list?page=1&pageSize=5"
+```
+
+测完清理测试单，避免污染数据：
+
+```bash
+curl -s -X POST -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' \
+  -d '{"reason":"E2E 测试订单，自动清理"}' "$API/order/<orderId>/cancel"
+```
+
 ## 踩过的坑（uni-app H5 通用）
 
 - **路由是 history 模式**：登录页是 `/pages/login/index`，带 `#` 会落回首页。
