@@ -178,6 +178,7 @@ ai-workflow
 | 项目级安装 | `node install.mjs` |
 | 验证路由命中率 | `node scripts/eval.mjs trigger` |
 | 看项目状态 | `node scripts/start.mjs` |
+| 一轮快速自检（推荐） | `node scripts/fast.mjs "你的需求"`（合并自举/定档/记忆/路由，只出 4 行） |
 | 判断任务档位 | `node scripts/classify.mjs "你的需求"` |
 | 查历史记忆 | `node scripts/memory.mjs search "关键词"` |
 | 记一条长期记忆 | `node scripts/memory.mjs add "键 | 值"` |
@@ -208,6 +209,9 @@ ai-workflow
 
 **Q：会不会很费 token？**
 不会。它是“渐进披露”：平时只加载一小段入口说明，只有命中某个技能时才读取那个技能的正文，细节在 `references/` 里按需取。不开评测就不会额外跑 LLM。
+
+**Q：为什么感觉越用越慢？**
+长会话每轮都要重新处理全部历史，越往后越慢。**一个任务开一个新会话**；小改（单文件 / 无 UI）直接说需求即可，工作流会走 L0 直通、不加载技能、不截图。L1/L2 也只需跑一次 `node scripts/fast.mjs "<需求>"`，不要再把四个脚本各跑一遍。
 
 **Q：中文路径 / 带空格的路径有问题吗？**
 安装器已处理常见中文路径；装到自定义位置时把路径用引号包起来，例如 `--target "D:\我的 项目\skills"`。
