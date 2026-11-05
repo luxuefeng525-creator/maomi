@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.2.6 (2026-11-05)
+
+### Fixed
+- **全部 36 个技能通过规范校验（36/36）**：
+  - `validate-skill.mjs` 修正 YAML 解析：支持 `description: >` 折叠块与单双引号；引用检查跳过通配（`references/*.md`）和占位符（`<id>.*`）。
+  - 4 个技能 `description` 超 1024 字符 → 精简（finesse-ui 732 / finesse-brief 472 / finesse-term 105 / frame-smith 304），保留关键触发词。
+  - 3 个技能正文超 500 行 → 按渐进披露移出章节：design-system-lead 453、finesse-ui 496、finesse-brief 481。
+  - 5 个技能指向不存在的 `references/*.md` → 删除悬空「Reference Materials」附录；design-system-lead 同时生成 `references/component_patterns.md`。
+  - bigscreen-studio 的 `assets/vendor/d3.min.js` 改为「引擎自带」表述（包内不含大资源，不再误报缺文件）。
+
 ## 3.2.5 (2026-11-05)
 
 ### Fixed
