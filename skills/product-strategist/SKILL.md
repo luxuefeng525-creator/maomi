@@ -355,13 +355,6 @@ CAC Payback
 = $500 / ($100 × 70%) = 7.1 months
 ```
 
-## Reference Materials
-
-- `references/market_analysis.md` - Market research frameworks
-- `references/competitive_intel.md` - Competitive analysis methods
-- `references/gtm_playbook.md` - Go-to-market strategies
-- `references/plg_guide.md` - Product-led growth tactics
-
 ## Scripts
 
 ```bash

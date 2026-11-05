@@ -1,6 +1,6 @@
 ---
 name: finesse-ui
-description: 'Build never-cheap, high-craft web interfaces — brand surfaces (landing pages, brand sites, launches, portfolios, hero pages with real WebGL/Three.js/Canvas/GSAP engines), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow UI (merchant/admin consoles, publish & create wizards, config and settings pages, review queues), AI workbenches (AI 工作台, agent consoles, 智能体控制台, copilot UI, run streams, approval/human-in-the-loop cards), commerce pages (product detail pages, listing/category pages, cart, checkout), and H5 / phone-only screens (app UI prototypes, 活动页, mobile PDP, data-report H5, mobile sites). Routes by register: brand → soul + spectacle engine; product → palette + component system + density (split further into pages you READ = dashboards, pages you OPERATE = consoles/wizards, and and a DELEGATION layer that stacks on either when an agent does the work); commerce → PDP/PLP skeletons + anti-dark-pattern rules; h5 → a fixed 390×844 frame, safe-area math, thumb-zone hierarchy, and native furniture (status bar, TabBar, bottom sheet, FAB, push & FLIP transitions) across six phone morphologies. Ships a product color library (tinted neutral ramps + 16 accents + 12 paste-ready sets) so dashboards stop defaulting to blue. Always reads the brief first and audits against an anti-slop cheapness blacklist. Ships an anti-sameness layer (divergence) that composes a soul from five orthogonal axes instead of picking from a persona list, so repeat runs stop converging on one look. Routes single-element briefs to a component flow (8 mandatory states + a preview file) instead of the page apparatus. Carries a cross-run build log so rotation is enforced rather than narrated, and a mobile floor covering the six ways a crafted page breaks on a phone. Supports verb commands (audit · bolder · quieter · soul · diverge · animate · densify · redesign) for targeted iteration. Ships a motion layer that separates WHAT moves from HOW it is built: six routes (CSS · native scroll-driven · View Transitions/WAAPI · GSAP · Canvas/WebGL · zero-dependency CSS 3D space) against a ten-family effect catalogue of ~80 variants (spatial camera moves, particle fields, fluid & material, scroll narrative, typographic, image transform, geometric construction, physics & inertia, state transition, atmosphere), each family carrying its slop form; an effect→route lookup so a page stops shipping 60KB to do four lines of work; and a four-beat sheet that replaces "one spectacular hero over generic fade-ups" — because 「炫酷」 and 「好看」 select nothing, and every model answers them with the same particle hero. Separates 后台 (revolves around a batch of business objects) from 工作台 (revolves around one thing he does over and over) — one fork that decides density, soul and shell, resolved by what the thing revolves around rather than by head-count or screen; a workbench then picks a body, desktop or phone morph A.1. Ships an AI-workbench layer that stacks on any of them for the pages agents actually run in — a run stream instead of a chart, nine run states, a resident stop control, in-stream approval cards with linked evidence, and cost as a first-class receipt. Triggers on "make this look premium", "landing page", "personal site", "portfolio", "个人主页", "落地页", "lookbook", "dashboard", "admin panel", "商家后台", "工作台", "专属工作台", "个人工作台", "每日工作台", "打卡页", "记录页", "daily desk", "back-office", "console", "publish flow", "发布流程", "wizard", "settings page", "analytics UI", "data table", "app UI", "product page", "PDP", "listing page", "checkout", "dashboard colors", "AI 工作台", "agent console", "智能体控制台", "AI 助手界面", "copilot UI", "运行记录", "工具调用", "人工审批", "值守台", "H5", "H5 页面", "移动端页面", "手机端页面", "活动页", "小程序页面", "公众号页面", "app 原型", "mobile app UI", "app screen", "in-app page", "移动端商详", "报告 H5", "give it a soul / a vibe", "anti-slop", "hero animation", "动效", "炫酷", "加点动画", "让它动起来", "太静了", "滚动动画", "页面转场", "沉浸式", "走进去", "scroll animation", "page transition", "make it move", "feels generic", "every page looks the same", "每次都差不多", "make me a button", "just this component", "按钮", "单个组件", "component states", "breaks on mobile", "手机端错位", "/finesse".'
+description: 'Build never-cheap, high-craft web interfaces. Registers: brand (landing pages, brand sites, launches, portfolios), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow consoles and wizards (settings, publish flows), AI workbenches (AI 工作台, agent console, run streams, approval cards), commerce (PDP, PLP, cart, checkout), and H5/phone screens (390x844 frame, safe area, native furniture). Ships anti-slop blacklist, product palette library, divergence and motion layers, and verb commands (audit/bolder/quieter/soul/diverge/animate/densify/redesign). Triggers: 落地页, 个人主页, dashboard, 后台, admin panel, 工作台, 商家后台, PDP, 商详, checkout, H5, 活动页, 小程序页面, 动效, 炫酷, 高级感, make it premium, anti-slop, feels generic.'
 version: 0.20.0
 user-invocable: true
 argument-hint: "[craft · audit · bolder|quieter|soul|diverge · animate|depth|densify · redesign · init|document] [target]"
@@ -487,55 +487,7 @@ Before declaring done, scan against `references/anti-cheap.md` — the merged an
 
 ---
 
-## 8. PRE-FLIGHT CHECK
-
-Run the full checklist in `references/preflight.md` before saying "done." It merges the substrate check, the cheapness scan, the spectacle-claimed verification, the mobile floor, and the a11y gates. If any hard rule fails, it is shipping broken work — fix before delivery.
-
-**Gate 1 runs first and takes ten seconds: does the page actually render?** Every local `href` / `src` / `url()` must resolve to a file that exists, and the detector must have been found and run. This is not pedantry — a `<link>` to a stylesheet that was never written renders as unstyled serif text, and *every other check in the file passes on it*, because there is no grain to be missing and no `#fff` to be banned in a file that doesn't exist. It is also how a truncated build ships: HTML written, run ended before the CSS, `.finesse/log.json` dutifully recording a page that isn't on screen. `preflight.md` Gate 1 has the detector-resolution snippet — **the detector lives with the skill, not in the user's project**, so a hard-coded `skills/finesse-ui/…` path silently fails everywhere except a vendored copy.
-
-### 8.0 Record the build (after Pre-Flight passes, before you say "done")
-
-Two writes. They cost about thirty seconds and they are the only reason the next run can rotate off this one.
-
-1. **Stamp the CSS.** The first non-empty line of the page's stylesheet (or the top of the inline `<style>`) carries the five-axis coordinates:
-   ```css
-   /* finesse · register=brand · A=mono+acid-lime · B=900/300 · C=pinned-h-track
-    * D=GSAP-scrub · E=machined-metal · SOUL=8 SPECTACLE=7 DENSITY=4 */
-   ```
-   **h5 builds add the morphology** — `register=h5 · morph=A-app-shell · …` (`h5-mobile.md` §11). Rotation applies to the soul axes and the morphology, **never to the furniture**: every app's TabBar should look like every other app's TabBar, the same carve-out `divergence.md` §0 makes for dashboard navigation.
-2. **Append to `.finesse/log.json`** — prepend the entry to the array, trim to the last 20. Schema in `divergence.md` §4.1. Create the directory and file if they don't exist.
-
-**Component-scope builds do neither of these** — they use the component stamp and are never logged (`component-scope.md` §5). Components don't rotate; a project's buttons should look like siblings.
-
----
-
-## 8.A POST-DELIVERY ITERATION GUIDE
-
-After the user receives the initial output, map their feedback to the correct targeted fix. **Never rebuild from scratch for a single complaint** — identify the dial or module responsible and adjust only that. The **Command** column is the verb to route through (see `## Commands`); if the user typed the command, you're already there.
-
-| User says | Command | Action |
-|-----------|---------|--------|
-| "too plain / boring" | `bolder` | Raise SPECTACLE +2; consider upgrading the engine type (e.g. Canvas → Three.js) |
-| "too flashy / overwhelming" | `quieter` | Lower SPECTACLE −2; simplify or swap to Engine D (GSAP) or E (CSS-only) |
-| "wrong vibe / feels off" | `soul` | Re-run §2 with a different persona from `references/style-personas.md` |
-| "too much whitespace" | `densify` | Raise DENSITY +2; add one content section |
-| "too cluttered" | `densify` | Lower DENSITY −2; cut a section, increase section padding |
-| "more personality / bolder" | `bolder` | Raise SOUL +2; push color commitment level up one step in `references/design-dna.md` |
-| "feels generic / like every other AI site" | `diverge` | **Systemic, not per-page.** Recompose the soul from the five axes (`divergence.md` §3), run the two-altitude anti-default check (§2), roll against the argmax (§6), check the used-list (§4). Reaching for `soul` here just picks a *different* row from the same ten-row table — which is the problem, not the fix |
-| "every page you make looks the same" | `diverge` | Same as above. Then **write the used-list** (`divergence.md` §4) — without it, "don't repeat" is a rule with no memory behind it and it will never fire |
-| "change the colors" | `soul` | Re-run color strategy in `references/design-dna.md`; maintain the accent lock rule |
-| "different animation" | `animate` | Swap engine type in §4; re-run `references/hero-engines.md` for that engine's skeleton |
-| "add depth / make it 3D / tilt / parallax" | `depth` | Add **one** 3D moment from `references/3d-effects.md` — default to the CSS tier (tilt/flip/coverflow/depth-parallax); Three.js only for a real rendered object |
-| "remove a section" | `redesign` | Remove it, then re-audit §5 layout families (ensure ≥4 families remain) |
-| "feels slow / heavy" | `quieter` | Lower SPECTACLE; switch to Engine E (CSS-only) or reduce particle count/FBO resolution |
-| "needs to work on mobile" | `redesign` | Declare mobile layout per multi-column section; `min-h-dvh`, touch targets ≥44px |
-| "不知道它在干嘛 / 一直转圈 / 停不下来 / 花了多少钱看不到" *(AI 工作台)* | `redesign` | Not a styling complaint — the register's four questions are unanswered. `ai-console.md`: a run stream with per-step duration (§2) instead of one spinner, all nine run states (§3), a resident stop (§4), a receipt line and budget meter (§6) |
-| "像个聊天窗口，不像工作台" *(AI 工作台)* | `redesign` | Bubbles-only is the failure. `ai-console.md` §1 — the queue and the history are missing, so only the present tense is on screen; add the rail (or the phone's pinned strip, §9) before touching anything visual |
-| "刘海挡住了 / 底部栏遮住内容 / 按不动" *(h5)* | `redesign` | Not a layout opinion — a mechanical defect. Run `h5-mobile.md` §10's gates in order: missing `env()` (§2.A), missing `#app` bottom padding (§2.C), sub-44px hit areas or absent `:active` (§3) |
-| "不像 app / 像个网页" *(h5)* | `redesign` | The furniture is missing or wrong, not the palette. `h5-mobile.md` §5 — status bar, TabBar active state, home indicator, sheet grab handle, push transition — plus §9's tell list |
-| "is this any good? / review it" | `audit` | Read-only: run the blacklist + spectacle-shown + pre-flight, report findings |
-
----
+> 预检与交付后迭代已移至 `references/preflight-iteration.md`，需要时再读。
 
 ## 9. OUT OF SCOPE
 

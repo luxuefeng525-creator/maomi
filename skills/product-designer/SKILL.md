@@ -398,13 +398,6 @@ Observations:
 Time: [Duration]
 ```
 
-## Reference Materials
-
-- `references/design_principles.md` - Core design principles
-- `references/component_library.md` - Component guidelines
-- `references/accessibility.md` - Accessibility checklist
-- `references/research_methods.md` - Research techniques
-
 ## Scripts
 
 ```bash
