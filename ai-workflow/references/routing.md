@@ -13,8 +13,8 @@
 | 做功能 / 选型 / 架构变更 | `grilling`（分轮拷问+推荐答案等拍板）→ 按域进产品/设计技能 | L2 |
 | 产品 / PRD / 优先级 | `grilling` → `product-strategist` / `product-manager` | L2 |
 | 用户研究 / 可用性 / 流失 | `ux-researcher` | L2 |
-| UI / 交互 / 原型 / 动效 | `grilling` → `product-designer` → `finesse-brief` → `finesse-ui` | L2 |
-| 多页面风格统一 / 组件库 | `design-system-lead` → `finesse-ui` | L2 |
+| UI / 交互 / 原型 / 动效 | `grilling` → `product-designer` → `finesse-brief` → **`finesse-ui`（产出技能，必载、不占预算）** | L2 |
+| 多页面风格统一 / 组件库 | `design-system-lead` → **`finesse-ui`（必载）** | L2 |
 | 视频 / 片头 / 宣传 | `frame-smith` | L2 |
 | 通用/商业可视化大屏（数据看板 / 3D 数字孪生 / 运营中心 / 指挥中心） | `bigscreen-studio`：判断预设(flat/observatory)→脚手架→写数据场景→构建→截图自检→输出单文件 HTML | L2 |
 | 工业大屏 / SCADA / HMI / 上位机 / 就地控制屏（工艺流程、操作防误、网关集成） | `industrial-screen`：判断模式(dashboard/hmi-classic/scada/light-3d/local-panel)→按契约开发→校验脚本→截图自检 | L2 |

@@ -109,7 +109,7 @@ node ./scripts/verify.mjs --id port-ops
 
 1. **舞台固定 1920×1080**，靠 `VizLabRuntime.mountStage()` 缩放；所有内部尺寸用 px，别用 `vw/vh`。
 2. **构建标记不能删**：`/*__SCREEN_CSS__*/`、`/*__SCREEN_JS__*/`、`/*__RUNTIME__*/`、`/*__D3__*/`（flat）；observatory 另有 `/*__THREE__*/`、`/*__OBSERVATORY_*__*/`、`/*__MODEL__*/`。删了构建会报 Unresolved build markers。
-3. **不引外链**：字体、图片、图表库一律本地。图表用引擎自带的 `assets/vendor/d3.min.js`（通过 `/*__D3__*/` 注入）。
+3. **不引外链**：字体、图片、图表库一律本地。图表用引擎自带的 d3 文件（由引擎提供，包内不含）（通过 `/*__D3__*/` 注入）。
 4. **数据必须像真的**：量级合理、同比合理、单位齐全；页脚写明演示数据。
 5. **只用 CSS 变量上色**（`--accent` 等），一个屏幕最多 3 个强调色。
 6. **可访问性**：按钮有 `aria-label`，动效遵守 `prefers-reduced-motion`，清理逻辑挂在 `VizLabRuntime.onDispose`。

@@ -1,5 +1,30 @@
 # Changelog
 
+## 3.2.7 (2026-11-05)
+
+### Added
+- `scripts/audit-skills.mjs`：发布前全量技能审计（36/36 PASS 才放行）。
+- `scripts/sync-hosts.mjs`：安全同步宿主——默认 **dry-run**，`--apply` 才写，`--backup` 备份，`--skip` 保护定制技能（修复「整目录覆盖冲掉 bigscreen 引擎候选逻辑」的隐患）。
+- `scripts/release.mjs`：发布前一键过闸（版本 / CHANGELOG / 技能审计 / F1 / 打包），**不做外部 push**。
+
+### Changed
+- `SKILL.md`：收尾环加「发布前 `release.mjs --pack`」；工具速查新增三项；gotchas 增「同步先 dry-run、别手工多步发布」。
+
+## 3.2.6 (2026-11-05)
+
+### Fixed
+- **全部 36 个技能通过规范校验（36/36）**：
+  - `validate-skill.mjs` 修正 YAML 解析：支持 `description: >` 折叠块与单双引号；引用检查跳过通配（`references/*.md`）和占位符（`<id>.*`）。
+  - 4 个技能 `description` 超 1024 字符 → 精简（finesse-ui 732 / finesse-brief 472 / finesse-term 105 / frame-smith 304），保留关键触发词。
+  - 3 个技能正文超 500 行 → 按渐进披露移出章节：design-system-lead 453、finesse-ui 496、finesse-brief 481。
+  - 5 个技能指向不存在的 `references/*.md` → 删除悬空「Reference Materials」附录；design-system-lead 同时生成 `references/component_patterns.md`。
+  - bigscreen-studio 的 `assets/vendor/d3.min.js` 改为「引擎自带」表述（包内不含大资源，不再误报缺文件）。
+
+## 3.2.5 (2026-11-05)
+
+### Fixed
+- **UI 技能不被自动调用**：`L1≤1 / L2≤2` 的技能预算被过程技能（`grilling`、`product-designer`）吃满，链路末尾的产出技能 `finesse-ui` 永远轮不到。现明确：**预算只限「过程技能」；`finesse-ui` / `bigscreen-studio` / `industrial-screen` / `frame-smith` 属「产出技能」，必载、不占预算**。同步更新 `references/routing.md` 与 `SKILL.md` gotchas。
+
 ## 3.2.4 (2026-11-05)
 
 ### Added
