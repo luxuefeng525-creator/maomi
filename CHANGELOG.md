@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.3.1 (2026-11-05)
+
+### Added
+- `evals/heldout.json` 留出集（42 触发 + 11 定档）：**不参与调参**，衡量真实泛化。
+- `eval.mjs` 触发判定支持 `accept`（多可接受命中），语义近义对不再为标签硬改触发词。
+- `release.mjs` 新增「留出集 F1≥0.80」闸门，把真实泛化纳入发布门槛。
+
+### Fixed
+- **「起个数据看板的名字」误命中 bigscreen-studio**：`route.mjs` 的负向闸门（硬编码 NEG）补 `naming` 构式；「看板」不再是唯一信号。
+- **路由有两套负向规则**：`triggers.json.__negative_intents` 与 `route.mjs` 硬编码 NEG 脱节，已在 `route.mjs` 收敛。
+- **`内存泄漏` 被 24 词截断挤掉**：diagnose 关键词重排，`内存泄漏/leak` 提前。
+- **定档漏判「重做/整个重做」为 L2**：`classify.mjs` 的 `big` 补「重做/推翻重来/整个…重做」。
+- `catalog.json` 重建（触发词改动后未同步，会导致路由走旧词表）。
+
+### Changed
+- GitHub 分支保护 `enforce_admins` 由 false → **true**（管理员也不能绕过 CI 直推 main）。
+
+### Honest note
+- 留出集 F1=0.97（trigger 42 条 / tier 11 条）。仍有 2 条口语长句漏命中（「盘一下结构」「简洁点」），是**零 LLM 关键词路由的召回上限**，暂不强凑。真突破需给 route.mjs 加轻量语义（嵌入/同义词典），列下一步。
+
 ## 3.3.0 (2026-11-05)
 
 ### Added
