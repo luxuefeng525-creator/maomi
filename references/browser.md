@@ -37,6 +37,7 @@ node scripts/browser.mjs --url http://localhost:5173 --screenshot shot.png
 | `{"assertText":["sel","子串"]}` | 断言元素文本包含子串 |
 | `{"assertVisible":"sel"}` | 断言元素可见 |
 | `{"assertUrl":"子串"}` | 断言当前 URL 含子串 |
+| `{"assertEval":["表达式","期望"]}` | 断言页面内表达式结果等于期望（如登录后 `!!localStorage.ws_token`） |
 | `{"screenshot":"path"}` | 截图 |
 | `{"eval":"js 表达式"}` | 页面内求值（谨慎） |
 

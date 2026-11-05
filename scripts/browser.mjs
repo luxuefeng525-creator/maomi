@@ -8,7 +8,7 @@
 // 步骤 DSL（JSON 数组，按序执行）：
 //   {"goto":"url"} {"click":"sel"} {"fill":["sel","text"]} {"press":"Enter"}
 //   {"waitFor":"sel"} {"wait":1000} {"assertText":["sel","substr"]}
-//   {"assertVisible":"sel"} {"assertUrl":"substr"} {"screenshot":"path"} {"eval":"js"}
+//   {"assertVisible":"sel"} {"assertUrl":"substr"} {"assertEval":["expr","expected"]} {"screenshot":"path"} {"eval":"js"}
 // 选项：--timeout 单步ms(默认15000) --overall 总ms(默认180000) --headed --width --height --out --allow-console
 // 输出（stdout 纯 JSON）：{ ok, failedStep, steps, consoleErrors, pageErrors, screenshot }
 import fs from 'node:fs';
@@ -125,6 +125,10 @@ for (let i = 0; i < steps.length; i++) {
       if (!txt.includes(val[1])) throw new Error(`断言失败：${val[0]} 文本不含 "${val[1]}"（实际 "${txt.slice(0, 80)}"）`);
     } else if (op === 'assertUrl') {
       if (!page.url().includes(val)) throw new Error(`断言失败：URL 不含 "${val}"（实际 ${page.url()}）`);
+    } else if (op === 'assertEval') {
+      const got = await withTimeout(page.evaluate(val[0]), STEP_MS, 'assertEval');
+      if (String(got) !== String(val[1])) throw new Error(`断言失败：${val[0]} => ${got} ≠ ${val[1]}`);
+      rec.value = got;
     } else if (op === 'screenshot') {
       const p = path.resolve(OUT || '.', val);
       fs.mkdirSync(path.dirname(p), { recursive: true });
