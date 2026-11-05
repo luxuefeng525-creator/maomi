@@ -1,0 +1,4 @@
+interface:
+  display_name: "AgentReview"
+  short_description: "独立审查改完的活。用于提交前/宣称完成前：全新只读子代理两阶段（规格合规 → 代码质量），每条约给 path:line 证据。"
+  default_prompt: "Use $agent-review to 独立审查改完的活。用于提交前/宣称完成前：全新只读子代理两阶段（规格合规 → 代码质量），每条约给 path:line 证据。."

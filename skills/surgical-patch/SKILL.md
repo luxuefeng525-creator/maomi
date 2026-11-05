@@ -1,6 +1,6 @@
 ---
 name: surgical-patch
-description: Fix bugs and small behavior changes at the narrowest responsible layer. Use when regression proof, preserved surrounding behavior, and task-relevant tests matter.
+description: '在最窄责任层修 bug 与小改动。用于 加一个按钮、样式错位、单点修复，需回归证明且周边行为不变。'
 ---
 
 # Surgical patch

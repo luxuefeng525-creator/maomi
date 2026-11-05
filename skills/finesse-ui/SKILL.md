@@ -1,6 +1,6 @@
 ---
 name: finesse-ui
-description: 'Build never-cheap, high-craft web interfaces. Registers: brand (landing pages, brand sites, launches, portfolios), product UI (dashboards, admin panels, analytics, data tables, app shells), workflow consoles and wizards (settings, publish flows), AI workbenches (AI 工作台, agent console, run streams, approval cards), commerce (PDP, PLP, cart, checkout), and H5/phone screens (390x844 frame, safe area, native furniture). Ships anti-slop blacklist, product palette library, divergence and motion layers, and verb commands (audit/bolder/quieter/soul/diverge/animate/densify/redesign). Triggers: 落地页, 个人主页, dashboard, 后台, admin panel, 工作台, 商家后台, PDP, 商详, checkout, H5, 活动页, 小程序页面, 动效, 炫酷, 高级感, make it premium, anti-slop, feels generic.'
+description: '高质感 Web 与移动界面，拒绝廉价感。用于 落地页、官网、后台、dashboard、工作台、H5、活动页、电商 PDP/结算，要求高级感或炫酷动效。含 anti-slop 黑名单与调优动词。'
 version: 0.20.0
 user-invocable: true
 argument-hint: "[craft · audit · bolder|quieter|soul|diverge · animate|depth|densify · redesign · init|document] [target]"

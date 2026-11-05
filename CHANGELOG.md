@@ -1,5 +1,39 @@
 # Changelog
 
+## 3.3.0 (2026-11-05)
+
+### Added
+- **Agent 编排四件套技能**：`agent-dispatch`（定人/派发）、`agent-review`（两阶段独立审查）、`goal-tracker`（断点账本）、`token-guard`（载入前算 token）。
+- `scripts/agent.mjs`（零依赖、零 LLM、只读仓库）：`plan` / `contract` / `review` / `budget` / `guard` / `hooks` / `handoff` / `check`。
+  - `plan`：按档位确定性定人（L0=0、L1=1 审查、L2=三段式），实测大屏任务出 3 个代理、问答出 0 个。
+  - `contract`：生成结构化派工对象（task/scope/constraints/acceptance/output_schema/forbid），禁止整段父会话历史下传。
+  - `guard`：PreToolUse 危险动作提醒（递归删除、强推、破坏性 SQL、明文密钥、管道执行远程脚本、吞输出）。
+  - `hooks`：生成 Claude Code 四钩子配置（SessionStart/PreToolUse/PostToolUse/Stop）。
+  - `handoff`：生成跨会话接力卡 HANDOFF.md（进度 + 下一步 + 未提交改动 + 坑）。
+- `scripts/doctor.mjs`：环境与包完整性自检（node 版本 / 核心文件 / catalog 一致性 / frontmatter / 描述长度 / gitignore / 零依赖 / smoke），FAIL 即 exit 1。
+- `references/agent-patterns.md`：对标 Claude Code、superpowers 与本包旧文献的采纳矩阵与「明确拒绝」清单。
+- `references/routing.md` 技能全量索引：40/40 覆盖（原仅 18 个）。
+
+### Fixed
+- **catalog 描述带尾引号**（自首次压缩起存在）：构建正则把 YAML 收尾 `'` 吃进 desc，40 个技能持续浪费字符 —— 去引号 + 空白归一。
+- **触发词被静默截断到 24 条**：`surgical-patch` 等超长技能尾部触发词永不生效 —— 重排优先级，关键构式留前 24。
+- `checkpoint.mjs` / `memory.mjs` 新增 `--root`：子代理在别的 cwd 运行不再把账本写错地方。
+- **`validate-skill.mjs` 误报包根引用**：`token-guard` 里写的 `references/dispatch-table.md`、`scripts/route.mjs` 指向**包根**而非技能目录，校验器只查技能目录 → 40/40 审计被一条假 FAIL 挡住。改为「先查技能目录，再回退包根」，且仅当包根确实有 `scripts/` 或 `SKILL.md` 时才回退（负向测试：故意引用不存在文件的技能仍 FAIL）。
+- **`eval.mjs snapshot` 漏拷 `catalog.json`**：`route.mjs` 首选 `catalog.json`，快照里没有它就会退回只读 `SKILL.md`，丢掉触发词/syncs/negatives，同一份代码 `diff` 出 `ΔF1=-0.47` 的**假回归**。快照现一并复制 `catalog.json`，复测 `ΔF1=0`、GAIN 0 / LOSS 0。
+- **`pack.mjs` 把工作产物打进分发件**：上版 zip 含 `.ai-workflow/`（会话账本）、`HANDOFF.md`、`eval-results/`，与 `.gitignore` 自相矛盾。现默认排除上述路径 + `.env*` + `*.zip`，新增 `--with-work` 供内部留档，并打印 `WORK_EXCLUDED=`。
+
+### Changed
+- **`release.mjs` 从 5 道闸加到 8 道**：新增「定档 acc」「环境自检 doctor」「泄漏检查」；`--zip <路径>` 可只验某个历史产物是否夹带工作产物。任一闸红即 `RELEASE BLOCKED`（负向测试：`--with-work` 造出的脏包被当场拦下，exit 1）。
+- `MANUAL.md`：命令速查补 `doctor` / `release` / `agent` / `eval snapshot·diff`，并写明 `pack.mjs` 的排除规则与 `--with-work` 用途。
+- `SKILL.md`：子代理章节改为「先 plan 再派」，钩子改为脚本生成，工具速查 +9 条，gotchas +3 条（触发词截断、catalog 引号、自述不算证据）。
+- `.gitignore`：忽略 `.ai-workflow/`、`HANDOFF.md`、`eval-results/*`、`node_modules/`、`.env*`。
+
+### Evals
+- 触发 n=71：acc/P/R/F1 = 1.00；定档 n=16：16/16，混淆 0。
+- **分发件回溯验证**：zip 解到干净临时目录后重跑 `doctor` / `audit-skills` / `trigger` / `tier`，全部通过（254 文件，零依赖，不需网络）。
+- `doctor` 8 pass / 0 warn / 0 fail；`eval snapshot` + `diff` 零回归。
+- 提醒：本轮 6 条新用例为「先修后测」，存在解题痕迹，真实泛化估计 0.9 左右，出包前应补一批未参与调参的留出句。
+
 ## 3.2.7 (2026-11-05)
 
 ### Added

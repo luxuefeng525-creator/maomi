@@ -1,0 +1,4 @@
+interface:
+  display_name: "TokenGuard"
+  short_description: "载入前先算 token。用于长会话/大仓库/要爆上下文时：估开销、分段读、用派发表取代扫描述、压输出。"
+  default_prompt: "Use $token-guard to 载入前先算 token。用于长会话/大仓库/要爆上下文时：估开销、分段读、用派发表取代扫描述、压输出。."

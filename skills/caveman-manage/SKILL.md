@@ -1,9 +1,6 @@
 ---
 name: caveman-manage
-description: >
-  Inspect Caveman Cloud's experiment lifecycle and block unsafe execution. Use
-  when asked to start, approve, cancel, promote or roll back a Caveman
-  experiment.
+description: '查看 Caveman Cloud 实验生命周期并拦住不安全的执行。用于 启动、批准、取消、提升、回滚实验。'
 ---
 
 # Manage eval-gated experiments

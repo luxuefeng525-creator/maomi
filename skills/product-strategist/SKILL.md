@@ -1,6 +1,6 @@
 ---
 name: product-strategist
-description: Expert product strategy covering market analysis, competitive positioning, go-to-market planning, and product-led growth.
+description: '产品战略：市场分析、竞争定位、上市路径、增长。用于 要不要做、产品与技术选型、演进路线、遗留系统走向。'
 version: 1.0.0
 author: Claude Skills
 category: product-design

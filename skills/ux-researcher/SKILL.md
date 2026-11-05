@@ -1,6 +1,6 @@
 ---
 name: ux-researcher
-description: Expert UX research covering user research methods, usability testing, data synthesis, and research operations.
+description: '用户研究：方法选择、可用性测试、数据综述、研究运营。用于 用户访谈、可用性测试、调研设计。'
 version: 1.0.0
 author: Claude Skills
 category: product-design

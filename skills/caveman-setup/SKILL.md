@@ -1,9 +1,6 @@
 ---
 name: caveman-setup
-description: >
-  Wire a repository through the Caveman Cloud gateway so every LLM request is
-  measured, with no behavior change. Use for "set up caveman" or adding LLM
-  spend observability.
+description: '把仓库接到 Caveman Cloud 网关，让每个 LLM 请求都被计量，行为不变。用于 接入可观测性。'
 ---
 
 You are wiring this repository through the Caveman gateway. Caveman is a

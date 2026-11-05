@@ -1,5 +1,8 @@
 #!/usr/bin/env node
-// ai-workflow 可重复打包器：生成自包含分发 zip，自动排除 .git / 输出 zip / node_modules（默认包含 eval-results，使分发包最全）。
+// ai-workflow 可重复打包器：生成自包含分发 zip。
+// 默认排除「工作产物」：.git / node_modules / 输出 zip / .env* / .ai-workflow/ / HANDOFF.md / eval-results/
+//   —— 这些与 .gitignore 一致，属于会话账本与可再生的评测数据，不该随分发件下发。
+// 需要连工作产物一起打（内部留档）时加 --with-work。
 // 纯 Node 零依赖：内置 store（不压缩）ZIP 写入，跨平台可用，不依赖本机 zip/python。
 // 用法：
 //   node scripts/pack.mjs                  # 写到包根 ai-workflow-v<version>.zip
@@ -24,12 +27,17 @@ if (!VERSION) {
 const outArg = opt('--out', null);
 const OUT = outArg || path.join(pkgRoot, `ai-workflow-v${VERSION}.zip`);
 
-// 排除清单（只排仓库历史/依赖/临时系统文件；eval-results 等能力与数据默认全部纳入，保证分发包最全）
+// 排除清单：仓库历史 / 依赖 / 系统文件 / 工作产物（默认排除，--with-work 打开）
+const WITH_WORK = argv.includes('--with-work');
 const EXCLUDE_DIRS = new Set(['.git', 'node_modules', '.DS_Store']);
 const EXCLUDE_TOP = new Set(['.git', 'node_modules']);
+const WORK_DIRS = new Set(['.ai-workflow', 'eval-results']);
+const WORK_FILES = new Set(['HANDOFF.md']);
 function excluded(name, rel) {
   if (rel === OUT || path.resolve(pkgRoot, rel) === path.resolve(OUT)) return true;
-  if (name === 'ai-workflow-v' + VERSION + '.zip') return true;
+  if (/\.zip$/i.test(name)) return true;
+  if (/^\.env/.test(name)) return true;
+  if (!WITH_WORK && WORK_FILES.has(rel)) return true;
   return false;
 }
 
@@ -49,11 +57,13 @@ function crc32(buf) {
   return (c ^ 0xffffffff) >>> 0;
 }
 
+const skipped = [];
 function walk(dir, base, acc) {
   for (const e of fs.readdirSync(dir, { withFileTypes: true })) {
     const p = path.join(dir, e.name);
     const rel = path.relative(pkgRoot, p).split(path.sep).join('/');
     if (e.name === '.git' || EXCLUDE_DIRS.has(e.name)) continue;
+    if (e.isDirectory() && !WITH_WORK && WORK_DIRS.has(e.name)) { skipped.push(rel + '/'); continue; }
     if (e.isDirectory()) { if (!EXCLUDE_TOP.has(e.name)) walk(p, base, acc); }
     else if (e.isFile() && !excluded(e.name, rel)) acc.push(rel);
   }
@@ -121,5 +131,6 @@ const bytes = fs.statSync(OUT).size;
 const hasGit = files.some(f => f.startsWith('.git/'));
 console.log(`PACK ${OUT}`);
 console.log(`FILES=${files.length} BYTES=${bytes} VERSION=${VERSION} GIT_EXCLUDED=${hasGit ? 'NO!' : 'yes'}`);
+if (skipped.length) console.log(`WORK_EXCLUDED=${WITH_WORK ? 'no (--with-work)' : skipped.join(',')}`);
 if (hasGit) { console.error('FAIL: .git leaked into zip'); process.exit(1); }
 console.log('OK');

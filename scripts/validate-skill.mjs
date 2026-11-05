@@ -79,9 +79,18 @@ else oks.push(`正文 ${bodyLines} 行`);
 // 引用路径检查：只查具体路径；跳过通配（*）、占位符（<>{}）、URL
 const refs = [...raw.matchAll(/`((?:references|scripts|evals|assets)\/[^`\s]+)`/g)].map(m => m[1]);
 const concrete = [...new Set(refs)].filter(p => !/[*<>{}]/.test(p) && !/^https?:/i.test(p));
-const missing = concrete.filter(p => !fs.existsSync(path.join(dir, p)));
+// 引用可指向技能自身目录，也可指向包根（../../scripts/…、../../references/…）。
+// 包根判定：dir 的上两级；只有当上两级确实像包根（有 SKILL.md 或 scripts/）时才回退，避免误判。
+const pkgRoot = path.dirname(path.dirname(dir));
+const hasPkgRoot = fs.existsSync(path.join(pkgRoot, 'scripts')) || fs.existsSync(path.join(pkgRoot, 'SKILL.md'));
+const resolveRef = p => {
+  if (fs.existsSync(path.join(dir, p))) return true;
+  return hasPkgRoot && fs.existsSync(path.join(pkgRoot, p));
+};
+const missing = concrete.filter(p => !resolveRef(p));
+const viaPkg = concrete.filter(p => !fs.existsSync(path.join(dir, p)) && resolveRef(p));
 if (missing.length) fails.push(`引用的文件不存在: ${missing.join(', ')}`);
-else if (concrete.length) oks.push(`引用路径 ${concrete.length} 个均存在`);
+else if (concrete.length) oks.push(`引用路径 ${concrete.length} 个均存在` + (viaPkg.length ? `（其中 ${viaPkg.length} 个指向包根）` : ''));
 const skipped = refs.length - concrete.length;
 if (skipped > 0) oks.push(`跳过通配/占位引用 ${skipped} 个`);
 
