@@ -4,6 +4,7 @@
 // 用法：
 //   node scripts/context.mjs                    # 当前目录，默认预算 4000 字符
 //   node scripts/context.mjs --dir /abs/repo
+//   node scripts/context.mjs --focus auth          # 只列路径/符号命中关键词的文件
 //   node scripts/context.mjs --budget 8000 --max-files 300
 //   node scripts/context.mjs --json
 import fs from 'node:fs';
@@ -15,6 +16,7 @@ const asJson = argv.includes('--json');
 const ROOT = path.resolve(opt('--dir', process.cwd()));
 const BUDGET = Math.max(800, Number(opt('--budget', '4000')) || 4000);
 const MAX_FILES = Math.max(20, Number(opt('--max-files', '400')) || 400);
+const FOCUS = (opt('--focus', '') || '').trim().toLowerCase();
 
 const SKIP_DIRS = new Set(['.git', 'node_modules', 'dist', 'build', 'out', '.next', '.nuxt', 'coverage',
   'vendor', '__pycache__', '.venv', 'venv', 'target', '.idea', '.vscode', '.turbo', '.cache', 'eval-results']);
@@ -74,7 +76,7 @@ function symbolsOf(file, text) {
 }
 
 const files = walk(ROOT, []).sort();
-const rows = [];
+let rows = [];
 for (const f of files) {
   let text = '';
   try { text = fs.readFileSync(f, 'utf8'); } catch { continue; }
@@ -84,13 +86,18 @@ for (const f of files) {
   rows.push({ path: rel, lines, symbols: syms });
 }
 
+if (FOCUS) {
+  rows = rows.filter(r => r.path.toLowerCase().includes(FOCUS) || r.symbols.some(s => s.toLowerCase().includes(FOCUS)));
+  if (!rows.length) { console.log(`# repo map · 0 匹配 "${FOCUS}"（用 Grep 定位或去掉 --focus）`); process.exit(0); }
+}
+
 if (asJson) {
-  console.log(JSON.stringify({ root: ROOT, files: rows.length, budget: BUDGET, rows }, null, 2));
+  console.log(JSON.stringify({ root: ROOT, files: rows.length, budget: BUDGET, focus: FOCUS || null, rows }, null, 2));
   process.exit(0);
 }
 
 // 有界输出：先目录概况，再逐文件（超预算即截断并提示）
-let out = `# repo map · ${rows.length} 源文件 · root=${path.basename(ROOT)}\n`;
+let out = `# repo map · ${rows.length} 源文件${FOCUS ? ` · focus="${FOCUS}"` : ''} · root=${path.basename(ROOT)}\n`;
 const used = [];
 for (const r of rows) {
   const sym = r.symbols.length ? ' :: ' + r.symbols.join(', ') : '';
