@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// ai-workflow 可重复打包器：生成自包含分发 zip，自动排除 .git / 输出 zip / eval-results / node_modules。
+// ai-workflow 可重复打包器：生成自包含分发 zip，自动排除 .git / 输出 zip / node_modules（默认包含 eval-results，使分发包最全）。
 // 纯 Node 零依赖：内置 store（不压缩）ZIP 写入，跨平台可用，不依赖本机 zip/python。
 // 用法：
 //   node scripts/pack.mjs                  # 写到包根 ai-workflow-v<version>.zip
@@ -24,9 +24,9 @@ if (!VERSION) {
 const outArg = opt('--out', null);
 const OUT = outArg || path.join(pkgRoot, `ai-workflow-v${VERSION}.zip`);
 
-// 排除清单（控制变量：不把仓库历史/临时结果塞进分发包）
-const EXCLUDE_DIRS = new Set(['.git', 'node_modules', 'eval-results', '.DS_Store']);
-const EXCLUDE_TOP = new Set(['.git', 'node_modules', 'eval-results']);
+// 排除清单（只排仓库历史/依赖/临时系统文件；eval-results 等能力与数据默认全部纳入，保证分发包最全）
+const EXCLUDE_DIRS = new Set(['.git', 'node_modules', '.DS_Store']);
+const EXCLUDE_TOP = new Set(['.git', 'node_modules']);
 function excluded(name, rel) {
   if (rel === OUT || path.resolve(pkgRoot, rel) === path.resolve(OUT)) return true;
   if (name === 'ai-workflow-v' + VERSION + '.zip') return true;
