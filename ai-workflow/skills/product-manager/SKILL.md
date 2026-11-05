@@ -355,13 +355,6 @@ Conversion Rates:
 | Sales | Bi-weekly | Meeting | Pipeline, feedback |
 | Customers | Monthly | Newsletter | Updates, roadmap |
 
-## Reference Materials
-
-- `references/prioritization.md` - Prioritization frameworks
-- `references/research_methods.md` - User research guide
-- `references/roadmap_templates.md` - Roadmap formats
-- `references/metrics_guide.md` - Product analytics
-
 ## Scripts
 
 ```bash

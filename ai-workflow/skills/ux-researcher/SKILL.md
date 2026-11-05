@@ -434,13 +434,6 @@ scheduling:
   - max_per_day: 4
 ```
 
-## Reference Materials
-
-- `references/research_methods.md` - Method deep dives
-- `references/survey_design.md` - Survey best practices
-- `references/synthesis.md` - Analysis techniques
-- `references/ethics.md` - Research ethics guide
-
 ## Scripts
 
 ```bash
