@@ -1,9 +1,6 @@
 ---
 name: caveman
-description: >
-  Terse caveman voice: answer first, fluff gone, every technical fact kept.
-  Use for /caveman, "caveman mode", "talk like caveman", "be brief", "less
-  tokens". Stays on until "stop caveman" or "normal mode".
+description: '极简腔：结论先行、去掉客套、技术事实不丢。用于 /caveman、简短点、省 token。说 stop caveman 退出。'
 ---
 
 # caveman

@@ -1,9 +1,6 @@
 ---
 name: caveman-evidence-review
-description: >
-  Read-only review of Caveman Cloud evidence: cost, Cave Score, workflows,
-  traces, latency, errors, routing, savings. Use when asked what Caveman found
-  or where LLM spend goes.
+description: '只读查看 Caveman Cloud 证据：成本、Cave Score、工作流、追踪、时延、错误、路由、节省。用于 看 LLM 钱花在哪。'
 ---
 
 # Review Caveman evidence

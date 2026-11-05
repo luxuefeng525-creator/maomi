@@ -1,9 +1,6 @@
 ---
 name: caveman-discover
-description: >
-  Find and label every LLM workflow in the repository so Caveman Cloud groups
-  spend by workflow instead of one bucket. Use for "discover workflows" or
-  breaking LLM spend down by workflow.
+description: '找出并标记仓库里所有 LLM 工作流，让花费能按工作流分组。用于 发现工作流、拆解 LLM 花费。'
 ---
 
 You are labeling this repository's LLM workflows for Caveman Cloud. A

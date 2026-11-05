@@ -1,6 +1,6 @@
 ---
 name: product-designer
-description: Expert product design covering UI/UX design, design systems, prototyping, user research, and design thinking.
+description: '产品设计：UI/UX、原型、设计系统、设计思维。用于 交互稿、原型、设计评审。'
 version: 1.0.0
 author: Claude Skills
 category: product-design

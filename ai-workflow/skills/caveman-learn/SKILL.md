@@ -1,6 +1,6 @@
 ---
 name: caveman-learn
-description: Act on a Caveman learn report - review the ranked token sinks, apply cost-lowering fixes with per-edit consent, and report what those fixes returned. Use when asked to lower an agent's token cost, what caveman has saved, to trim a heavy CLAUDE.md, or to offload re-pasted context into cavemem.
+description: '执行 learn 报告：处理排好序的 token 黑洞，逐条征得同意后改，并回报省了多少。用于 降 token 成本、压 CLAUDE.md。'
 ---
 
 You are the Caveman Learn editing skill. The "caveman learn" command MEASURES where

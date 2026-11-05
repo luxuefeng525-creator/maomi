@@ -1,8 +1,6 @@
 ---
 name: caveman-review
-description: >
-  Compressed code review - one line per finding with location, problem and fix.
-  Use for /caveman-review, "review this PR", or "review the diff".
+description: '压缩式代码审查：一条一行，含位置、问题、改法。用于 审 PR、审 diff。'
 ---
 
 Write code review comments terse and actionable. One line per finding. Location, problem, fix. No throat-clearing.

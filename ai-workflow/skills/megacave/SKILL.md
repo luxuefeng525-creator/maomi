@@ -1,9 +1,6 @@
 ---
 name: megacave
-description: >
-  Caveman in Classical Chinese: 文言文 register, far fewer characters, technical
-  terms verbatim. Invoke only with /megacave or /caveman wenyan. Stays on until
-  "stop caveman" or "normal mode".
+description: '文言文腔的 Caveman：更少字符，术语照原样。仅用 /megacave 或 /caveman wenyan 调用。'
 disable-model-invocation: true
 ---
 

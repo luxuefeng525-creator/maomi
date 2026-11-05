@@ -1,22 +1,564 @@
 {
   "skill_name": "ai-workflow",
   "trigger_cases": [
-    {"id": 1,  "query": "智慧港口运营中心的数据大屏要做一下", "expect": "bigscreen-studio", "should_trigger": true},
-    {"id": 2,  "query": "化工厂反应釜 SCADA 监控界面", "expect": "industrial-screen", "should_trigger": true},
-    {"id": 3,  "query": "这个接口报错了帮我查一下为什么", "expect": "diagnose", "should_trigger": true},
-    {"id": 4,  "query": "我们要做一个新的会员体系功能，先把需求拷问清楚", "expect": "grilling", "should_trigger": true},
-    {"id": 5,  "query": "页面太丑了帮我做个高级感的落地页", "expect": "finesse-ui", "should_trigger": true},
-    {"id": 6,  "query": "帮我把改动拆成原子提交并写 commit message", "expect": "caveman-commit", "should_trigger": true},
-    {"id": 7,  "query": "收尾验收，给我证据证明真的做完了", "expect": "verify-and-stop", "should_trigger": true},
-    {"id": 8,  "query": "帮我重构一下订单模块，行为不能变", "expect": "safe-refactor", "should_trigger": true},
-    {"id": 9,  "query": "把 README 里「大屏」两个字改成「显示屏」", "expect": null, "should_trigger": false},
-    {"id": 10, "query": "解释一下 SCADA 和 HMI 的区别是什么", "expect": null, "should_trigger": false},
-    {"id": 11, "query": "这个页面报错了，把控制台日志原文贴给我看看", "expect": null, "should_trigger": false},
-    {"id": 12, "query": "帮我把这份周报提交给老板的邮箱", "expect": null, "should_trigger": false},
-    {"id": 13, "query": "给这个 React 组件补一个单元测试", "expect": null, "should_trigger": false}
+    {
+      "id": 1,
+      "query": "智慧港口运营中心的数据大屏要做一下",
+      "expect": "bigscreen-studio",
+      "should_trigger": true
+    },
+    {
+      "id": 2,
+      "query": "化工厂反应釜 SCADA 监控界面",
+      "expect": "industrial-screen",
+      "should_trigger": true
+    },
+    {
+      "id": 3,
+      "query": "这个接口报错了帮我查一下为什么",
+      "expect": "diagnose",
+      "should_trigger": true
+    },
+    {
+      "id": 4,
+      "query": "给这个 React 组件补一个单元测试",
+      "expect": "verify-and-stop",
+      "should_trigger": true
+    },
+    {
+      "id": 5,
+      "query": "帮我做一个智慧园区能耗大屏",
+      "expect": "bigscreen-studio",
+      "should_trigger": true
+    },
+    {
+      "id": 6,
+      "query": "做个企业官网落地页，要高级感",
+      "expect": "finesse-ui",
+      "should_trigger": true
+    },
+    {
+      "id": 7,
+      "query": "后台工作台的界面帮我重做，要好看的",
+      "expect": "finesse-ui",
+      "should_trigger": true
+    },
+    {
+      "id": 8,
+      "query": "帮我做个工业监控大屏，要能远程启停水泵",
+      "expect": "industrial-screen",
+      "should_trigger": true
+    },
+    {
+      "id": 9,
+      "query": "写一个脚本把下载目录里的图片批量改名",
+      "expect": "lean-build",
+      "should_trigger": true
+    },
+    {
+      "id": 10,
+      "query": "帮我设计一套会员体系先把需求拷问清楚",
+      "expect": "product-manager",
+      "should_trigger": true
+    },
+    {
+      "id": 11,
+      "query": "上线前帮我验收，给我证据",
+      "expect": "verify-and-stop",
+      "should_trigger": true
+    },
+    {
+      "id": 12,
+      "query": "重构订单模块，行为不能变",
+      "expect": "safe-refactor",
+      "should_trigger": true
+    },
+    {
+      "id": 13,
+      "query": "给订单页加一个导出 CSV 按钮",
+      "expect": "surgical-patch",
+      "should_trigger": true
+    },
+    {
+      "id": 14,
+      "query": "修一下登录页按钮位置偏了",
+      "expect": "diagnose",
+      "should_trigger": true
+    },
+    {
+      "id": 15,
+      "query": "删除线上旧的分区表，先给我方案",
+      "expect": "migration",
+      "should_trigger": true
+    },
+    {
+      "id": 16,
+      "query": "先查清楚这个偶发崩溃的根因",
+      "expect": "investigate-first",
+      "should_trigger": true
+    },
+    {
+      "id": 17,
+      "query": "帮我写个 30 秒的科技感宣传片",
+      "expect": "frame-smith",
+      "should_trigger": true
+    },
+    {
+      "id": 18,
+      "query": "这个按钮文案统一一下，别同义词混用",
+      "expect": "finesse-term",
+      "should_trigger": true
+    },
+    {
+      "id": 19,
+      "query": "先写 PRD 再排期",
+      "expect": "product-manager",
+      "should_trigger": true
+    },
+    {
+      "id": 20,
+      "query": "帮我做设计系统的组件库规范",
+      "expect": "design-system-lead",
+      "should_trigger": true
+    },
+    {
+      "id": 21,
+      "query": "用户访谈的提纲帮我过一遍",
+      "expect": "ux-researcher",
+      "should_trigger": true
+    },
+    {
+      "id": 22,
+      "query": "竞品分析和定位帮我理一下",
+      "expect": "product-strategist",
+      "should_trigger": true
+    },
+    {
+      "id": 23,
+      "query": "帮我出个高保真原型稿",
+      "expect": "product-designer",
+      "should_trigger": true
+    },
+    {
+      "id": 24,
+      "query": "caveman 帮我压缩 CLAUDE.md",
+      "expect": "caveman-compress",
+      "should_trigger": true
+    },
+    {
+      "id": 25,
+      "query": "帮我 review 一下这个 PR",
+      "expect": "caveman-review",
+      "should_trigger": true
+    },
+    {
+      "id": 26,
+      "query": "给这个仓库做个导览，我要定位支付逻辑",
+      "expect": "caveman-explore",
+      "should_trigger": true
+    },
+    {
+      "id": 27,
+      "query": "把这次的改动拆成原子提交",
+      "expect": "caveman-commit",
+      "should_trigger": true
+    },
+    {
+      "id": 28,
+      "query": "token 花在哪了，给我成本报告",
+      "expect": "caveman-learn",
+      "should_trigger": true
+    },
+    {
+      "id": 29,
+      "query": "帮我拆两个子代理并行改前端和后端",
+      "expect": "cavecrew",
+      "should_trigger": true
+    },
+    {
+      "id": 30,
+      "query": "这个方案你残酷追问一遍",
+      "expect": "grilling",
+      "should_trigger": true
+    },
+    {
+      "id": 31,
+      "query": "帮我写清楚需求，我要一句话变规格",
+      "expect": "finesse-brief",
+      "should_trigger": true
+    },
+    {
+      "id": 32,
+      "query": "一句话说不清，帮我做工作台规格",
+      "expect": "finesse-brief",
+      "should_trigger": true
+    },
+    {
+      "id": 33,
+      "query": "这段报错堆栈我看不懂，先定位再改",
+      "expect": "investigate-first",
+      "should_trigger": true
+    },
+    {
+      "id": 34,
+      "query": "升级 React 18 到 19，兼容要保证",
+      "expect": "migration",
+      "should_trigger": true
+    },
+    {
+      "id": 35,
+      "query": "这个改动先给最小实现，别过度设计",
+      "expect": "lean-build",
+      "should_trigger": true
+    },
+    {
+      "id": 36,
+      "query": "只改这一个函数内部，别动别的",
+      "expect": "surgical-patch",
+      "should_trigger": true
+    },
+    {
+      "id": 37,
+      "query": "给我一份设计规范文档",
+      "expect": "design-system-lead",
+      "should_trigger": true
+    },
+    {
+      "id": 38,
+      "query": "用户画像和可用性测试怎么安排",
+      "expect": "ux-researcher",
+      "should_trigger": true
+    },
+    {
+      "id": 39,
+      "query": "我要做数字孪生园区可视化",
+      "expect": "bigscreen-studio",
+      "should_trigger": true
+    },
+    {
+      "id": 40,
+      "query": "把这份周报提交给老板的邮箱",
+      "expect": null,
+      "should_trigger": false,
+      "note": "handoff"
+    },
+    {
+      "id": 41,
+      "query": "解释一下 SCADA 和 HMI 的区别",
+      "expect": null,
+      "should_trigger": false,
+      "note": "pure-qa"
+    },
+    {
+      "id": 42,
+      "query": "什么是 design token",
+      "expect": null,
+      "should_trigger": false,
+      "note": "pure-qa"
+    },
+    {
+      "id": 43,
+      "query": "把 README 里的『大屏』改成『显示屏』",
+      "expect": null,
+      "should_trigger": false,
+      "note": "literal"
+    },
+    {
+      "id": 44,
+      "query": "把标题里的大屏两个字改成显示屏",
+      "expect": null,
+      "should_trigger": false,
+      "note": "literal"
+    },
+    {
+      "id": 45,
+      "query": "这个页面报错了，把控制台日志原文贴给我看看",
+      "expect": null,
+      "should_trigger": false,
+      "note": "literal"
+    },
+    {
+      "id": 46,
+      "query": "把这段代码复制给我看看",
+      "expect": null,
+      "should_trigger": false,
+      "note": "literal"
+    },
+    {
+      "id": 47,
+      "query": "产品经理和项目经理的区别是什么",
+      "expect": null,
+      "should_trigger": false,
+      "note": "pure-qa"
+    },
+    {
+      "id": 48,
+      "query": "帮我把这份文件发给张总",
+      "expect": null,
+      "should_trigger": false,
+      "note": "handoff"
+    },
+    {
+      "id": 49,
+      "query": "只改一行，把超时从 30 调到 60",
+      "expect": null,
+      "should_trigger": false,
+      "note": "micro-no-skill"
+    },
+    {
+      "id": 50,
+      "query": "今天几号",
+      "expect": null,
+      "should_trigger": false,
+      "note": "pure-qa"
+    },
+    {
+      "id": 51,
+      "query": "这个 PR 已经合并了吗，查一下状态",
+      "expect": null,
+      "should_trigger": false,
+      "note": "status-only"
+    },
+    {
+      "id": 52,
+      "query": "翻译这段英文注释",
+      "expect": null,
+      "should_trigger": false,
+      "note": "translate"
+    },
+    {
+      "id": 53,
+      "query": "把 npm 那个包名告诉我",
+      "expect": null,
+      "should_trigger": false,
+      "note": "lookup"
+    },
+    {
+      "id": 101,
+      "query": "这套遗留系统太乱了，帮我想清楚怎么往下演进",
+      "expect": "product-strategist",
+      "holdout": true,
+      "should_trigger": true
+    },
+    {
+      "id": 103,
+      "query": "这个页面在手机上错位了，帮我看看",
+      "expect": "diagnose",
+      "holdout": true,
+      "should_trigger": true
+    },
+    {
+      "id": 104,
+      "query": "把我这堆零散想法整理成能开工的清单",
+      "expect": "finesse-brief",
+      "holdout": true,
+      "should_trigger": true
+    },
+    {
+      "id": 106,
+      "query": "周三下午三点是什么时候来着",
+      "expect": null,
+      "holdout": true,
+      "should_trigger": false
+    },
+    {
+      "id": 107,
+      "query": "把这段英文邮件翻译成正式中文",
+      "expect": null,
+      "holdout": true,
+      "should_trigger": false
+    },
+    {
+      "id": 108,
+      "query": "为什么夏天天空是蓝色的",
+      "expect": null,
+      "holdout": true,
+      "should_trigger": false
+    },
+    {
+      "id": 201,
+      "query": "这个老项目要不要重写成新框架，帮我拿主意",
+      "expect": "product-strategist",
+      "should_trigger": true,
+      "holdout": true
+    },
+    {
+      "id": 202,
+      "query": "手机端表格横向滚动卡住，滑不动",
+      "expect": "diagnose",
+      "should_trigger": true,
+      "holdout": true
+    },
+    {
+      "id": 206,
+      "query": "帮我把两个分支的改动合到一起",
+      "expect": "safe-refactor",
+      "should_trigger": true,
+      "holdout": true
+    },
+    {
+      "id": 207,
+      "query": "今天气温多少度",
+      "expect": null,
+      "should_trigger": false,
+      "holdout": true,
+      "note": "negative:holdout2"
+    },
+    {
+      "id": 208,
+      "query": "帮我算一下 37 乘以 19",
+      "expect": null,
+      "should_trigger": false,
+      "holdout": true,
+      "note": "negative:holdout2"
+    },
+    {
+      "id": 209,
+      "query": "把这个函数名从 getUser 改成 fetchUser",
+      "expect": null,
+      "should_trigger": false,
+      "holdout": true,
+      "note": "negative:holdout2"
+    },
+    {
+      "id": 210,
+      "query": "这个活太大，帮我拆成几块让子代理并行干",
+      "expect": "agent-dispatch",
+      "should_trigger": true
+    },
+    {
+      "id": 211,
+      "query": "让另一个代理独立审查一遍，用两阶段审查单",
+      "expect": "agent-review",
+      "should_trigger": true
+    },
+    {
+      "id": 212,
+      "query": "这事要跨好几天，帮我记着进度，断点续跑",
+      "expect": "goal-tracker",
+      "should_trigger": true
+    },
+    {
+      "id": 213,
+      "query": "上下文快爆了，先算一下 token 再决定读什么",
+      "expect": "token-guard",
+      "should_trigger": true
+    },
+    {
+      "id": 214,
+      "query": "给用户列表页加个搜索框",
+      "expect": "surgical-patch",
+      "should_trigger": true
+    },
+    {
+      "id": 215,
+      "query": "今天天气怎么样",
+      "expect": "none",
+      "should_trigger": false
+    }
   ],
   "task_cases": [
-    {"id": 1, "prompt": "给订单页加一个导出 CSV 按钮", "expected_output": "可导出且表头正确的 CSV", "assertions": ["页面存在导出按钮", "导出文件含表头行", "控制台零报错"]},
-    {"id": 2, "prompt": "做一个智慧园区能源管理数据大屏", "expected_output": "1920x1080 无溢出的可视化大屏", "assertions": ["1920x1080 截图存在", "控制台零报错", "面板零溢出"]}
+    {
+      "id": 1,
+      "prompt": "给订单页加一个导出 CSV 按钮",
+      "expected_output": "可导出且表头正确的 CSV",
+      "assertions": [
+        "页面存在导出按钮",
+        "导出文件含表头行",
+        "控制台零报错"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "做一个智慧园区能源管理数据大屏",
+      "expected_output": "1920x1080 无溢出的可视化大屏",
+      "assertions": [
+        "1920x1080 截图存在",
+        "控制台零报错",
+        "面板零溢出"
+      ]
+    }
+  ],
+  "tier_cases": [
+    {
+      "id": 1,
+      "query": "帮我做一个智慧园区能耗大屏",
+      "expect": "L2"
+    },
+    {
+      "id": 2,
+      "query": "做个企业官网落地页，要高级感",
+      "expect": "L2"
+    },
+    {
+      "id": 3,
+      "query": "重构订单模块，行为不能变",
+      "expect": "L2"
+    },
+    {
+      "id": 4,
+      "query": "升级 React 18 到 19，兼容要保证",
+      "expect": "L2"
+    },
+    {
+      "id": 5,
+      "query": "只改一行，把超时从 30 调到 60",
+      "expect": "L0"
+    },
+    {
+      "id": 6,
+      "query": "改个按钮文案",
+      "expect": "L0"
+    },
+    {
+      "id": 7,
+      "query": "把 README 里的『大屏』改成『显示屏』",
+      "expect": "L0"
+    },
+    {
+      "id": 8,
+      "query": "解释一下 SCADA 和 HMI 的区别",
+      "expect": "L0"
+    },
+    {
+      "id": 9,
+      "query": "修一下登录页按钮位置偏了",
+      "expect": "L1"
+    },
+    {
+      "id": 10,
+      "query": "给订单页加一个导出 CSV 按钮",
+      "expect": "L1"
+    },
+    {
+      "id": 11,
+      "query": "这个接口报错了帮我查一下为什么",
+      "expect": "L1"
+    },
+    {
+      "id": 12,
+      "query": "给这个组件补一个单元测试",
+      "expect": "L1"
+    },
+    {
+      "id": 13,
+      "query": "上线前帮我验收，给我证据",
+      "expect": "L1"
+    },
+    {
+      "id": 14,
+      "query": "先查清楚这个偶发崩溃的根因",
+      "expect": "L1"
+    },
+    {
+      "id": 15,
+      "query": "帮我做个工业监控大屏",
+      "expect": "L2"
+    },
+    {
+      "id": 16,
+      "query": "删除线上旧的分区表",
+      "expect": "L1"
+    }
   ]
 }

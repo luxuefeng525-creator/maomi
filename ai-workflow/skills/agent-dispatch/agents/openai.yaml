@@ -1,0 +1,4 @@
+interface:
+  display_name: "AgentDispatch"
+  short_description: "拆活派子代理。用于任务跨多文件/多模块、需要并行调研、或上下文要爆时：先定档再决定派几个、谁只读谁写、怎么收口。"
+  default_prompt: "Use $agent-dispatch to 拆活派子代理。用于任务跨多文件/多模块、需要并行调研、或上下文要爆时：先定档再决定派几个、谁只读谁写、怎么收口。."

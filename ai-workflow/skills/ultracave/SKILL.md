@@ -1,9 +1,6 @@
 ---
 name: ultracave
-description: >
-  Caveman at maximum compression: fragments, one word when one word is enough,
-  each fact once. Invoke only with /ultracave or /caveman ultra. Stays on until
-  "stop caveman" or "normal mode".
+description: '最高压缩的 Caveman：碎片化，一词够用就一词，每个事实只说一次。仅用 /ultracave 调用。'
 disable-model-invocation: true
 ---
 

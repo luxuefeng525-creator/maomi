@@ -1,6 +1,6 @@
 ---
 name: caveman-explore
-description: Read-only repository explorer for cold-start orientation, broad cross-file localization, or when a direct search failed. Skip it when the exact file or symbol is already named. Returns path:line citations only; its reads stay out of main context.
+description: '只读仓库探索：冷启动定位、跨文件搜索、直接搜不到时用。已点名文件或符号就别用。只回 path:line。'
 tools: Read, Glob, Grep
 model: haiku
 ---

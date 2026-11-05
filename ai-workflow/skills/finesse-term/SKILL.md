@@ -1,6 +1,6 @@
 ---
 name: finesse-term
-description: 'Web 与移动 H5 的说法层：把用户说不准的界面描述，换成一句能直接发给 Agent 的准确需求；统一术语、命名与微文案，避免同义混用。用于文案/术语/命名/微文案、需求转写、界面用语统一、按钮与提示语打磨。'
+description: '界面说法层：把说不准的界面描述换成能直接发给 Agent 的准确需求，统一术语、命名与微文案。用于 文案、术语、命名、需求转写、按钮与提示语打磨。'
 version: 0.1.0
 user-invocable: true
 argument-hint: "[say · name · explain · check · align · list] [用户的原话]"

@@ -1,6 +1,6 @@
 ---
 name: frame-smith
-description: 'Build motion-crafted promo videos as Remotion compositions - cinematic HyperFrame clips (3D poster cubes, capsule transitions, kinetic type), product and launch films, and short social cuts. Use for 视频/片头/宣传片/动画视频/开场/产品视频/film/motion. Outputs a Remotion project with storyboard, scenes and render config.'
+description: '用 Remotion 做动效宣传片：电影感片头、产品与发布视频、社交短剪。用于 视频、片头、宣传片、动画、开场、产品视频。产出含分镜、场景与渲染配置的工程。'
 version: 0.1.0
 user-invocable: true
 argument-hint: "[craft · env · engine|beats · restage · slower|faster · register · audit] [brief]"

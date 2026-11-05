@@ -1,9 +1,6 @@
 ---
 name: caveman-optimize
-description: >
-  Turn a Caveman optimization observation into an operator-chosen candidate
-  with a paired baseline evaluation. Use when asked to inspect or evaluate a
-  Caveman optimization report. Needs explicit approval.
+description: '把优化观察变成由操作者选定、带基线对照的候选实验。用于 评估优化报告，需显式批准。'
 ---
 
 # Evaluate an optimization observation

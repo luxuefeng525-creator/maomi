@@ -1,6 +1,6 @@
 ---
 name: verify-and-stop
-description: Prove existing work meets acceptance conditions without expanding scope. Use for validation-only tasks, completion checks, focused gate runs, and last-mile proof.
+description: '只证明现有工作满足验收，绝不扩范围。用于 验收、完成度检查、闸门跑测、补测试与最后一步证据。'
 ---
 
 # Verify and stop

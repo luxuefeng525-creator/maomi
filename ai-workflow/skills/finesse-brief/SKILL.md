@@ -1,6 +1,6 @@
 ---
 name: finesse-brief
-description: 'Define the workbench before anyone builds it - turn one vague sentence into a build-ready Workbench Spec (the Workbench Architect). Separates 个人工作台 (one thing the user repeats) from 系统工作台 (a batch of business objects), then fixes five parts, the data floor, cadence, structure, blacklist and handoff. Use for 工作台/每日工作台/打卡页/记录页/daily desk/back-office/console/wizard/publish flow/settings page, or when a feature needs a spec before implementation. Outputs a spec, not code.'
+description: '把一句模糊需求变成可直接开工的工作台规格（先定规格再动手），区分个人工作台与系统工作台，锁定结构、数据底座、节奏与交接。用于 工作台、打卡页、记录页、设置页、发布流，或开工前先出规格。'
 version: 0.5.0
 user-invocable: true
 argument-hint: "[sketch · discover · define · modules|hook|data|pages|monetize · audit · narrow|widen · handoff] [target]"

@@ -3,3 +3,15 @@
 
 # 系统
 .DS_Store
+
+# 运行产物：检查点/记忆/审查单/派工单/钩子配置，均可重生成
+.ai-workflow/
+HANDOFF.md
+eval-results/*
+!eval-results/.gitkeep
+
+# 依赖与本地环境
+node_modules/
+*.log
+.env
+.env.*
