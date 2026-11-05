@@ -22,7 +22,7 @@ node scripts/browser.mjs --steps '[{"goto":"http://localhost:5173"},{"click":"#e
 node scripts/browser.mjs --url http://localhost:5173 --screenshot shot.png
 ```
 
-选项：`--timeout` 单步毫秒（默认 15000）、`--overall` 总毫秒（默认 180000）、`--headed` 有头（调试看）、`--width/--height`、`--out` 截图目录、`--allow-console` 忽略控制台报错。
+选项：`--timeout` 单步毫秒（默认 15000）、`--overall` 总毫秒（默认 180000）、`--headed` 有头（调试看）、`--width/--height`、`--out` 截图目录、`--allow-console` 忽略控制台报错、`--module-dir <项目目录>` 从项目 node_modules 解析 playwright（技能装全局、依赖装在项目里时必用）、`--channel msedge|chrome` 用系统浏览器（chromium 不可用时自动回退）。
 
 ## 步骤 DSL
 

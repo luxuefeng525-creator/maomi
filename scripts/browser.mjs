@@ -13,6 +13,8 @@
 // 输出（stdout 纯 JSON）：{ ok, failedStep, steps, consoleErrors, pageErrors, screenshot }
 import fs from 'node:fs';
 import path from 'node:path';
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 
 const argv = process.argv.slice(2);
 function opt(n, d) { const i = argv.indexOf(n); return i >= 0 && argv[i + 1] !== undefined ? argv[i + 1] : d; }
@@ -25,6 +27,8 @@ const OVERALL_MS = Math.max(1000, parseInt(opt('--overall', '180000'), 10) || 18
 const HEADED = argv.includes('--headed');
 const ALLOW_CONSOLE = argv.includes('--allow-console');
 const SHOT = opt('--screenshot', null);
+const MODULE_DIR = opt('--module-dir', null);   // 从该项目目录解析 playwright 依赖
+const CHANNEL = opt('--channel', null);          // chromium | msedge | chrome
 
 function emit(obj, code) { process.stdout.write(JSON.stringify(obj, null, 2) + '\n'); process.exit(code); }
 
@@ -44,19 +48,34 @@ if (!steps.length) {
 }
 if (URL_BASE && !steps.some(s => s.goto)) steps.unshift({ goto: URL_BASE });
 
-// 解析浏览器依赖（与 verify-visual 同策略）
-let launch = null;
-for (const mod of ['playwright', 'playwright-core', 'puppeteer']) {
-  try {
-    const m = await import(mod);
-    const pw = m.default || m;
-    const chromium = pw.chromium || (pw.launch ? pw : null);
-    if (chromium && chromium.launch) { launch = chromium.launch.bind(chromium); break; }
-    if (pw.launch) { launch = pw.launch.bind(pw); break; }
-  } catch { /* next */ }
+// 解析浏览器依赖：优先从 --module-dir / 当前项目 / app / server 里找（项目常把 playwright 装在自己的 node_modules，不在本技能目录）。
+let launch = null, resolveErr = '';
+const bases = [MODULE_DIR, process.cwd(), path.join(process.cwd(), 'app'), path.join(process.cwd(), 'server')].filter(Boolean);
+const seenBase = new Set();
+for (const base of bases) {
+  const abs = path.resolve(base);
+  if (seenBase.has(abs)) continue;
+  seenBase.add(abs);
+  let req;
+  try { req = createRequire(path.join(abs, '__resolve__.js')); } catch { continue; }
+  for (const mod of ['playwright', 'playwright-core']) {
+    try {
+      const resolved = req.resolve(mod);
+      const m = await import(pathToFileURL(resolved).href);
+      const pw = m.default || m;
+      const chromium = pw.chromium || (pw.launch ? pw : null);
+      if (chromium && chromium.launch) { launch = chromium.launch.bind(chromium); }
+      else if (pw.launch) { launch = pw.launch.bind(pw); }
+      if (launch) break;
+    } catch (e) { resolveErr = e.message; }
+  }
+  if (launch) break;
 }
 if (!launch) {
-  emit({ ok: false, error: 'NO_BROWSER_DEP', hint: '未安装 playwright/playwright-core/puppeteer。执行 `npm i -D playwright && npx playwright install chromium`，或让宿主提供浏览器工具。' }, 3);
+  try { const m = await import('puppeteer'); const p = m.default || m; if (p.launch) launch = p.launch.bind(p); } catch { /* none */ }
+}
+if (!launch) {
+  emit({ ok: false, error: 'NO_BROWSER_DEP', hint: '未解析到 playwright/playwright-core/puppeteer。用 `--module-dir <装了 playwright 的项目目录>` 指定，或 `npm i -D playwright && npx playwright install chromium`。', detail: resolveErr || null }, 3);
 }
 
 const deadline = Date.now() + OVERALL_MS;
@@ -67,10 +86,15 @@ function withTimeout(p, ms, label) {
   ]);
 }
 
-let browser;
-try {
-  browser = await launch({ headless: !HEADED, args: ['--no-sandbox', '--disable-setuid-sandbox'] });
-} catch (e) { emit({ ok: false, error: 'BROWSER_LAUNCH_FAILED: ' + e.message }, 3); }
+let browser, launchErr = '';
+async function tryLaunch(extra) {
+  return await launch({ headless: !HEADED, args: ['--no-sandbox', '--disable-setuid-sandbox'], ...extra });
+}
+const tries = CHANNEL ? [{ channel: CHANNEL }] : [{}, { channel: 'msedge' }, { channel: 'chrome' }];
+for (const t of tries) {
+  try { browser = await tryLaunch(t); break; } catch (e) { launchErr = e.message; }
+}
+if (!browser) emit({ ok: false, error: 'BROWSER_LAUNCH_FAILED: ' + launchErr, hint: '可加 --channel msedge 或 --channel chrome 用系统浏览器。' }, 3);
 
 const page = await browser.newPage({ viewport: { width: WIDTH, height: HEIGHT }, deviceScaleFactor: 1 });
 const consoleErrors = [], pageErrors = [];
