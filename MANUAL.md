@@ -1,6 +1,6 @@
 # ai-workflow 使用手册（拿到压缩包的人看这里）
 
-> 你手上是一个 `ai-workflow-v3.2.3.zip`。它是一套**自包含的 AI 工作流技能包**：装到你的 AI 编程工具里，之后在会话里输入 `ai-workflow`，它就会带着 AI 走完整流程（先想清楚 → 自动挑技能 → 干活 → 自检收尾），不用你每次手动指挥。
+> 你手上是一个 `ai-workflow-v3.2.4.zip`。它是一套**自包含的 AI 工作流技能包**：装到你的 AI 编程工具里，之后在会话里输入 `ai-workflow`，它就会带着 AI 走完整流程（先想清楚 → 自动挑技能 → 干活 → 自检收尾），不用你每次手动指挥。
 >
 > 不需要联网、不需要装数据库、不需要改你的项目代码。只要有 Node.js 和一个支持 Skills 的 AI 工具即可。
 
@@ -45,7 +45,7 @@ ai-workflow
 - **Windows**：右键 zip →「全部解压缩」→ 得到一个 `ai-workflow` 文件夹。
 - **macOS / Linux**：
   ```bash
-  unzip ai-workflow-v3.2.3.zip
+  unzip ai-workflow-v3.2.4.zip
   ```
 - 解压后目录里应能看到 `install.mjs`、`SKILL.md`、`scripts/`、`skills/` 等。**以下命令都在这个 `ai-workflow` 目录里执行。**
 
