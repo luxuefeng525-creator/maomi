@@ -1,0 +1,61 @@
+name: ai-workflow CI
+
+# 只拦 ai-workflow 子包的改动：根级 test.yml 继续跑 agent-workbench 自己的测试，
+# 两者互不拖慢。PR 红即拦（required check 由分支保护开启后生效）。
+on:
+  pull_request:
+    paths:
+      - 'ai-workflow/**'
+      - '.github/workflows/ai-workflow-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'ai-workflow/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-workflow-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: gates (doctor / audit / trigger / tier / release)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ai-workflow
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Node version
+        run: node --version
+
+      - name: Doctor (env + package integrity)
+        run: node scripts/doctor.mjs
+
+      - name: Skill audit (all bundled skills)
+        run: node scripts/audit-skills.mjs
+
+      - name: Trigger eval
+        run: node scripts/eval.mjs trigger
+
+      - name: Tier eval
+        run: node scripts/eval.mjs tier
+
+      - name: Release gate (version / changelog / audit / F1 / pack)
+        run: node scripts/release.mjs --pack
+
+      - name: Upload package zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-workflow-package
+          path: ai-workflow/ai-workflow-*.zip
+          if-no-files-found: error
+          retention-days: 14
