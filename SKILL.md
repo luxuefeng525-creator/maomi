@@ -1,7 +1,7 @@
 ---
 name: ai-workflow
 description: 跨平台全流程工作流总入口（任意项目、任意 AI 工具可用）。触发词：ai-workflow、/ai-workflow、进入工作流、开工流程、走流程、按工作流走。用户输入即自动进入——定档 L0/L1/L2→按档执行→质量闸门→收尾验证。纯闲聊、单行改动不加载。工作区有 .trae/rules/ai-workflow.md 等专属协议时自动让位。
-version: 3.2.6
+version: 3.2.7
 ---
 
 触发词：ai-workflow / /ai-workflow / 进入工作流 / 开工流程 / 走流程 / 按工作流走
@@ -36,7 +36,7 @@ version: 3.2.6
 3. **看上下文**：大仓先 `node scripts/context.mjs --dir <repo>` 出地图，再定点 `Grep/Read`（见 `references/context.md`）。
 4. **执行**：L0 走环 3+4｜L1 加环 5｜L2 全 8 环（`references/workflow.md`）；≥3 独立模块走子代理（`references/parallel.md`）。
 5. **独立审查**：L1 多文件 / L2 派只读子代理审 diff。
-6. **收尾**：先证后言；`[DEBUG-` 清零；UI 先 `verify-visual.mjs`（1920×1080）再 `browser.mjs` 跑关键路径 E2E；提交前 `git-atomic.mjs plan`；记忆落盘。
+6. **收尾**：先证后言；`[DEBUG-` 清零；UI 先 `verify-visual.mjs`（1920×1080）再 `browser.mjs` 跑关键路径 E2E；提交前 `git-atomic.mjs plan`；记忆落盘；**发布前 `release.mjs --pack` 过闸**。
 
 ## 3 三处必停
 需求不清｜不可逆/危险｜验收不过 → 事实 → 选项（含推荐）→ 影响 → 等指令。禁止边问边改。
@@ -63,6 +63,8 @@ version: 3.2.6
 - 跨工具 `/tmp` 不同源：临时文件用 Bash 自身路径。
 - 中文路径：Windows 用 PowerShell 同步，Git Bash 可能报 127。
 - 技能预算别挤掉产出技能：`L1≤1/L2≤2` 只限**过程**技能；`finesse-ui`/大屏/视频是**产出**技能，必载、不占预算。
+- 同步宿主先 dry-run：`sync-hosts.mjs` 默认只报告；整目录覆盖会冲掉项目定制（如 bigscreen 的引擎候选逻辑），用 `--skip` 保护。
+- 发布前跑 `release.mjs --pack`：版本/CHANGELOG/36 技能审计/F1/打包全过才发，别手工多步拼。
 
 ## 7 长期记忆
 见 `references/memory-spec.md`：索引 + 关键词检索，从不整份载入；单行紧凑；自动剪枝。
@@ -82,5 +84,8 @@ version: 3.2.6
 | UI 截图自检 | `node scripts/verify-visual.mjs --url <地址或HTML>` |
 | 浏览器 E2E | `node scripts/browser.mjs --url <地址> --steps <json>` |
 | 断点续跑 | `node scripts/checkpoint.mjs start/done/status/resume` |
+| 技能审计 | `node scripts/audit-skills.mjs`（全量 PASS/FAIL，发布前必过） |
+| 安全同步宿主 | `node scripts/sync-hosts.mjs --pkg <dir> [--deps <dir>] [--apply] [--skip 名]`（默认 dry-run） |
+| 发布前检查 | `node scripts/release.mjs --pack`（版本/CHANGELOG/审计/F1/打包） |
 | 打包 | `node scripts/pack.mjs` |
 | 命中率 | `node scripts/eval.mjs trigger` |

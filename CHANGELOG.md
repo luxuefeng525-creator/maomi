@@ -1,5 +1,15 @@
 # Changelog
 
+## 3.2.7 (2026-11-05)
+
+### Added
+- `scripts/audit-skills.mjs`：发布前全量技能审计（36/36 PASS 才放行）。
+- `scripts/sync-hosts.mjs`：安全同步宿主——默认 **dry-run**，`--apply` 才写，`--backup` 备份，`--skip` 保护定制技能（修复「整目录覆盖冲掉 bigscreen 引擎候选逻辑」的隐患）。
+- `scripts/release.mjs`：发布前一键过闸（版本 / CHANGELOG / 技能审计 / F1 / 打包），**不做外部 push**。
+
+### Changed
+- `SKILL.md`：收尾环加「发布前 `release.mjs --pack`」；工具速查新增三项；gotchas 增「同步先 dry-run、别手工多步发布」。
+
 ## 3.2.6 (2026-11-05)
 
 ### Fixed
