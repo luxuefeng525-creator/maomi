@@ -1,7 +1,7 @@
 ---
 name: ai-workflow
 description: 跨平台全流程工作流总入口（任意项目、任意 AI 工具可用）。触发词：ai-workflow、/ai-workflow、进入工作流、开工流程、走流程、按工作流走。用户输入即自动进入——定档 L0/L1/L2→按档执行→质量闸门→收尾验证。纯闲聊、单行改动不加载。工作区有 .trae/rules/ai-workflow.md 等专属协议时自动让位。
-version: 3.1.1
+version: 3.2.0
 ---
 
 触发词：ai-workflow / /ai-workflow / 进入工作流 / 开工流程 / 走流程 / 按工作流走
@@ -34,7 +34,7 @@ version: 3.1.1
 3. **看上下文**：大仓先 `node scripts/context.mjs --dir <repo>` 出地图，再定点 `Grep/Read`（见 `references/context.md`）。
 4. **执行**：L0 走环 3+4｜L1 加环 5｜L2 全 8 环（`references/workflow.md`）；≥3 独立模块走子代理（`references/parallel.md`）。
 5. **独立审查**：L1 多文件 / L2 派只读子代理审 diff。
-6. **收尾**：先证后言；`[DEBUG-` 清零；UI 跑 `verify-visual.mjs`（1920×1080）；提交前 `git-atomic.mjs plan`；记忆落盘。
+6. **收尾**：先证后言；`[DEBUG-` 清零；UI 先 `verify-visual.mjs`（1920×1080）再 `browser.mjs` 跑关键路径 E2E；提交前 `git-atomic.mjs plan`；记忆落盘。
 
 ## 3 三处必停
 需求不清｜不可逆/危险｜验收不过 → 事实 → 选项（含推荐）→ 影响 → 等指令。禁止边问边改。
@@ -49,6 +49,7 @@ version: 3.1.1
 - 先地图后定点读；大文件**不整份 Read**。
 - 脚本输出只取结论行，不整段回显。
 - 重活派子代理，主上下文只留结论。
+- **长任务**：先 `checkpoint.mjs start`，每步 `done`；长命令后台 + 轮询；超时用 `resume` 续跑（见 `references/long-tasks.md`）。
 - **一个任务一个新会话**（长会话越跑越慢）。
 - 需要钩子时见 `references/hooks.md`（SessionStart/PostToolUse/Stop）。
 
@@ -76,5 +77,7 @@ version: 3.1.1
 | 模块拆解 | `node scripts/decompose.mjs --dir <repo>` |
 | 原子提交预演 | `node scripts/git-atomic.mjs plan` |
 | UI 截图自检 | `node scripts/verify-visual.mjs --url <地址或HTML>` |
+| 浏览器 E2E | `node scripts/browser.mjs --url <地址> --steps <json>` |
+| 断点续跑 | `node scripts/checkpoint.mjs start/done/status/resume` |
 | 打包 | `node scripts/pack.mjs` |
 | 命中率 | `node scripts/eval.mjs trigger` |

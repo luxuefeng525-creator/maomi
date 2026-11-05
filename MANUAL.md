@@ -1,6 +1,6 @@
 # ai-workflow 使用手册（拿到压缩包的人看这里）
 
-> 你手上是一个 `ai-workflow-v3.1.1.zip`。它是一套**自包含的 AI 工作流技能包**：装到你的 AI 编程工具里，之后在会话里输入 `ai-workflow`，它就会带着 AI 走完整流程（先想清楚 → 自动挑技能 → 干活 → 自检收尾），不用你每次手动指挥。
+> 你手上是一个 `ai-workflow-v3.2.0.zip`。它是一套**自包含的 AI 工作流技能包**：装到你的 AI 编程工具里，之后在会话里输入 `ai-workflow`，它就会带着 AI 走完整流程（先想清楚 → 自动挑技能 → 干活 → 自检收尾），不用你每次手动指挥。
 >
 > 不需要联网、不需要装数据库、不需要改你的项目代码。只要有 Node.js 和一个支持 Skills 的 AI 工具即可。
 
@@ -45,7 +45,7 @@ ai-workflow
 - **Windows**：右键 zip →「全部解压缩」→ 得到一个 `ai-workflow` 文件夹。
 - **macOS / Linux**：
   ```bash
-  unzip ai-workflow-v3.1.1.zip
+  unzip ai-workflow-v3.2.0.zip
   ```
 - 解压后目录里应能看到 `install.mjs`、`SKILL.md`、`scripts/`、`skills/` 等。**以下命令都在这个 `ai-workflow` 目录里执行。**
 
@@ -181,6 +181,8 @@ ai-workflow
 | 一轮快速自检（推荐） | `node scripts/fast.mjs "你的需求"`（合并自举/定档/记忆/路由，只出 4 行） |
 | 仓库地图（大项目必用） | `node scripts/context.mjs --dir <仓库根>`（先看有什么，再定点读） |
 | 校验某个技能 | `node scripts/validate-skill.mjs skills/<名>` |
+| 浏览器 E2E（点击/填表/断言） | `node scripts/browser.mjs --url <地址> --steps <json>` |
+| 长任务断点续跑 | `node scripts/checkpoint.mjs start/done/status/resume` |
 | 判断任务档位 | `node scripts/classify.mjs "你的需求"` |
 | 查历史记忆 | `node scripts/memory.mjs search "关键词"` |
 | 记一条长期记忆 | `node scripts/memory.mjs add "键 | 值"` |

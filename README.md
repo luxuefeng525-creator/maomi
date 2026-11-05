@@ -29,6 +29,8 @@ ai-workflow/
 │   ├── eval.md           # 评测与量化协议（对标 skill-creator，命中才读）
 │   ├── context.md        # 上下文工程：仓库地图 + 定点读
 │   ├── hooks.md          # 钩子接入（可选）
+│   ├── browser.md        # 浏览器控制协议（E2E / 断言 / 降级）
+│   ├── long-tasks.md     # 长任务与超时（检查点/后台/重试）
 │   └── memory-spec.md    # 长期记忆规范（省 token）
 ├── scripts/              # 自包含、跨平台、零依赖
 │   ├── start.mjs         # 自举：报 LEDGER/NEXT/VERSION
@@ -42,6 +44,8 @@ ai-workflow/
 │   ├── fast.mjs          # 一轮一次：合并自举/定档/记忆/路由（4 行结论）
 │   ├── context.mjs       # 仓库地图：文件+顶层符号，替代整份读（对标 repo-map）
 │   ├── validate-skill.mjs# 技能自校验（frontmatter/命名/描述/行数/引用）
+│   ├── browser.mjs       # 浏览器控制：点击/填表/断言/多步 E2E（缺依赖优雅降级）
+│   ├── checkpoint.mjs    # 长任务断点续跑（.ai-workflow/checkpoint.json）
 │   ├── pack.mjs          # 可重复打 zip（排除 .git）
 │   └── triggers.json     # 触发词清单（主路由）+ 负向意图闸门
 ├── evals/                # evals.json：种子用例（含 near-miss 负例）

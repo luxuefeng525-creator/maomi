@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.2.0 (2026-11-05)
+
+### Added
+- `scripts/browser.mjs`：真正的浏览器控制（导航/点击/填表/按键/等待/断言文本·可见性·URL/截图），多步 E2E；单步与总超时；缺 `playwright/puppeteer` 时返回 `NO_BROWSER_DEP` 并优雅退出，不阻塞主流程。补上「只有截图、没有交互控制」的缺口。
+- `scripts/checkpoint.mjs`：长任务断点账本（start/done/status/resume/note/reset，`.ai-workflow/checkpoint.json`），任务超时/中断后可续跑，不丢进度。
+- `references/browser.md`：浏览器控制协议（步骤 DSL、超时、降级、安全红线）。
+- `references/long-tasks.md`：长任务与超时策略（检查点、后台+轮询、有限重试、拆分、HANDOFF）。
+
+### Changed
+- `SKILL.md` 收尾环：UI 先 `verify-visual` 截图，再 `browser.mjs` 跑关键路径 E2E。
+- `references/workflow.md`：验收环加 E2E 要求；实现环加检查点提示。
+- 质量闸门矩阵维持不变：这两项是**加验收能力**，不是放松闸门。
+
 ## 3.1.1 (2026-11-05)
 
 ### Added
