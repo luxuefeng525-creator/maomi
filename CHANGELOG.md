@@ -1,5 +1,16 @@
 # Changelog
 
+## 3.2.3 (2026-11-05)
+
+### Fixed
+- `install.sh` 补齐 `MANUAL.md`、`CHANGELOG.md`、`examples/`，与 `install.mjs` 对齐；补上漏掉的 `.trae-cn/skills`（国内 Trae）目标。
+- `install.mjs` 复制清单补 `CHANGELOG.md`、`examples/`。
+
+### Added
+- `examples/e2e.login.example.json`：脱敏的 uni-app H5 登录 E2E 模板（占位符，不含真实账号）。
+- `examples/README.md`：用法 + uni-app E2E 踩坑（history 路由、placeholder 非 input 属性、token 断言、下单需确认）。
+- `references/routing.md` 新增「UI 真实交互 / E2E」「长任务 / 超时」两条路由，使能力可被自动指向。
+
 ## 3.2.2 (2026-11-05)
 
 ### Added
