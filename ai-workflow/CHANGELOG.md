@@ -1,5 +1,25 @@
 # Changelog
 
+## 3.3.1 (2026-11-05)
+
+### Added
+- `evals/heldout.json` 留出集（42 触发 + 11 定档）：**不参与调参**，衡量真实泛化。
+- `eval.mjs` 触发判定支持 `accept`（多可接受命中），语义近义对不再为标签硬改触发词。
+- `release.mjs` 新增「留出集 F1≥0.80」闸门，把真实泛化纳入发布门槛。
+
+### Fixed
+- **「起个数据看板的名字」误命中 bigscreen-studio**：`route.mjs` 的负向闸门（硬编码 NEG）补 `naming` 构式；「看板」不再是唯一信号。
+- **路由有两套负向规则**：`triggers.json.__negative_intents` 与 `route.mjs` 硬编码 NEG 脱节，已在 `route.mjs` 收敛。
+- **`内存泄漏` 被 24 词截断挤掉**：diagnose 关键词重排，`内存泄漏/leak` 提前。
+- **定档漏判「重做/整个重做」为 L2**：`classify.mjs` 的 `big` 补「重做/推翻重来/整个…重做」。
+- `catalog.json` 重建（触发词改动后未同步，会导致路由走旧词表）。
+
+### Changed
+- GitHub 分支保护 `enforce_admins` 由 false → **true**（管理员也不能绕过 CI 直推 main）。
+
+### Honest note
+- 留出集 F1=0.97（trigger 42 条 / tier 11 条）。仍有 2 条口语长句漏命中（「盘一下结构」「简洁点」），是**零 LLM 关键词路由的召回上限**，暂不强凑。真突破需给 route.mjs 加轻量语义（嵌入/同义词典），列下一步。
+
 ## 3.3.0 (2026-11-05)
 
 ### Added
@@ -22,6 +42,8 @@
 - **`eval.mjs snapshot` 漏拷 `catalog.json`**：`route.mjs` 首选 `catalog.json`，快照里没有它就会退回只读 `SKILL.md`，丢掉触发词/syncs/negatives，同一份代码 `diff` 出 `ΔF1=-0.47` 的**假回归**。快照现一并复制 `catalog.json`，复测 `ΔF1=0`、GAIN 0 / LOSS 0。
 - **`pack.mjs` 把工作产物打进分发件**：上版 zip 含 `.ai-workflow/`（会话账本）、`HANDOFF.md`、`eval-results/`，与 `.gitignore` 自相矛盾。现默认排除上述路径 + `.env*` + `*.zip`，新增 `--with-work` 供内部留档，并打印 `WORK_EXCLUDED=`。
 
+- **`install.mjs` 漏拷 `catalog.json`，装到宿主的包路由近乎全灭**：`COPY` 列表没有 `catalog.json`，而 3.3.0 的触发词**只**存在于 `catalog.json`、40 个 `SKILL.md` 里已无「触发词」行 —— 回退路径读到空 `keywords`，`route.mjs` 只剩 desc 的 ≤2 分，`--min 5` 下多数查询直接 `ROUTE_NONE`。实测装到 `~/.claude/skills/` 后：「上下文快满了怎么拆任务」本应命中 `agent-dispatch`(7) → 返回 `ROUTE_NONE`；「重构支付回调，涉及多个文件，先派子代理」丢掉 `agent-dispatch`(13) 只剩 `cavecrew`(7)；大屏查询分数由 20 掉到 8。3.3.0 的分发件验证走的是「zip 解到临时目录」，zip 里 `catalog.json` 由 `pack.mjs` 带入，正好绕开 `install.mjs`，所以没暴露。现 `COPY` 补上 `catalog.json`；重装后 4/4 条路由与原仓库逐字一致。
+
 ### Changed
 - **`release.mjs` 从 5 道闸加到 8 道**：新增「定档 acc」「环境自检 doctor」「泄漏检查」；`--zip <路径>` 可只验某个历史产物是否夹带工作产物。任一闸红即 `RELEASE BLOCKED`（负向测试：`--with-work` 造出的脏包被当场拦下，exit 1）。
 - `MANUAL.md`：命令速查补 `doctor` / `release` / `agent` / `eval snapshot·diff`，并写明 `pack.mjs` 的排除规则与 `--with-work` 用途。
@@ -32,6 +54,7 @@
 - 触发 n=71：acc/P/R/F1 = 1.00；定档 n=16：16/16，混淆 0。
 - **分发件回溯验证**：zip 解到干净临时目录后重跑 `doctor` / `audit-skills` / `trigger` / `tier`，全部通过（254 文件，零依赖，不需网络）。
 - `doctor` 8 pass / 0 warn / 0 fail；`eval snapshot` + `diff` 零回归。
+- **安装路径回归（补）**：`install.mjs --global --host claude` 装到用户级后，装目录 `doctor` 8 pass / 0 fail，4 条查询与原仓库路由逐字比对一致 —— 分发件验证只覆盖 zip，不覆盖 install，本次已补。
 - 提醒：本轮 6 条新用例为「先修后测」，存在解题痕迹，真实泛化估计 0.9 左右，出包前应补一批未参与调参的留出句。
 
 ## 3.2.7 (2026-11-05)

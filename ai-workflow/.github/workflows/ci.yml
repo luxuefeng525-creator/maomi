@@ -1,0 +1,50 @@
+name: ai-workflow CI
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ai-workflow-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  gate:
+    name: gates (doctor / audit / trigger / tier / release)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Node version
+        run: node --version
+
+      - name: Doctor (env + package integrity)
+        run: node scripts/doctor.mjs
+
+      - name: Skill audit (all bundled skills)
+        run: node scripts/audit-skills.mjs
+
+      - name: Trigger eval
+        run: node scripts/eval.mjs trigger
+
+      - name: Tier eval
+        run: node scripts/eval.mjs tier
+
+      - name: Release gate (version / changelog / audit / F1 / pack)
+        run: node scripts/release.mjs --pack
+
+      - name: Upload package zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: ai-workflow-package
+          path: ai-workflow-*.zip
+          if-no-files-found: error
+          retention-days: 14

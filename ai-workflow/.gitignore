@@ -15,3 +15,7 @@ node_modules/
 *.log
 .env
 .env.*
+
+# 本机备份/临时产物
+*.bak
+*.bak_*

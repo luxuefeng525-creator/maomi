@@ -19,7 +19,7 @@
 | caveman-learn | token 花在哪 / 成本报告 / 降本 / 优化建议 | any |
 | caveman-manage | 实验审批 / 实验生命周期 / cave score / 批准实验 | network |
 | caveman-optimize | 优化实验 / 基线对比 / 候选方案 / 调优 | any |
-| caveman-review | 代码审查 / review / 过一遍代码 / 找问题清单 | any |
+| caveman-review | 代码审查 / 过一遍代码 / 找问题清单 / review | any |
 | caveman-setup | 接入网关 / 埋点 / 接入 caveman / 网关配置 | network |
 | caveman-stats | 统计 / 用了多少token / 会话统计 / stats | hooks |
 | design-system-lead | 设计系统 / 组件库 / design token / 规范 | any |

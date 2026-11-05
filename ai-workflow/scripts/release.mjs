@@ -41,6 +41,20 @@ const tier = sh([path.join(here, 'eval.mjs'), 'tier']);
 const tierAcc = (tier.out.match(/acc=([\d.]+)/) || [])[1] || '';
 gate('定档', tier.code === 0 && tierAcc === '1.00', tierAcc ? `acc=${tierAcc}` : 'tier 失败');
 
+// 留出集闸门：不参与调参的句子，衡量真实泛化。触发 F1 低于阈值即拦（当前阈值 0.80）。
+const heldoutFiles = fs.existsSync(path.join(root, 'evals', 'heldout.json')) ? ['heldout.json'] : [];
+if (fs.existsSync(path.join(root, 'evals', 'heldout2.json'))) heldoutFiles.push('heldout2.json');
+const HELDOUT_F1_MIN = 0.80;
+const heldoutDetails = [];
+let heldoutOk = true;
+for (const hf of heldoutFiles) {
+  const h = sh([path.join(here, 'eval.mjs'), 'trigger', '--file', path.join('evals', hf)]);
+  const hf1 = parseFloat((h.out.match(/F1=([\d.]+)/) || [])[1] || '0');
+  heldoutOk = heldoutOk && h.code === 0 && hf1 >= HELDOUT_F1_MIN;
+  heldoutDetails.push(`${hf}=${hf1.toFixed(2)}`);
+}
+gate('留出集 F1≥' + HELDOUT_F1_MIN, heldoutOk, heldoutDetails.join('  ') || '无留出集文件');
+
 // 包完整性自检：环境/核心文件/catalog/零依赖/smoke 任一不过都不发
 const doc = sh([path.join(here, 'doctor.mjs')]);
 const ready = /READY/.test(doc.out) && doc.code === 0;
