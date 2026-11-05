@@ -21,6 +21,8 @@
 | 收尾 / 宣称完成 | `verify-and-stop`（先证后言，不扩范围） | 任意 |
 | 提交 / 拆分提交 / 分支 / worktree / 并行隔离 | `scripts/git-atomic.mjs plan`（原子拆分 + 卫生检查）→ `caveman-commit`（message）；并行流先 `worktree` 隔离，细则见 `references/git-workflow.md` | 任意 |
 | 评测 / 命中率 / 基准对比 / A-B 对比 | `scripts/eval.mjs`（脚本能力，不载技能）：`trigger` 测命中率 → `record` 记实测 → `compare` 看 delta；用例 `evals/evals.json`，细则 `references/eval.md`。**按需手动触发，不进每轮六步** | 任意 |
+| UI 真实交互 / E2E / 表单·跳转·弹窗·断言 | `scripts/browser.mjs`（多步 DSL：goto/click/fill/assert）；先 `verify-visual.mjs` 看整体，再跑关键路径；模板 `examples/e2e.login.example.json`，细则 `references/browser.md` | 任意 |
+| 长任务 / 超时 / 断点续跑 / 后台执行 | `scripts/checkpoint.mjs`（start/done/status/resume）+ `references/long-tasks.md`；长命令后台 + 轮询，有限重试 | 任意 |
 
 ## 大任务并行拆解（L2）
 L2 且含 ≥3 个相对独立模块时，不串行硬推，改走受控并行：
