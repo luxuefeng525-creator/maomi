@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.2.2 (2026-11-05)
+
+### Added
+- `browser.mjs` 新增 `{"assertEval":["表达式","期望"]}` 步骤：把页面内求值结果作为断言（如登录后 `!!localStorage.ws_token`、购物车含商品 id），让 E2E 的成败可被脚本判定而非肉眼判断。
+
+### Verified
+- 真实项目实测（桶装水 H5 `localhost:5190`）：登录（13800138000）+ 加购（商品 26）全链路通过，`ok:true`，0 控制台报错。注意 uni-app H5 的 placeholder 不是 input 属性、路由是 history 模式，选择器用 `input[type=number]` / `input[type=password]`，路由不带 `#`。
+
 ## 3.2.1 (2026-11-05)
 
 ### Fixed
