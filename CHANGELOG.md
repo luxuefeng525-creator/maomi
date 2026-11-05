@@ -1,5 +1,12 @@
 # Changelog
 
+## 3.2.1 (2026-11-05)
+
+### Fixed
+- `browser.mjs` 依赖解析：技能装在全局/独立目录时，`import('playwright')` 找不到项目自己的 `node_modules`。改为用 `createRequire` 从 `--module-dir` / 当前目录 / `app` / `server` 依次解析，再动态导入。
+- `browser.mjs` 新增 `--channel chromium|msedge|chrome`；默认 chromium 启动失败时自动回退系统 Edge/Chrome，避免「有依赖但没浏览器二进制」直接失败。
+- 已实测：对 `http://localhost:5190` 真实打开页面（标题「猫咪集市」）、控制台 0 报错、截图成功。
+
 ## 3.2.0 (2026-11-05)
 
 ### Added
