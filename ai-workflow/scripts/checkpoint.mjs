@@ -14,7 +14,8 @@ import path from 'node:path';
 
 const argv = process.argv.slice(2);
 function opt(n, d) { const i = argv.indexOf(n); return i >= 0 && argv[i + 1] !== undefined ? argv[i + 1] : d; }
-const FILE = path.resolve(opt('--file', path.join('.ai-workflow', 'checkpoint.json')));
+const ROOT = opt('--root', '');  // 子代理跑在别的目录时用 --root 指回项目根，避免账本写错地方
+const FILE = path.resolve(opt('--file', path.join(ROOT || '.', '.ai-workflow', 'checkpoint.json')));
 const cmd = argv[0];
 const now = () => new Date().toISOString();
 

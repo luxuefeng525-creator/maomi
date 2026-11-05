@@ -1,9 +1,6 @@
 ---
 name: cavecrew
-description: >
-  When to delegate to `cavecrew-investigator` (locate code), `cavecrew-builder`
-  (1-2 file edit) or `cavecrew-reviewer` (diff review) instead of working inline
-  or using `Explore`. Their output is compressed, so main context lasts longer.
+description: '何时把活派给子代理 cavecrew-investigator/builder/reviewer，而不是自己干；其输出压缩，主上下文更耐用。'
 ---
 
 Cavecrew = three subagent presets that answer in ultracave voice (tool runs: one status line in, one out; nothing between routine calls). Same job as Anthropic defaults (`Explore`, edit-style agents, reviewer); difference is the tool-result they return is compressed, so main context shrinks per delegation.

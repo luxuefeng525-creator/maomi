@@ -189,9 +189,18 @@ ai-workflow
 | 分析模块依赖（并行参考） | `node scripts/decompose.mjs --dir /abs/repo` |
 | 原子提交规划（只看不改） | `node scripts/git-atomic.mjs plan` |
 | UI 截图自检 | `node scripts/verify-visual.mjs --url <地址或HTML>` |
-| 重新打压缩包 | `node scripts/pack.mjs` |
+| 环境/包完整性自检（8 项，FAIL 即退出 1） | `node scripts/doctor.mjs` |
+| 发布前一键过闸（8 道闸 + 打包） | `node scripts/release.mjs --pack` |
+| 只验某个 zip 有没有夹带工作产物 | `node scripts/release.mjs --zip <路径>` |
+| 重新打压缩包（自动排工作产物） | `node scripts/pack.mjs` |
+| 连 `.ai-workflow/`、`eval-results/` 一起打（内部留档） | `node scripts/pack.mjs --with-work` |
+| 派工规划 / 结构化契约 / 危险动作预检 | `node scripts/agent.mjs plan` `/ contract` `/ guard` |
+| 生成宿主钩子配置 / 跨会话接力卡 | `node scripts/agent.mjs hooks` `/ handoff` |
+| 存版本快照 / 跨版本对比（0 LLM） | `node scripts/eval.mjs snapshot <目录>` `/ diff <目录>` |
 
 > 这些脚本都**不会自动改你的代码、不会自动提交、不会自动删除**。`git-atomic` 默认只做预演（dry-run）。
+
+**关于 `pack.mjs` 的排除规则**：默认不打包 `.git/`、`node_modules/`、`.ai-workflow/`、`eval-results/`、`HANDOFF.md`、`.env*` 和任何 `*.zip`——与 `.gitignore` 一致，分发件里不该有会话账本和凭据。要连工作产物一起留档时加 `--with-work`，脚本会打印 `WORK_EXCLUDED=` 说明排掉了什么。`release.mjs --pack` 打包后会自动复查 zip 里有没有混入这些路径，混入即 `RELEASE BLOCKED`。
 
 ---
 

@@ -1,6 +1,6 @@
 ---
 name: product-manager
-description: Expert product management covering strategy, roadmapping, user research, prioritization frameworks, and stakeholder management.
+description: '产品管理：路线图、需求优先级、干系人。用于 PRD、需求文档、排期与取舍。'
 version: 1.0.0
 author: Claude Skills
 category: product-design

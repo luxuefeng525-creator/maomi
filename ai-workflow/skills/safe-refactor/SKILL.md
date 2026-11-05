@@ -1,6 +1,6 @@
 ---
 name: safe-refactor
-description: Restructure code while preserving behavior. Use for extraction, consolidation, ownership moves, or cleanup where verification must bracket structural edits.
+description: '行为不变的结构调整。用于 抽取、合并、换归属、清理、合并分支与解冲突，结构改动前后都要验证。'
 ---
 
 # Safe refactor

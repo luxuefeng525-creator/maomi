@@ -1,0 +1,4 @@
+interface:
+  display_name: "GoalTracker"
+  short_description: "长任务不丢进度。用于跨多轮/多会话的目标：拆步骤落账本、每步留 note、中断后 resume、卡住两轮就停手报告。"
+  default_prompt: "Use $goal-tracker to 长任务不丢进度。用于跨多轮/多会话的目标：拆步骤落账本、每步留 note、中断后 resume、卡住两轮就停手报告。."

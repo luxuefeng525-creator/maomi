@@ -1,9 +1,6 @@
 ---
 name: caveman-stats
-description: >
-  Show recorded output and cache-read token usage and mode attribution for
-  the current Claude Code session, or locate the host's native usage report.
-  Trigger: /caveman-stats.
+description: '当前会话的输出与缓存读取 token 用量及模式归属，或定位宿主原生用量报告。触发 /caveman-stats。'
 ---
 
 In Claude Code, `src/hooks/caveman-mode-tracker.js` resolves `src/hooks/caveman-stats.js` next to itself and runs it on `/caveman-stats`. The hook does not block the prompt: it supplies the report through `hookSpecificOutput.additionalContext` with an instruction to print it verbatim inside a fenced code block. Do exactly that, and do not calculate, recompute or re-round the numbers yourself.

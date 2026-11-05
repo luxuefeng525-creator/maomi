@@ -11,10 +11,13 @@ import path from 'node:path';
 
 const args = process.argv.slice(2);
 const fileIdx = args.indexOf('--file');
+const rootIdx = args.indexOf('--root');
+const ROOT = rootIdx >= 0 ? args[rootIdx + 1] : '';
 const memFile = fileIdx >= 0 ? args[fileIdx + 1]
-  : path.join(process.cwd(), '.ai-workflow', 'memory.md');
+  : path.join(ROOT || process.cwd(), '.ai-workflow', 'memory.md');
 const cmd = args[0];
-const rest = args.slice(1).filter((_, i) => i !== fileIdx - 1 && i !== fileIdx).join(' ').trim();
+const VALUE_FLAGS = ['--file', '--root'];
+const rest = args.slice(1).filter((a, i) => !a.startsWith('--') && !VALUE_FLAGS.includes(args[i])).join(' ').trim();
 
 function ensureDir() {
   const dir = path.dirname(memFile);

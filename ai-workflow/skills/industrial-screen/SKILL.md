@@ -1,6 +1,6 @@
 ---
 name: industrial-screen
-description: 创建工业监控大屏与 SCADA/HMI。核心是"控制 + 操作防误"——工艺流程、设备启停、SBO 两步确认、Faceplate 操作小面板、联锁闭锁；遵循 ISA-101 灰度哲学、SBO 防误、P&ID 图元库等工业领域规范。覆盖只读工业驾驶舱、西门子博途经典上位机、可写控制 Web SCADA、浅色 3D 水务数字孪生 HMI、单机就地控制屏，以及场景集成进 Vue 边缘网关。输出 1920×1080 自适应独立 HTML，使用 Vue 3 + ECharts 5 + Three.js 本地资源。当用户说"做工业大屏/SCADA/HMI/上位机/就地控制屏""水务/化工/能源监控大屏"时使用。
+description: '工业监控大屏与 SCADA/HMI，核心是控制与操作防误（SBO 两步确认、联锁闭锁、ISA-101 灰度）。用于 工业大屏、上位机、就地控制屏、水务/化工/能源监控。产出 1920x1080 单文件 HTML。'
 ---
 
 # 工业大屏 · industrial-screen

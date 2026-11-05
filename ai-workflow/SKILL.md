@@ -1,7 +1,7 @@
 ---
 name: ai-workflow
 description: 跨平台全流程工作流总入口（任意项目、任意 AI 工具可用）。触发词：ai-workflow、/ai-workflow、进入工作流、开工流程、走流程、按工作流走。用户输入即自动进入——定档 L0/L1/L2→按档执行→质量闸门→收尾验证。纯闲聊、单行改动不加载。工作区有 .trae/rules/ai-workflow.md 等专属协议时自动让位。
-version: 3.2.7
+version: 3.3.0
 ---
 
 触发词：ai-workflow / /ai-workflow / 进入工作流 / 开工流程 / 走流程 / 按工作流走
@@ -45,7 +45,9 @@ version: 3.2.7
 ## 4 子代理（何时用 / 不用）
 - **用**：上下文隔离、并行独立文件、独立审查、pipeline 流水线。
 - **不用**：小任务、同文件编辑、强依赖串行、子代理需互相协调。
-- 派发只给**最小结构化上下文**（task/scope/constraints/acceptance/output_schema），回报只收「改动文件 + 摘要」。见 `references/parallel.md`。
+- 派发只给**最小结构化上下文**，回报只收 `files_modified / evidence / summary / blocked`。
+  `node scripts/agent.mjs plan` 定人（L0 派 0 / L1 派 1 审 / L2 三段），`contract` 出派工 JSON，`review --base` 出审查单，`handoff` 出接力卡。
+  对标与取舍见 `references/agent-patterns.md`（采纳什么、明确拒绝什么）。
 
 ## 5 上下文工程（直接影响质量与速度）
 - 先地图后定点读；大文件**不整份 Read**。
@@ -53,7 +55,8 @@ version: 3.2.7
 - 重活派子代理，主上下文只留结论。
 - **长任务**：先 `checkpoint.mjs start`，每步 `done`；长命令后台 + 轮询；超时用 `resume` 续跑（见 `references/long-tasks.md`）。
 - **一个任务一个新会话**（长会话越跑越慢）。
-- 需要钩子时见 `references/hooks.md`（SessionStart/PostToolUse/Stop）。
+- 需要钩子时：`node scripts/agent.mjs hooks --host claude` 生成配置；`guard --cmd "<命令>"` 做 PreToolUse 危险动作提醒；规范见 `references/hooks.md`。
+- 子代理跑在别的目录时，检查点/记忆要带 `--root <项目根>`，否则账本写错地方。
 
 ## 6 踩过的坑（gotchas，命中即回看）
 - 分发 zip 条目必须带 `ai-workflow/` 前缀，否则解压铺平、install 失配。
@@ -64,7 +67,10 @@ version: 3.2.7
 - 中文路径：Windows 用 PowerShell 同步，Git Bash 可能报 127。
 - 技能预算别挤掉产出技能：`L1≤1/L2≤2` 只限**过程**技能；`finesse-ui`/大屏/视频是**产出**技能，必载、不占预算。
 - 同步宿主先 dry-run：`sync-hosts.mjs` 默认只报告；整目录覆盖会冲掉项目定制（如 bigscreen 的引擎候选逻辑），用 `--skip` 保护。
-- 发布前跑 `release.mjs --pack`：版本/CHANGELOG/36 技能审计/F1/打包全过才发，别手工多步拼。
+- 发布前跑 `release.mjs --pack`：版本/CHANGELOG/40 技能审计/F1/打包全过才发，别手工多步拼。
+- **触发词被静默截断**：route 只看前 24 条，第 25 条往后加了等于没加 —— 新增触发词后跑 `eval.mjs trigger`，别信「我加了」。
+- **catalog 描述带尾引号**：构建正则把 YAML 收尾 `'` 吃进 desc，40 个技能都在白烧字符 —— 改 `build-catalog.mjs` 后抽查一条。
+- 判断「有没有真的做」只认命令输出/退出码/diff，任何代理（含子代理）的自述都不算证据。
 
 ## 7 长期记忆
 见 `references/memory-spec.md`：索引 + 关键词检索，从不整份载入；单行紧凑；自动剪枝。
@@ -89,3 +95,11 @@ version: 3.2.7
 | 发布前检查 | `node scripts/release.mjs --pack`（版本/CHANGELOG/审计/F1/打包） |
 | 打包 | `node scripts/pack.mjs` |
 | 命中率 | `node scripts/eval.mjs trigger` |
+| 派工单 / 几个代理 | `node scripts/agent.mjs plan "<任务>"` |
+| 结构化派工对象 | `node scripts/agent.mjs contract "<任务>" --scope a.ts,b.ts --json` |
+| 审查单 | `node scripts/agent.mjs review --base <ref>` |
+| token 预算 | `node scripts/agent.mjs budget` |
+| 危险动作提醒 | `node scripts/agent.mjs guard --cmd "<命令>"` |
+| 生成钩子配置 | `node scripts/agent.mjs hooks --host claude` |
+| 跨会话接力 | `node scripts/agent.mjs handoff` |
+| 环境自检 | `node scripts/doctor.mjs`（发布前与装后各跑一次） |

@@ -1,6 +1,6 @@
 ---
 name: lean-build
-description: Build feature work with high overbuilding risk. Use for new behavior, product slices, or integrations where repository reuse, strict scope, and an explicit stop condition matter.
+description: '防止过度扩张的功能实现：先复用仓库现有、严格范围、明确停手条件。用于 新行为、产品切片、第三方集成。'
 ---
 
 # Lean build

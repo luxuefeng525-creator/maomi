@@ -1,9 +1,6 @@
 ---
 name: caveman-compress
-description: >
-  Compress a memory file such as CLAUDE.md or a todo list into caveman format
-  to save input tokens, keeping a readable backup. Sends the file's text to the
-  configured model provider. Trigger: /caveman-compress.
+description: '把 CLAUDE.md、todo 等记忆文件压成 caveman 格式省输入 token，保留可读备份。触发 /caveman-compress。'
 ---
 
 # Caveman Compress

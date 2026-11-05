@@ -1,8 +1,6 @@
 ---
 name: caveman-help
-description: >
-  Quick-reference card for the three caveman skills and their commands.
-  Trigger: /caveman-help or "caveman help".
+description: '三个 caveman 技能与命令的速查卡。触发 /caveman-help。'
 ---
 
 # Caveman Help

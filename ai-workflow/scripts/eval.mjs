@@ -111,6 +111,12 @@ function doSnapshot() {
   if (abs === pkgRoot) die('快照目录不可与包自身相同');
   fs.mkdirSync(abs, { recursive: true });
   fs.copyFileSync(path.join(pkgRoot, 'SKILL.md'), path.join(abs, 'SKILL.md'));
+  // catalog.json 是 route.mjs 的首选输入（缺它就会退回只读 SKILL.md，丢掉 触发词/syncs/negatives，
+  // 造成「假回归」：同一份代码 diff 出 ΔF1=-0.47）。必须一起快照，才算真正控制变量。
+  for (const f of ['catalog.json']) {
+    const s = path.join(pkgRoot, f);
+    if (fs.existsSync(s)) fs.copyFileSync(s, path.join(abs, f));
+  }
   for (const d of ['scripts', 'evals', 'references']) {
     const s = path.join(pkgRoot, d);
     if (fs.existsSync(s)) copyTree(s, path.join(abs, d));
@@ -225,9 +231,42 @@ function doCompare() {
   console.log(dp > 0 && dt < 0 ? 'VERDICT   产出更好且更省 token ✅' : 'VERDICT   未同时达成「pass↑ 且 tokens↓」，继续迭代');
 }
 
+// ---------- ⑥ 定档准确率：跑真实 classify.mjs，零 LLM ----------
+function doTier() {
+  const cases = loadEvals().tier_cases || [];
+  if (!cases.length) die('tier_cases 为空（在 evals.json 里补 {"query","expect"}）');
+  const cls = path.join(scriptDir, 'classify.mjs');
+  if (!fs.existsSync(cls)) die(`定档脚本缺失: ${cls}`);
+  const rows = cases.map(c => {
+    let out = '';
+    try {
+      out = execFileSync(process.execPath, [cls, c.query], {
+        encoding: 'utf8', timeout: 15000, cwd: pkgRoot, windowsHide: true, stdio: ['ignore', 'pipe', 'ignore']
+      });
+    } catch { out = ''; }
+    const m = out.match(/TIER=(L[012])/);
+    const got = m ? m[1] : 'ERR';
+    const ok = got === c.expect;
+    return { id: c.id, query: c.query, expect: c.expect, got, ok };
+  });
+  const ok = rows.filter(r => r.ok).length;
+  const acc = rows.length ? ok / rows.length : 0;
+  const confuse = {};
+  for (const r of rows) if (!r.ok) { const k = `${r.expect}->${r.got}`; confuse[k] = (confuse[k] || 0) + 1; }
+  if (asJson) { console.log(JSON.stringify({ n: rows.length, accuracy: acc, ok, rows }, null, 2)); return; }
+  console.log(`TIER n=${rows.length} acc=${acc.toFixed(2)} ok=${ok}/${rows.length}`);
+  const ks = Object.keys(confuse);
+  if (ks.length) {
+    console.log('CONFUSE ' + ks.map(k => `${k} x${confuse[k]}`).join('  '));
+    console.log('MISS ' + rows.filter(r => !r.ok).slice(0, 5).map(r => `#${r.id} ${r.expect}->${r.got}`).join('  '));
+  } else console.log('CONFUSE 0');
+  console.log('注：高估档位=多花 token，低估档位=漏闸门，两者都要看，不要只盯 acc。');
+}
+
 if (cmd === 'trigger') doTrigger();
 else if (cmd === 'record') doRecord();
 else if (cmd === 'compare') doCompare();
 else if (cmd === 'snapshot') doSnapshot();
 else if (cmd === 'diff') doDiff();
-else console.log('eval.mjs: trigger | record | compare | snapshot | diff   （评测按需手动触发，不进每轮六步）');
+else if (cmd === 'tier') doTier();
+else console.log('eval.mjs: trigger | tier | record | compare | snapshot | diff   （评测按需手动触发，不进每轮六步）');

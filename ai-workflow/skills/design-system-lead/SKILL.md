@@ -1,6 +1,6 @@
 ---
 name: design-system-lead
-description: Expert design systems leadership covering component libraries, design tokens, documentation, and design-development collaboration.
+description: '设计系统：组件库、design token、文档、设计与研发协作。用于 建组件库、定 token、统一视觉规范。'
 version: 1.0.0
 author: Claude Skills
 category: product-design
