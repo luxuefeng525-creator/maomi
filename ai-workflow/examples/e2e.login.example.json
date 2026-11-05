@@ -1,0 +1,12 @@
+[
+  {"goto": "__BASE_URL__/pages/login/index"},
+  {"waitFor": ".btn-plain.soft"},
+  {"click": ".btn-plain.soft"},
+  {"waitFor": "input[type=password]"},
+  {"fill": ["input[type=number]", "__PHONE__"]},
+  {"fill": ["input[type=password]", "__PASSWORD__"]},
+  {"click": ".btn-primary"},
+  {"wait": 1500},
+  {"assertEval": ["!!localStorage.getItem('ws_token')", true]},
+  {"screenshot": "login.png"}
+]

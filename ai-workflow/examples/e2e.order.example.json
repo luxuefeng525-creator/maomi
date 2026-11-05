@@ -1,0 +1,23 @@
+[
+  {"goto": "__BASE_URL__/pages/login/index"},
+  {"waitFor": ".btn-plain.soft"},
+  {"click": ".btn-plain.soft"},
+  {"waitFor": "input[type=password]"},
+  {"fill": ["input[type=number]", "__PHONE__"]},
+  {"fill": ["input[type=password]", "__PASSWORD__"]},
+  {"click": ".btn-primary"},
+  {"wait": 1200},
+  {"assertEval": ["!!localStorage.getItem('__TOKEN_KEY__')", true]},
+  {"goto": "__BASE_URL__/pages/goods/detail?productId=__PRODUCT_ID__&storeId=__STORE_ID__&biz=water"},
+  {"waitFor": ".buy"},
+  {"click": ".buy"},
+  {"wait": 700},
+  {"waitFor": ".btn-p.sku-btn"},
+  {"click": ".btn-p.sku-btn"},
+  {"wait": 1500},
+  {"waitFor": ".btn-p.submit"},
+  {"click": ".btn-p.submit"},
+  {"wait": 4000},
+  {"eval": "location.href"},
+  {"screenshot": "order.png"}
+]

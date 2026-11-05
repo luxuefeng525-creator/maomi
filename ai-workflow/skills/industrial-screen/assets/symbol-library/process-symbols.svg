@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 工业工艺图元库 · 源自 FUXA (MIT License, frangoteam/FUXA) -->
+<!-- 用法：把需要的 <symbol> 复制进目标 SVG 的 <defs>，再 <use href="#fx-xxx" width=".." height=".." style="color:var(--success)"/> -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="fx-agitator-disc" viewBox="0 0 24 24">
+    <g transform="matrix(.22689 0 0 .22689 5.577 .93941)" fill="none" stroke="currentColor" stroke-width="5.2888">
+ <path d="m30 0v77.85m-15 0h30"/>
+ <path d="m0 68.12h15v19.46h-15z"/>
+ <path d="m45 67.79h15v19.46h-15z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-agitator-paddle" viewBox="0 0 24 24">
+    <g transform="matrix(.22647 0 0 .22647 5.4375 .90258)" fill="none" stroke="currentColor" stroke-width="5.0497">
+ <path d="m0 59.79h60v30h-60z"/>
+ <path d="m30-0.21v60m-30 30 30-30v30l30-30" stroke-linejoin="round"/>
+ </g>
+  </symbol>
+  <symbol id="fx-agitator-prop" viewBox="0 0 24 24">
+    <g transform="matrix(.25558 0 0 .23141 4.1133 1.2554)" fill="none" stroke="currentColor" stroke-width="4.9343">
+ <path d="m30 0v78.2m19.41-6.52c2.99-1.37 6.52-0.51 8.56 2.09 2.03 2.6 2.03 6.26 0 8.87-2.04 2.6-5.57 3.46-8.56 2.08l-38.82-13.04c-2.99-1.37-6.52-0.51-8.56 2.09-2.03 2.6-2.03 6.26 0 8.87 2.04 2.6 5.57 3.46 8.56 2.08z" fill="none" stroke="currentColor" stroke-width="4.9343"/>
+ </g>
+  </symbol>
+  <symbol id="fx-agitator-turbo" viewBox="0 0 24 24">
+    <g transform="matrix(.22947 0 0 .22947 5.2887 .68892)" fill="none" stroke="currentColor" stroke-width="4.9864">
+ <path d="m30 0v68.12"/>
+ <path d="m0 68.12h15v19.46h-15z"/>
+ <path d="m45 68.12h15v19.46h-15z"/>
+ <path d="m15 68.12h15v19.46h-15z"/>
+ <path d="m30 68.12h15v19.46h-15z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-anim-eli" viewBox="0 0 24 24">
+    <path d="m9.9357 1.0241c-0.46387 0-0.62759 0.2172-0.51844 0.65378l1.9101 7.5475a2.7287 2.7287 0 0 0-0.76402 0.32744l-1.337-2.3194-2.3194-3.9183c-0.27287-0.46933-0.65488-0.56483-1.1187-0.30015l-1.1733 0.67125c-0.24558 0.13643-0.35472 0.46387-0.081854 0.90046l5.3482 5.43a2.7287 2.7287 0 0 0-0.35473 0.51844l-2.3194-1.337-4.0111-2.3194c-0.46387-0.27287-0.84588-0.16372-1.1187 0.30015l-0.68216 1.1733c-0.13725 0.24558-0.027287 0.62759 0.43658 0.90046l7.3401 2.0192a2.7287 2.7287 0 0 0-0.05458 0.65488h-7.3674c-0.43659 0-0.68244 0.21829-0.68244 0.68216v1.3643c0 0.46387 0.21857 0.62759 0.65515 0.51844l7.4765-1.8828a2.7287 2.7287 0 0 0 0.32744 0.73674l-2.3194 1.337-4.2021 2.4558c-0.24558 0.13644-0.32744 0.49116-0.054574 0.98232l0.67125 1.1733c0.14735 0.24558 0.47479 0.35472 0.72036 0.21829l5.6483-5.4846a2.7287 2.7287 0 0 0 0.51844 0.38201l-1.3098 2.2375-2.4558 4.2567c-0.13643 0.24558-0.027287 0.6003 0.43658 0.87317l1.2006 0.68216c0.21829 0.13643 0.6003 0.05457 0.73674-0.191l2.1556-7.5584a2.7287 2.7287 0 0 0 0.70945 0.05457v7.3947c0 0.46387 0.21829 0.68216 0.68216 0.68216h1.3643c0.46387 0 0.62759-0.21829 0.51844-0.65488l-1.8828-7.5311a2.7287 2.7287 0 0 0 0.65488-0.30015l1.337 2.3194 2.4558 4.2567c0.16372 0.24558 0.54573 0.32744 0.76402 0.21829l1.2006-0.70945c0.46387-0.24558 0.57302-0.65488 0.16372-0.73674l-5.4573-5.6483a2.7287 2.7287 0 0 0 0.57302-0.73674l2.2921 1.337 4.2567 2.4558c0.24558 0.13643 0.62759 0.02728 0.76402-0.191l0.68216-1.2006c0.27287-0.46387 0.16372-0.84588-0.21829-0.73674l-7.5584-2.1556a2.7287 2.7287 0 0 0 0-0.02728 2.7287 2.7287 0 0 0 0.05457-0.16372 2.7287 2.7287 0 0 0 0.08186-0.70945h7.5038c0.46387 0 0.68216-0.21829 0.68216-0.68216v-1.3643c0-0.46387-0.21829-0.62759-0.65488-0.51844l-7.6129 1.9101a2.7287 2.7287 0 0 0-0.08187-0.24558 2.7287 2.7287 0 0 0 0-0.02728 2.7287 2.7287 0 0 0-0.05457-0.13643 2.7287 2.7287 0 0 0-0.08186-0.16372 2.7287 2.7287 0 0 0-0.05457-0.13643l2.2921-1.3098 4.1748-2.5104c0.4093-0.21831 0.46387-0.54575 0.32744-0.79133l-0.68216-1.1733c-0.27286-0.46387-0.6003-0.6003-0.8186-0.16372l-5.5937 5.4846a2.7287 2.7287 0 0 0-0.73674-0.57302l1.337-2.2921 2.3739-4.2349c0.24558-0.39566 0.10915-0.70945-0.13643-0.84588l-1.1733-0.68216c-0.46387-0.27368-0.8186-0.24558-0.79131 0.27286l-2.1011 7.5365a2.7287 2.7287 0 0 0-0.84588-0.13643v-7.4383c0-0.45569-0.21829-0.68107-0.68216-0.68107z" style="fill:currentColor"/>
+  </symbol>
+  <symbol id="fx-anim-piston" viewBox="0 0 24 24">
+    <path d="m12.185 0.084746v11.666" style="fill:none;stroke-width:2.3644;stroke:currentColor"/>
+ <rect x="2.2281" y="11.802" width="19.486" height="8.1488" style="fill:none;stroke-width:.9012;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-centrifugal" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.40714;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.52150929,0,0,0.52150929,1.6587353,1.7712295)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.40714;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 40,20 A 20,20 0 0 1 20,40 20,20 0 0 1 0,20 20,20 0 0 1 20,0 20,20 0 0 1 40,20" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.40714;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 20,0 V 40 M 0,20 20,0 40,20"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-centrifugal1" viewBox="0 0 24 24">
+    <g
+ style="stroke-width:3.30293;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ transform="matrix(0.32229719,0,0,0.32229719,0.96888195,2.4359965)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:3.30293;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 6,0 H 66 V 60 H 6 Z" />
+ <path
+ style="stroke-width:3.30293;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ d="M 60,6 H 12 V 54 H 60 M 0,30 h 60 m -42,0 9,-15 18,30 9,-15"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-centrifuge1" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:3.30293;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.29902561,0,0,0.29902561,1.9377164,3.1241901)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:3.30293;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 6,0 H 66 V 60 H 6 Z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:3.30293;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 60,6 H 12 V 54 H 60 M 0,30 h 60 m -42,0 9,-15 18,30 9,-15"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-centrifuge2" viewBox="0 0 24 24">
+    <g transform="matrix(.27785 0 0 .27785 3.9006 3.4516)" fill="none" stroke="currentColor" stroke-width="3.8538">
+ <path d="m0 0h60v60h-60z"/>
+ <path d="m21 15-15 39h48l-15-39m-9 39v12"/>
+ </g>
+  </symbol>
+  <symbol id="fx-centrifuge3" viewBox="0 0 24 24">
+    <g transform="matrix(.27459 0 0 .27459 3.9596 3.3481)" fill="none" stroke="currentColor" stroke-width="3.8558">
+ <path d="m0 0h60v60h-60z"/>
+ <path d="m30 54v12m-24-60v48h48v-48"/>
+ </g>
+  </symbol>
+  <symbol id="fx-centrifuge4" viewBox="0 0 24 24">
+    <g transform="matrix(.2795 0 0 .2795 3.9128 3.2216)" fill="none" stroke="currentColor" stroke-width="3.8377">
+ <path d="m0 0h60v60h-60z"/>
+ <path d="m30 6v60m-24-12h48m-48-33 24-15 24 15m-48 9 24-15 24 15"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compair" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.23650548,0,0,0.26110902,0.32033976,2.0027775)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 7.79,25.33 h 84.42 c 7.79,12.31 7.79,27.84 0,40.15 H 7.79 C 0,53.17 0,37.64 7.79,25.33 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 7.9899998,25.33 H 91.809999 V 65.480001 H 7.9899998 Z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 40.186186,18.639999 a 3.9261878,3.8235295 0 0 1 -3.926188,3.82353 3.9261878,3.8235295 0 0 1 -3.926187,-3.82353 3.9261878,3.8235295 0 0 1 3.926187,-3.823529 3.9261878,3.8235295 0 0 1 3.926188,3.823529" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 74.052372,15.77 A 7.8523755,7.647059 0 0 1 66.199997,23.417059 7.8523755,7.647059 0 0 1 58.347621,15.77 7.8523755,7.647059 0 0 1 66.199997,8.1229415 7.8523755,7.647059 0 0 1 74.052372,15.77" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 35.4,14.91 64.09,8.53 m -27.8,14.07 29.76,0.89 m -48.93,1.84 v -4.3 m -4.42,0 4.42,-4.78 m 0,-15.77 v 15.77 m -3.44,-7.74 7.07,6.02 m -6.09,-8.6 5.6,4.59 m -5.01,-7.17 4.32,3.82 m 67.24,18.16 v -3.34"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.13126;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 12.7,11.95 9.33,9.08 H 12.7 Z m 71.16,0 h 5.89 l -5.89,10.04 h 5.89 z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-compdiaph" viewBox="0 0 24 24">
+    <g transform="matrix(.54319 0 0 .54319 1.2204 1.1075)" fill="none" stroke="currentColor" stroke-width="2.1457">
+ <path d="m40 20a20 20 0 0 1-20 20 20 20 0 0 1-20-20 20 20 0 0 1 20-20 20 20 0 0 1 20 20"/>
+ <path d="m10 2.8 28 8.4m-28 26 28-8.4m-28-26c-5.18 10.88-5.18 23.52 0 34.4"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compejector" viewBox="0 0 24 24">
+    <g transform="matrix(.54557 0 0 .54557 1.1163 1.1163)" fill="none" stroke="currentColor" stroke-width="2.1888">
+ <path d="m40 20a20 20 0 0 1-20 20 20 20 0 0 1-20-20 20 20 0 0 1 20-20 20 20 0 0 1 20 20"/>
+ <path d="m10 2.8 28 8.4m-28 26 28-8.4m-35.4-18.8c7.85 5.51 18.51 4.67 25.4-2m-25.4 22c7.85-5.51 18.51-4.67 25.4 2"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compreci" viewBox="0 0 24 24">
+    <g transform="matrix(.22545 0 0 .27954 .4347 6.1311)" fill="none" stroke="currentColor" stroke-width="4.1177">
+ <path d="m14.8 39.98v-40h20.4v13h40.82v27z"/>
+ <path d="m0 22.98h14.29v4h-14.29z"/>
+ <path d="m76.02 22.98h13.27v-1.5l10.71 3.5-10.71 3.5v-1.5h-13.27z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compreci2" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.81175;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.39121504,0,0,0.39121504,4.3159034,2.8575149)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.81175;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,0 H 40 V 40 H 0 Z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.81175;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,18.4 H 40 M 0,21.6 h 40 m -20,0 V 52"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-compressor-fan" viewBox="0 0 24 24">
+    <g transform="matrix(.53906 0 0 .53906 .57795 1.2187)" style="fill:none;stroke-width:2.1679;stroke:currentColor">
+ <circle cx="21" cy="20" r="20" style="fill:none;stroke-width:2.1679;stroke:currentColor"/>
+ <path d="m10.5 2.8 28 8.4m-28 26 28-8.4" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:4;stroke-width:2.1679;stroke:currentColor"/>
+ <ellipse cx="27" cy="20" rx="6" ry="1.2" style="fill:none;stroke-width:2.1679;stroke:currentColor"/>
+ <path d="m17.41 14.62c2.15 2.52 3.49 4.91 2.99 5.34-.24.21-.88-.07-1.79-.78-.9-.71-1.99-1.79-3.02-3-2.15-2.52-3.49-4.91-2.99-5.34.24-.21.88.07 1.79.78.9.71 1.99 1.79 3.02 3zm-1.83 9.27c1.03-1.22 2.11-2.3 3-3.02.9-.72 1.54-1 1.78-.79.25.2.08.88-.48 1.88-.55 1.01-1.43 2.26-2.46 3.48s-2.11 2.31-3 3.02c-.9.72-1.54 1-1.78.8-.25-.21-.08-.89.48-1.89.55-1.01 1.43-2.26 2.46-3.48z" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:4;stroke-width:2.1679;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compressor-piston" viewBox="0 0 24 24">
+    <g transform="matrix(.53851 0 0 .53851 1.2299 1.1282)" style="fill:none;stroke-width:2.2485;stroke:currentColor">
+ <circle cx="20" cy="20" r="20" style="fill:none;stroke-width:2.2485;stroke:currentColor"/>
+ <path d="m10 2.8 28 8.4m-28 26 28-8.4m-24-8.8h12m0-6v12" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:4;stroke-width:2.2485;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compressor-void" viewBox="0 0 24 24">
+    <g transform="matrix(.53906 0 0 .53906 1.2187 .67965)" style="fill:none;stroke-miterlimit:10;stroke-width:2.1679;stroke:currentColor">
+ <circle cx="20" cy="21" r="20" style="fill:none;stroke-miterlimit:10;stroke-width:2.1679;stroke:currentColor"/>
+ <path d="m10 3.3 28 8.4m-28 26 28-8.4" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:10;stroke-width:2.1679;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compring" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.29244;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.54749383,0,0,0.54749383,1.1669868,1.1661106)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.29244;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 40,20 A 20,20 0 0 1 20,40 20,20 0 0 1 0,20 20,20 0 0 1 20,0 20,20 0 0 1 40,20" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.29244;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 28,20 a 8,8 0 0 1 -8,8 8,8 0 0 1 -8,-8 8,8 0 0 1 8,-8 8,8 0 0 1 8,8" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.29244;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 10,2.8 28,8.4 m -28,26 28,-8.4 M 13.76,9.6 l 2.16,3.6 m -2.16,17.2 2.16,-3.6 m 10.32,3.6 -2.16,-3.6 M 26.24,9.6 24.08,13.2 M 8,20 h 4 m 16,0 h 4"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-compring2" viewBox="0 0 24 24">
+    <g
+ style="stroke-width:3.0082309;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ transform="matrix(0.36566342,0,0,0.36566342,0.81860257,1.1143715)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:3.0082309;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 60.5,30 a 30,30 0 0 1 -30,30 30,30 0 0 1 -30,-30 30,30 0 0 1 30,-30 30,30 0 0 1 30,30" />
+ <path
+ style="stroke-width:3.0082309;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ d="m 30.5,3.33 c 6.79,7.6 6.79,19.08 0,26.67 -6.79,7.59 -6.79,19.07 0,26.67 M 49.37,11.13 C 48.8,21.31 40.68,29.44 30.5,30 20.32,30.56 12.2,38.69 11.63,48.87 M 57.17,30 C 49.57,36.79 38.09,36.79 30.5,30 22.91,23.21 11.43,23.21 3.83,30 M 49.37,48.87 C 39.19,48.3 31.06,40.18 30.5,30 30,19.72 21.78,11.5 11.5,11"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:3.0082309;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 32.5,30 a 2,2 0 0 1 -2,2 2,2 0 0 1 -2,-2 2,2 0 0 1 2,-2 2,2 0 0 1 2,2" />
+ </g>
+  </symbol>
+  <symbol id="fx-comprotary" viewBox="0 0 24 24">
+    <g transform="matrix(.54855 0 0 .54855 1.1133 1.1133)" fill="none" stroke="currentColor" stroke-width="2.1457">
+ <path d="m40 20a20 20 0 0 1-20 20 20 20 0 0 1-20-20 20 20 0 0 1 20-20 20 20 0 0 1 20 20"/>
+ <path d="m10 2.8 28 8.4m-28 26 28-8.4m-26-8.8h16m-2-5.2c2.56 2.99 2.56 7.41 0 10.4m-12-10.4c-2.56 2.99-2.56 7.41 0 10.4"/>
+ </g>
+  </symbol>
+  <symbol id="fx-comprotary2" viewBox="0 0 24 24">
+    <g transform="matrix(.24784 0 0 .24784 7.1044 .70276)" fill="none" stroke="currentColor" stroke-width="4.4384">
+ <path d="m7.5 82-7.5 9h42l-7.6-9"/>
+ <path d="m41 10v65c0 5.52-8.95 10-20 10s-20-4.48-20-10v-65c0-5.52 8.95-10 20-10s20 4.48 20 10z"/>
+ <path d="m37 23a16 16 0 0 1-16 16 16 16 0 0 1-16-16 16 16 0 0 1 16-16 16 16 0 0 1 16 16"/>
+ <path d="m37 60a16 16 0 0 1-16 16 16 16 0 0 1-16-16 16 16 0 0 1 16-16 16 16 0 0 1 16 16"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compscrew" viewBox="0 0 24 24">
+    <g transform="matrix(.54594 0 0 .54594 1.109 1.109)" fill="none" stroke="currentColor" stroke-width="2.1351">
+ <path d="m40 20a20 20 0 0 1-20 20 20 20 0 0 1-20-20 20 20 0 0 1 20-20 20 20 0 0 1 20 20"/>
+ <path d="m10 2.8 28 8.4m-28 26 28-8.4m-28-10.8 2-2 4 4 4-4 4 4 4-4 2 2m-20 4 2-2 4 4 4-4 4 4 4-4 2 2"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compsilence" viewBox="0 0 24 24">
+    <g transform="matrix(.24047 0 0 .24047 1.143 2.7597)" fill="none" stroke="currentColor" stroke-width="4.5744">
+ <path d="m39.5 74.52-4 5.96h20l-4-5.96m-31-68.52v64.55c0 3.05-4.48 5.52-10 5.52s-10-2.47-10-5.52v-64.55c0-3.05 4.48-5.52 10-5.52s10 2.47 10 5.52zm50 0v64.55c0 3.05 4.48 5.52 10 5.52s10-2.47 10-5.52v-64.55c0-3.05-4.48-5.52-10-5.52s-10 2.47-10 5.52z"/>
+ <path d="m55.5 35.79v34.76c0 3.05-4.48 5.52-10 5.52s-10-2.47-10-5.52v-34.76c0-3.04 4.48-5.51 10-5.51s10 2.47 10 5.51z"/>
+ <path d="m53.5 63.6a8 7.9444 0 0 1-8 7.9444 8 7.9444 0 0 1-8-7.9444 8 7.9444 0 0 1 8-7.9444 8 7.9444 0 0 1 8 7.9444"/>
+ <path d="m53.5 43.74a8 7.9444 0 0 1-8 7.9444 8 7.9444 0 0 1-8-7.9444 8 7.9444 0 0 1 8-7.9444 8 7.9444 0 0 1 8 7.9444"/>
+ <path d="m20.5 53.67h15m20 0h15"/>
+ <path d="m28 45.72v15.89m35-15.89v15.89"/>
+ </g>
+  </symbol>
+  <symbol id="fx-compturbo" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:5.51869;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.21677284,0,0,0.21677284,0.73408668,5.5372758)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.51869;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 65.82,2.09 H 89.29 V 0 L 100,4.7 89.29,9.4 V 7.31 H 70.92 v 19.85 l -5.1,-1.04 z M 25,17.76 76.02,28.21 V 59.55 L 25,70 Z m -5.1,15.67 v 20.9 L 0.51,49.1 V 38.66 Z M 0,2.09 H 40.31 V 20.9 L 35.2,19.85 V 7.31 H 0 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.51869;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 19.9,40.75 H 25 m -5.1,6.26 H 25"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-crusher1" viewBox="0 0 24 24">
+    <g transform="matrix(.26886 0 0 .26886 1.2856 6.8618)" fill="none" stroke="currentColor" stroke-width="3.9877">
+ <path d="m0 0h80l-16 48h-48z"/>
+ <path d="m16 0v48m48-48v48"/>
+ </g>
+  </symbol>
+  <symbol id="fx-crusher2" viewBox="0 0 24 24">
+    <g transform="matrix(.2715 0 0 .2715 1.2582 6.7144)" fill="none" stroke="currentColor" stroke-width="4.0097">
+ <path d="m0 0h80l-16 48h-48z"/>
+ <path d="m16 0v48m48-48v48m-40-12 8-28h16l8 28z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-crusher3" viewBox="0 0 24 24">
+    <g transform="matrix(.27237 0 0 .27237 1.1818 6.5654)" fill="none" stroke="currentColor" stroke-width="3.8772">
+ <path d="m0 0h80l-16 48h-48z"/>
+ <path d="m16 0v48m48-48v48m-32-16 16-16m-16 0 16 16m-13.6-18.4-4.8 4.8m0 11.2 4.8 4.8m16-4.8-4.8 4.8m0-20.8 4.8 4.8"/>
+ </g>
+  </symbol>
+  <symbol id="fx-crusher4" viewBox="0 0 24 24">
+    <g transform="matrix(.27174 0 0 .27174 1.0967 6.6314)" fill="none" stroke="currentColor" stroke-width="4.0481">
+ <path d="m0.5 0h80l-16 48h-48z"/>
+ <path d="m16.5 0v48m48-48v48m-40-40 10.4 10.4m21.6-10.4-10.4 10.4m-11.2 11.2-10.4 10.4m21.6-10.4 10.4 10.4"/>
+ <path d="m48.5 24a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8"/>
+ </g>
+  </symbol>
+  <symbol id="fx-crusher5" viewBox="0 0 24 24">
+    <g transform="matrix(.271 0 0 .271 1.2613 6.5176)" fill="none" stroke="currentColor" stroke-width="4.2952">
+ <path d="m0 0h80l-16 48h-48z"/>
+ <path d="m16 0v48m48-48v48"/>
+ <path d="m56 24a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8"/>
+ <path d="m40 24a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8"/>
+ </g>
+  </symbol>
+  <symbol id="fx-crusher6" viewBox="0 0 24 24">
+    <g transform="matrix(.2737 0 0 .2737 1.1934 6.6095)" fill="none" stroke="currentColor" stroke-width="3.8054">
+ <path d="m0 0h80l-16 48h-48z"/>
+ <path d="M 20,0 6.4,20 M 60,0 73.6,20"/>
+ </g>
+  </symbol>
+  <symbol id="fx-crusher7" viewBox="0 0 24 24">
+    <g transform="matrix(.27468 0 0 .27468 .95706 6.6401)" fill="none" stroke="currentColor" stroke-width="4.0047">
+ <g>
+ <path d="m0.5 0h80l-16 48h-48z"/>
+ <path d="m20.5 0-13.6 20m53.6-20 13.6 20"/>
+ <path d="m40.5 20h8m-16 8h8"/>
+ </g>
+ <path d="m56.5 24a16 16 0 0 1-16 16 16 16 0 0 1-16-16 16 16 0 0 1 16-16 16 16 0 0 1 16 16"/>
+ <path d="m40.5 18v4l-6.4-2zm0 8v4l6.4-2z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-diaph" viewBox="0 0 24 24">
+    <g transform="matrix(.51718 0 0 .51718 1.6873 1.7754)" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="2.2738">
+ <path d="m40 20a20 20 0 0 1-20 20 20 20 0 0 1-20-20 20 20 0 0 1 20-20 20 20 0 0 1 20 20"/>
+ <path d="m20 0 20 20c-4.94 5.95-12.27 9.39-20 9.39s-15.06-3.44-20-9.39z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-drier1" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:5.54859;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.23089175,0,0,0.23089175,5.2679948,2.5322055)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.54859;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 6,0 h 48 l 6,15 V 84 H 0 V 15 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-drier2" viewBox="0 0 24 24">
+    <g transform="matrix(.23331 0 0 .23331 4.9618 2.496)" fill="none" stroke="currentColor" stroke-width="4.7148">
+ <path d="m6 0h48l6 15v69h-60v-69z"/>
+ <path d="m19.8 15.24c6.14-4.23 14.26-4.23 20.4 0"/>
+ <path d="m42 30a12 12 0 0 1-12 12 12 12 0 0 1-12-12 12 12 0 0 1 12-12 12 12 0 0 1 12 12"/>
+ </g>
+  </symbol>
+  <symbol id="fx-drier3" viewBox="0 0 24 24">
+    <g transform="matrix(.23506 0 0 .23506 5.2028 2.4246)" fill="none" stroke="currentColor" stroke-width="4.6796">
+ <path d="m6 0h48l6 15v69h-60v-69z"/>
+ <path d="m0 24h60m-60 18h60"/>
+ <path d="m15.3 30a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ <path d="m7.8 36a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ <path d="m22.8 36a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ <path d="m30.3 30a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ <path d="m37.8 36a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ <path d="m45.3 30a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ <path d="m52.8 36a0.3 0.3 0 0 1-0.3 0.3 0.3 0.3 0 0 1-0.3-0.3 0.3 0.3 0 0 1 0.3-0.3 0.3 0.3 0 0 1 0.3 0.3"/>
+ </g>
+  </symbol>
+  <symbol id="fx-drier4" viewBox="0 0 24 24">
+    <g transform="matrix(.23784 0 0 .23784 5.0417 2.1734)" fill="none" stroke="currentColor" stroke-width="4.522">
+ <path d="m6 0h48l6 15v69h-60v-69z"/>
+ <path d="m54 27a6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6"/>
+ <path d="m18 27a6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6"/>
+ <path d="m12 21h36m-36 12h36"/>
+ </g>
+  </symbol>
+  <symbol id="fx-drier5" viewBox="0 0 24 24">
+    <g transform="matrix(.23488 0 0 .23488 4.9081 2.5258)" fill="none" stroke="currentColor" stroke-width="4.9481">
+ <path d="m6 0h48l6 15v69h-60v-69z"/>
+ <path d="m30 0v42m-15 0h30m-30-18h30m-6 9h21m-39 0h-21"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger-filter" viewBox="0 0 24 24">
+    <g transform="matrix(.26504 0 0 .26504 2.8253 2.5202)" style="fill:none;stroke-width:3.2907;stroke:currentColor">
+ <rect width="70" height="70" style="fill:none;stroke-width:3.2907;stroke:currentColor"/>
+ <path d="m0 0 70 70m-56-70 56 56m-42-56 42 42m-28-42 28 28m-14-28 14 14m-70 0 56 56m-56-42 42 42m-42-28 28 28m-28-14 14 14m-14-56 14-14m-14 28 28-28m-28 42 42-42m-42 56 56-56m-56 70 70-70m0 14-56 56m14 0 42-42m0 14-28 28m14 0 14-14" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:4;stroke-width:3.2907;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger-heat" viewBox="0 0 24 24">
+    <g transform="matrix(.30011 0 0 .39281 1.4963 3.9441)" style="fill:none;stroke-width:3.2227;stroke:currentColor">
+ <rect width="70" height="40" style="fill:none;stroke-width:3.2227;stroke:currentColor"/>
+ <path d="m70 0-70 40" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:4;stroke-width:3.2227;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger-tube" viewBox="0 0 24 24">
+    <g transform="matrix(.24362 0 0 .42698 1.1778 3.4279)" style="fill:none;stroke-width:2.189;stroke:currentColor">
+ <rect width="88" height="40" style="fill:none;stroke-width:2.189;stroke:currentColor"/>
+ <path d="m7.04 0v40m73.92-40v40m-73.92-35h73.92m-73.92 5h73.92m-73.92 5h73.92m-73.92 5h73.92m-73.92 5h73.92m-73.92 5h73.92m-73.92 5h73.92" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:4;stroke-width:2.189;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger1" viewBox="0 0 24 24">
+    <g
+ style="stroke-width:4.84115048;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ transform="matrix(0.22297165,0,0,0.23154668,0.9618522,9.3188965)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.84115048;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,0 H 100 V 30 H 0 Z" />
+ <path
+ style="stroke-width:4.84115048;stroke-miterlimit:4;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ d="M 15,0 V 30 M 85,0 V 30 M 85,7.5 H 15 M 85,15 H 15 m 70,7.5 H 15"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger2" viewBox="0 0 24 24">
+    <g transform="matrix(.2234 0 0 .2234 .95994 9.2053)" fill="none" stroke="currentColor" stroke-width="4.9239">
+ <path d="m0 0.5h100v30h-100z"/>
+ <path d="m15 0.5v30m70-30v30m-59-20v10m16-10v10m16-10v10m16-10v10m-8-10v10m-16-10v10m-16-10v10m-18.88-5h69.88"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger3" viewBox="0 0 24 24">
+    <g transform="matrix(.24799 0 0 .26568 .8902 8.1108)" fill="none" stroke="currentColor" stroke-width="4.2854">
+ <path d="m0 30.5h15v-6h60v6h15v-30h-15v6h-60v-6h-15zm15-24v18m60-18v18" fill="none" stroke="currentColor" stroke-width="4.2854"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger4" viewBox="0 0 24 24">
+    <g transform="matrix(.24887 0 0 .25957 .75496 8.1153)" fill="none" stroke="currentColor" stroke-width="4.3279">
+ <path d="m14.88 24.5v6h-14.88v-30h14.88v6h69.43c3.69 0 6.69 4.03 6.69 9s-3 9-6.69 9zm0-18v18m-14.88-9h14.88" fill="none" stroke="currentColor" stroke-width="4.3279"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger5" viewBox="0 0 24 24">
+    <g transform="matrix(.2505 0 0 .27663 .64207 7.9647)" fill="none" stroke="currentColor" stroke-width="4.1787">
+ <path d="m4.48 15h11.93v15h-11.93c-2.48 0-4.48-3.36-4.48-7.5s2-7.5 4.48-7.5m14.91 0h6.97l14.91-15h44.76c2.74 0 4.97 6.72 4.97 15s-2.23 15-4.97 15h-66.64zm-14.91 0v15m36.79-30v30m44.76-30v30"/>
+ <path d="m16.41 12h2.98v21h-2.98z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger6" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:6.25848;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.17576163,0,0,0.17576163,5.0020095,1.4096631)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:6.25848;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,10 H 80 V 80 L 40,120 0,80 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:6.25848;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 25,30 V 95 M 55,30 V 95 M 25,40 H 55 M 25,85 H 55 M 40,0 V 40 M 0,30 H 15 V 95 M 80,30 H 65 v 65"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger7" viewBox="0 0 24 24">
+    <g transform="matrix(.22741 0 0 .25384 .67338 8.2365)" fill="none" stroke="currentColor" stroke-width="4.5783">
+ <path d="m3 10.5h17c0-5.52 4.48-10 10-10h40c5.52 0 10 4.48 10 10h17v10h-17c0 5.52-4.48 10-10 10h-40c-5.52 0-10-4.48-10-10h-17z"/>
+ <path d="m0 5.5v20m3-20v20m97-20v20m-3-20v20"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger8" viewBox="0 0 24 24">
+    <g transform="matrix(.23206 0 0 .24664 .48715 7.4809)" fill="none" stroke="currentColor" stroke-width="4.5745">
+ <path d="m20 0h60l8.5 20-8.5 20h-60l-8.5-20z"/>
+ <path d="m0 10v20m3-20v20m0-10h8.5m88.5-10v20m-3-20v20m0-10h-8.5m-68.5-20v40m10-40v40m10-40v40m10-40v40m10-40v40m10-40v40m10-40v40"/>
+ </g>
+  </symbol>
+  <symbol id="fx-exchanger9" viewBox="0 0 24 24">
+    <g transform="matrix(.22872 0 0 .30383 .73785 7.366)" fill="none" stroke="currentColor" stroke-width="4.1728">
+ <path d="m0 0h100v40h-100z"/>
+ <path d="m8 0v40m84-40v40m-84-35h84m-84 5h84m-84 5h84m-84 5h84m-84 5h84m-84 5h84m-84 5h84"/>
+ </g>
+  </symbol>
+  <symbol id="fx-feeder" viewBox="0 0 24 24">
+    <g transform="matrix(.35061 0 0 .35061 1.6209 1.6209)" fill="none" stroke="currentColor" stroke-width="3.1373">
+ <path d="m60 30a30 30 0 0 1-30 30 30 30 0 0 1-30-30 30 30 0 0 1 30-30 30 30 0 0 1 30 30"/>
+ <path d="m0 30h60m-14.52-25.8-30.96 51.6m0-51.6 30.96 51.6"/>
+ <path d="m33 30a3 3 0 0 1-3 3 3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3"/>
+ </g>
+  </symbol>
+  <symbol id="fx-feeder2" viewBox="0 0 24 24">
+    <g transform="matrix(.35061 0 0 .35061 1.4456 1.4611)" fill="none" stroke="currentColor" stroke-width="3.1374">
+ <path d="m60.5 30a30 30 0 0 1-30 30 30 30 0 0 1-30-30 30 30 0 0 1 30-30 30 30 0 0 1 30 30"/>
+ <path d="m6.5 12h48l-48 36h48" stroke-linejoin="round"/>
+ </g>
+  </symbol>
+  <symbol id="fx-feeder3" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:13.3833;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.07749123,0,0,0.0827018,0.49536672,10.326143)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:13.3833;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 80,0 C 80,22.09 62.09,40 40,40 17.91,40 0,22.09 0,0 h 300 c 0,22.09 -17.91,40 -40,40 -22.09,0 -40,-17.91 -40,-40 z m 70,1 30,49 h -60 z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-filter2" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:5.17512;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.21255534,0,0,0.21255534,7.1604427,1.2468151)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.17512;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,0 H 50 V 100 H 0 Z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.17512;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,20 H 50 M 0,70 25,99.5 50,70"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ stroke-dasharray="2, 2"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-filter3" viewBox="0 0 24 24">
+    <g transform="matrix(.22068 0 0 .22068 1.0254 6.6983)" fill="none" stroke="currentColor" stroke-width="4.7862">
+ <path d="m0 0h100v50h-100z"/>
+ <path d="m10 10v30m20-30v30m20-30v30m20-30v30m20-30v30"/>
+ <path d="m20 0v50m20-50v50m20-50v50m20-50v50"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting1" viewBox="0 0 24 24">
+    <g
+ style="stroke-width:2.62047228;stroke-miterlimit:4;stroke-dasharray:none;stroke:currentColor;stroke-opacity:1"
+ transform="matrix(0.41977166,0,0,0.41977166,1.4225804,1.4225789)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.62047228;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 50.497713,25.25 A 25.247713,25.247713 0 0 1 25.25,50.497713 25.247713,25.247713 0 0 1 0.00228691,25.25 25.247713,25.247713 0 0 1 25.25,0.00228691 25.247713,25.247713 0 0 1 50.497713,25.25" />
+ <path
+ style="stroke-width:2.62047228;stroke-miterlimit:4;stroke-dasharray:none;stroke:currentColor;stroke-opacity:1;fill:currentColor;fill-opacity:1"
+ d="M 43.12,7.37 C 53,17.24 53,33.25 43.12,43.12 33.25,53 17.24,53 7.37,43.12 Z"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-fitting10" viewBox="0 0 24 24">
+    <g transform="matrix(.28094 0 0 .28094 1.3785 4.9889)" fill="none" stroke="currentColor" stroke-width="3.9154">
+ <path d="m37 4.5-36.5 21 36.5 21"/>
+ <path d="m75.5 25.5a25 25 0 0 1-25 25 25 25 0 0 1-25-25 25 25 0 0 1 25-25 25 25 0 0 1 25 25"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting11" viewBox="0 0 24 24">
+    <g transform="matrix(.41876 0 0 .41876 1.5344 6.2081)" fill="none" stroke="currentColor" stroke-width="2.6992">
+ <path d="m0 0h50v30h-50z"/>
+ <path d="M 25,15 A 12.5,12.5 0 0 1 12.5,27.5 12.5,12.5 0 0 1 0,15 12.5,12.5 0 0 1 12.5,2.5 12.5,12.5 0 0 1 25,15"/>
+ <path d="M 50,15 A 12.5,12.5 0 0 1 37.5,27.5 12.5,12.5 0 0 1 25,15 12.5,12.5 0 0 1 37.5,2.5 12.5,12.5 0 0 1 50,15"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting12" viewBox="0 0 24 24">
+    <g transform="matrix(.40937 0 0 .40937 1.7046 1.5635)" fill="none" stroke="currentColor" stroke-width="2.9059">
+ <path d="m0-0.4h50v50h-50z"/>
+ <path d="m0 49.6 25-10 25 10m-50-30 25 10 25-10m-25 10v-30"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting13" viewBox="0 0 24 24">
+    <g transform="matrix(.1267 0 0 .20189 .62251 9.3692)" fill="none" stroke="currentColor" stroke-width="6.8777">
+ <path d="m0.5 15c0-8.28 6.72-15 15-15s15 6.72 15 15 6.72 15 15 15 15-6.72 15-15 6.72-15 15-15 15 6.72 15 15 6.72 15 15 15 15-6.72 15-15 6.72-15 15-15 15 6.72 15 15 6.72 15 15 15 15-6.72 15-15" fill="none" stroke="currentColor" stroke-width="6.8777"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting2" viewBox="0 0 24 24">
+    <g transform="matrix(.27613 0 0 .27613 4.9779 2.2169)" fill="none" stroke="currentColor" stroke-width="3.8348">
+ <path d="m0.25 25.29 42.86-24.99v71.4l-42.86-24.99zm50 10.71h-7.14" fill="none" stroke="currentColor" stroke-width="3.8348"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting3" viewBox="0 0 24 24">
+    <g transform="matrix(.26055 0 0 .26055 7.1821 1.5652)" fill="none" stroke="currentColor" stroke-width="4.4174">
+ <path d="m0 0.3h40v80h-40z"/>
+ <path d="m0 0.3h40v80h-40z"/>
+ <path d="m20 0.3v80m-20-60h40m-40 20h40m-40 20h40"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting4" viewBox="0 0 24 24">
+    <g transform="matrix(.27019 0 0 .27019 1.3609 7.2212)" fill="none" stroke="currentColor" stroke-width="4.1734">
+ <path d="m0 0.5h40v40h-40z"/>
+ <path d="m40 10.5 40-10v40l-40-10z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting5" viewBox="0 0 24 24">
+    <g transform="matrix(.21545 0 0 .21545 7.1457 1.2701)" fill="none" stroke="currentColor" stroke-width="5.1057">
+ <path d="m0 0.3h50v100h-50z"/>
+ <path d="m10 0.3v20c16.57 0 30 13.43 30 30s-13.43 30-30 30v20"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting6" viewBox="0 0 24 24">
+    <g transform="matrix(.25368 0 0 .25368 1.7751 4.9711)" fill="none" stroke="currentColor" stroke-width="4.496">
+ <path d="m0 0h80v57.2h-80z"/>
+ <path d="m20 28.6v28.6m20-57.2v28.6m20 0v28.6"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting7" viewBox="0 0 24 24">
+    <g transform="matrix(.38968 0 0 .38968 2.292 4.2922)" fill="none" stroke="currentColor" stroke-width="2.8228">
+ <path d="m0.19-0.4c15.87 7.28 34.13 7.28 50 0v40c-15.87-7.28-34.13-7.28-50 0z" fill="none" stroke="currentColor" stroke-width="2.8228"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting8" viewBox="0 0 24 24">
+    <g transform="matrix(.38363 0 0 .38363 2.502 2.6109)" fill="none" stroke="currentColor" stroke-width="2.8673">
+ <path d="m0-0.4v50h50v-50l-25 15z" fill="none" stroke="currentColor" stroke-width="2.8673"/>
+ </g>
+  </symbol>
+  <symbol id="fx-fitting9" viewBox="0 0 24 24">
+    <g transform="matrix(.40589 0 0 .4546 2.147 6.4767)" fill="none" stroke="currentColor" stroke-width="2.5608">
+ <path d="m0-0.2c6.79 4.33 27.32 7.21 50 7v11c-22.68-0.21-43.21 2.67-50 7z" fill="none" stroke="currentColor" stroke-width="2.5608"/>
+ </g>
+  </symbol>
+  <symbol id="fx-misc1" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.9669;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.2353976,0,0,0.2353976,2.6028002,1.9131935)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.9669;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,60 H 80 V 80 H 0 Z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.9669;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 8,60 40,0 72,60 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.9669;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 20,60 40,24 60,60"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-misc2" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.39199;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.25045609,0,0,0.25045609,4.7186954,3.4364571)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.39199;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 60,0 V 45 C 60,61.57 46.57,75 30,75 13.43,75 0,61.57 0,45 V 0 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.39199;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 32.32,45.48 c -0.02,6.21 -1.03,11.24 -2.27,11.24 -0.6,0.01 -1.17,-1.18 -1.59,-3.29 -0.42,-2.11 -0.65,-4.97 -0.64,-7.96 0,-2.99 0.25,-5.85 0.68,-7.96 0.42,-2.11 1,-3.29 1.6,-3.29 1.24,0.02 2.23,5.05 2.22,11.26 z M 40.2,28.45 c -4.73,4.03 -9.22,6.53 -10.03,5.59 -0.8,-0.95 2.38,-4.98 7.11,-9 4.73,-4.03 9.22,-6.53 10.03,-5.59 0.8,0.95 -2.38,4.98 -7.11,9 z M 22.82,24.99 c 4.73,4 7.92,8.02 7.13,8.98 -0.38,0.46 -1.65,0.13 -3.54,-0.91 -1.88,-1.04 -4.22,-2.71 -6.5,-4.64 -2.28,-1.92 -4.31,-3.95 -5.65,-5.64 -1.34,-1.68 -1.87,-2.88 -1.49,-3.34 0.81,-0.94 5.31,1.54 10.05,5.55 z"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-misc3" viewBox="0 0 24 24">
+    <g transform="matrix(.18846 0 0 .18846 6.3581 2.7087)" fill="none" stroke="currentColor" stroke-width="6.3674">
+ <path d="m10 100 10-100h20l10 100zm-10 0h60" fill="none" stroke="currentColor" stroke-width="6.3674"/>
+ </g>
+  </symbol>
+  <symbol id="fx-misc4" viewBox="0 0 24 24">
+    <g transform="matrix(.31969 0 0 .31969 .80717 8.7856)" fill="none" stroke="currentColor" stroke-width="3.4408">
+ <path d="m0 0.5h70v20h-70z"/>
+ <path d="m10 14.5 50-8c2.21 0 4 1.79 4 4s-1.79 4-4 4l-50-8c-2.21 0-4 1.79-4 4s1.79 4 4 4z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-misc5" viewBox="0 0 24 24">
+    <g transform="matrix(.19605 0 0 .19605 4.2816 2.2983)" fill="none" stroke="currentColor" stroke-width="5.6109">
+ <path d="m15 100.5-15-15v-85h80v85l-15 15z"/>
+ <path d="m10 0.5v80l10 10h40l10-10v-80"/>
+ </g>
+  </symbol>
+  <symbol id="fx-misc6" viewBox="0 0 24 24">
+    <g transform="matrix(.187 0 0 .187 3.5979 2.6144)" fill="none" stroke="currentColor" stroke-width="6.4171">
+ <path d="m0 100.5v-16.67l22.5-83.33h45l22.5 83.33v16.67zm90-16.67h-90" fill="none" stroke="currentColor" stroke-width="6.4171"/>
+ </g>
+  </symbol>
+  <symbol id="fx-misc7" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-opacity:1"
+ stroke-width="6.2479"
+ transform="matrix(.17606 0 0 .17606 1.5566 7.5269)">
+ <path
+ style="fill:none;stroke:currentColor;stroke-opacity:1"
+ stroke-width="6.2479"
+ stroke="currentColor"
+ fill="none"
+ d="m0 60v-60h7.5v52h48.75v-52h7.5v52h48.75v-52h7.5v60zm0-56 3.75-4m-3.75 12 7.5-8m-7.5 16 7.5-8m-7.5 16 7.5-8m-7.5 16 7.5-8m-7.5 16 7.5-8m22.5 24 7.5-8m-37.5 0 7.5-8m-7.5 16 7.5-8m0 8 7.5-8m0 8 7.5-8m0 8 7.5-8m7.5 8 7.5-8m0 8 7.5-8m0 8 11.25-12m-3.75 12 7.5-8m0 8 7.5-8m7.5 8 7.5-8m0 8 7.5-8m0 8 7.5-8m0 8 15-16m-7.5 16 7.5-8m-7.5-8 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 3.75-4m-41.25 60 7.5-8m-26.25-4 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8" />
+ </g>
+  </symbol>
+  <symbol id="fx-misc8" viewBox="0 0 24 24">
+    <g transform="matrix(.16661 0 0 .16661 2.137 7.3114)" fill="none" stroke="currentColor" stroke-width="6.6023">
+ <path d="m0.19 0h7.5v52h105v-52h7.5v60h-120zm0 4 3.75-4m-3.75 12 7.5-8m-7.5 16 7.5-8m-7.5 16 7.5-8m-7.5 16 7.5-8m-7.5 16 7.5-8m22.5 24 7.5-8m-37.5 0 7.5-8m-7.5 16 7.5-8m0 8 7.5-8m0 8 7.5-8m0 8 7.5-8m7.5 8 7.5-8m0 8 7.5-8m0 8 7.5-8m0 8 7.5-8m0 8 7.5-8m7.5 8 7.5-8m0 8 7.5-8m0 8 7.5-8m0 8 15-16m-7.5 16 7.5-8m-7.5-8 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 7.5-8m-7.5 0 3.75-4m-41.25 60 7.5-8" fill="none" stroke="currentColor" stroke-width="6.6023"/>
+ </g>
+  </symbol>
+  <symbol id="fx-motor-simb" viewBox="0 0 24 24">
+    <g transform="matrix(.20891 0 0 .20891 1.5706 1.335)" style="fill:none">
+ <circle cx="50" cy="50" r="50" style="fill:none;stroke:currentColor"/>
+ <path d="m49 1 50 49-50 49z" stroke-miterlimit="10" style="fill:currentColor;stroke-miterlimit:10;stroke:currentColor"/>
+ </g>
+ <ellipse cx="12.019" cy="11.826" rx="10.829" ry="10.78" style="fill:none;stroke-miterlimit:10;stroke-width:1.2;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-nozzle" viewBox="0 0 24 24">
+    <g transform="matrix(.29201 0 0 .29201 .4594 5.2326)" fill="none" stroke="currentColor" stroke-width="4.1094">
+ <path d="m0 40 40-40 40 40m-40-40v40" fill="none" stroke="currentColor" stroke-width="4.1094"/>
+ </g>
+  </symbol>
+  <symbol id="fx-nozzle2" viewBox="0 0 24 24">
+    <g transform="matrix(.38397 0 0 .38397 .57489 8.2383)" fill="none" stroke="currentColor" stroke-width="2.8648">
+ <path d="m0 0h35v10m-25 10 25-10 25 10m-35 0 10-10 10 10" fill="none" stroke="currentColor" stroke-width="2.8648"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi1" viewBox="0 0 24 24">
+    <g transform="matrix(.39921 0 0 .39921 2.0692 6.2397)" fill="none" stroke="currentColor" stroke-width="2.7554">
+ <path d="m35 10.29a10 10.294 0 0 1-10 10.294 10 10.294 0 0 1-10-10.294 10 10.294 0 0 1 10-10.294 10 10.294 0 0 1 10 10.294"/>
+ <path d="m0 10.29h50m0-10.29v20.59m-50-20.59v20.59m40 14.41 10-8.75m-5 4.63-12.8-13.38"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi2" viewBox="0 0 24 24">
+    <g transform="matrix(.42772 0 0 .42772 1.3568 3.8136)" fill="none" stroke="currentColor" stroke-width="2.8056">
+ <path d="m35 30a10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10 10 10 0 0 1 10 10"/>
+ <path d="m35 10a10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10 10 10 0 0 1 10 10"/>
+ <path d="m0 20h50m0-10v20m-50-20v20"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi3" viewBox="0 0 24 24">
+    <g transform="matrix(.4144 0 0 .4144 1.7234 5.4155)" fill="none" stroke="currentColor" stroke-width="2.9678">
+ <path d="m0 10.79h50m0-10.29v20.59m-50-20.59v20.59m25-10.3 20 20.59m-5 4.12 10-8.75" fill="none" stroke="currentColor" stroke-width="2.9678"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi4" viewBox="0 0 24 24">
+    <g transform="matrix(.41838 0 0 .41838 1.7076 2.6411)" fill="none" stroke="currentColor" stroke-width="2.8682">
+ <path d="m40 0v30c0 8.28-6.72 15-15 15s-15-6.72-15-15v-30zm10 15v20m-50-20v20m0-10h10m30 0h10" fill="none" stroke="currentColor" stroke-width="2.8682"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi5" viewBox="0 0 24 24">
+    <g transform="matrix(.65622 0 0 .65622 2.3882 2.2671)" fill="none" stroke="currentColor" stroke-width="1.8287">
+ <path d="m30 15a15 15 0 0 1-15 15 15 15 0 0 1-15-15 15 15 0 0 1 15-15 15 15 0 0 1 15 15"/>
+ <path d="m24 3-24 12 24 12" stroke-linejoin="round"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi6" viewBox="0 0 24 24">
+    <g transform="matrix(.44898 0 0 .44898 .88908 8.1657)" fill="none" stroke="currentColor" stroke-width="2.6728">
+ <path d="m0 6h7c0-2.49 2.01-4.5 4.5-4.5s4.5 2.01 4.5 4.5c0-2.49 2.01-4.5 4.5-4.5s4.5 2.01 4.5 4.5c0-2.49 2.01-4.5 4.5-4.5s4.5 2.01 4.5 4.5c0-2.49 2.01-4.5 4.5-4.5s4.5 2.01 4.5 4.5h7v8h-7c0 2.49-2.01 4.5-4.5 4.5s-4.5-2.01-4.5-4.5c0 2.49-2.01 4.5-4.5 4.5s-4.5-2.01-4.5-4.5c0 2.49-2.01 4.5-4.5 4.5s-4.5-2.01-4.5-4.5c0 2.49-2.01 4.5-4.5 4.5s-4.5-2.01-4.5-4.5h-7zm50-6v20m-50-20v20" fill="none" stroke="currentColor" stroke-width="2.6728"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pipi7" viewBox="0 0 24 24">
+    <g transform="matrix(.4608 0 0 .4608 .55302 7.3023)" fill="none" stroke="currentColor" stroke-width="2.6042">
+ <path d="m35 10.5a10 10 0 0 1-10 10 10 10 0 0 1-10-10 10 10 0 0 1 10-10 10 10 0 0 1 10 10"/>
+ <path d="m0 10.5h15m20 0h15"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pumpblower" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.80797;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.40209928,0,0,0.40209928,1.8205602,2.7275727)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.80797;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 15.71,37.5 -8.3,9.03 H 48.9 L 40.61,37.5"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.80797;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 0.5,0 h 27.66 c 9.02,0.07 16.97,5.98 19.65,14.63 2.69,8.65 -0.5,18.05 -7.88,23.26 -7.39,5.2 -17.28,5.02 -24.46,-0.46 C 8.28,31.95 5.44,22.43 8.45,13.89 L 0.5,13.72 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.80797;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 35.074673,20.83 A 6.9146729,6.9447761 0 0 1 28.16,27.774776 6.9146729,6.9447761 0 0 1 21.245327,20.83 6.9146729,6.9447761 0 0 1 28.16,13.885224 6.9146729,6.9447761 0 0 1 35.074673,20.83" />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpcentri1" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.87255;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.41774675,0,0,0.41774675,1.4370201,3.0789914)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.87255;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0.43,18.66 C 2.16,7.93 11.02,0.07 21.43,0 H 50 v 14.93 h -8.25 c 2.72,7.98 0.9,16.88 -4.71,23 -5.61,6.12 -14.05,8.41 -21.8,5.91 C 7.49,41.34 1.76,34.48 0.43,26.12"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpcentri2" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.57805;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.43947128,0,0,0.43947128,1.1190242,2.8626464)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.57805;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 49.57,17.86 C 47.84,7.6 38.98,0.06 28.57,0 H 0 v 14.29 h 8.25 c -2.72,7.64 -0.9,16.16 4.71,22.02 5.61,5.86 14.05,8.04 21.8,5.65 C 42.51,39.57 48.24,33 49.57,25"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpfeed" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.53988;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.26966778,0,0,0.26966778,1.0703257,7.9257765)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.53988;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 0.5,0 h 52 v 8 h 28 v 16 h -28 v 8 h -52 z"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpgear" viewBox="0 0 24 24">
+    <g transform="matrix(.52612 0 0 .52612 1.4404 1.556)" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="2.2354">
+ <path d="m40 20a20 20 0 0 1-20 20 20 20 0 0 1-20-20 20 20 0 0 1 20-20 20 20 0 0 1 20 20"/>
+ <path d="m0 20 20-20 20 20"/>
+ <path d="m20 20a6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6"/>
+ <path d="m32 20a6 6 0 0 1-6 6 6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pumpgear2" viewBox="0 0 24 24">
+    <g transform="matrix(.26857 0 0 .26857 5.5791 1.2852)" fill="none" stroke="currentColor" stroke-width="4.4682">
+ <path d="m13.16 71.93-6.58 7.89h36.84l-6.67-7.89"/>
+ <path d="m42.54 8.77v57.02c0 4.84-7.85 8.77-17.54 8.77s-17.54-3.93-17.54-8.77v-57.02c0-4.84 7.85-8.77 17.54-8.77s17.54 3.93 17.54 8.77z"/>
+ <path d="m39.035 52.63a14.035 14.034 0 0 1-14.035 14.034 14.035 14.034 0 0 1-14.035-14.034 14.035 14.034 0 0 1 14.035-14.034 14.035 14.034 0 0 1 14.035 14.034"/>
+ <path d="m39.035 20.17a14.035 14.034 0 0 1-14.035 14.034 14.035 14.034 0 0 1-14.035-14.034 14.035 14.034 0 0 1 14.035-14.034 14.035 14.034 0 0 1 14.035 14.034"/>
+ <path d="m50 27.63v17.54m-7.46-8.77h7.46m-50-8.33v17.54m0-9.21h7.46"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pumphidra" viewBox="0 0 24 24">
+    <g
+ style="stroke-width:2.47476;stroke-miterlimit:7;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ transform="matrix(0.51892353,0,0,0.51892353,1.7230208,1.6443812)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.47476;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 40,20 A 20,20 0 0 1 20,40 20,20 0 0 1 0,20 20,20 0 0 1 20,0 20,20 0 0 1 40,20" />
+ <path
+ style="stroke-width:2.47476;stroke-miterlimit:7;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ d="M 0,20 20,0 40,20"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumphorizo" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:5.59103;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.21720264,0,0,0.21720264,3.2426156,0.88269261)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.59103;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 39.73,70.360001 h 2.74 V 79.56 h -2.74 z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.59103;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 30.82,4.61 C 33.42,1.68 37.16,0 41.09,0 c 3.94,0 7.68,1.68 10.28,4.61 v 61.32 c -2.6,2.94 -6.34,4.62 -10.27,4.62 -3.94,0 -7.68,-1.68 -10.28,-4.62 z m 41.1,74.95 c 2.94,2.59 4.63,6.31 4.63,10.22 0,3.91 -1.69,7.63 -4.63,10.22 H 10.27 C 7.33,97.41 5.64,93.69 5.64,89.78 c 0,-3.91 1.69,-7.63 4.63,-10.22 z m 4.45,10.22 h 5.82 m 0,-6.81 V 96.59 M 0,89.78 H 5.82 M 0,82.97 V 96.59 M 30.82,65.93 H 51.37 M 30.82,4.61 h 20.55"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpjet" viewBox="0 0 24 24">
+    <g
+ style="stroke-width:2.23551;stroke-miterlimit:7;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ transform="matrix(0.52876946,0,0,0.52876946,1.5099759,1.6076324)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.23551;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 40,20 A 20,20 0 0 1 20,40 20,20 0 0 1 0,20 20,20 0 0 1 20,0 20,20 0 0 1 40,20" />
+ <path
+ style="stroke-width:2.23551;stroke-miterlimit:7;stroke-dasharray:none;fill:none;stroke:currentColor;stroke-opacity:1"
+ d="M 0,20 20,0 40,20 M 8.8,11.2 c 6.07,7.38 6.07,18.02 0,25.4 M 31.2,11.2 c -6.07,7.38 -6.07,18.02 0,25.4"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpperis" viewBox="0 0 24 24">
+    <g transform="matrix(.36126 0 0 .36126 3.2843 1.2997)" fill="none" stroke="currentColor" stroke-width="3.34">
+ <path d="m9.6 45.08-9.6 10.4h48l-9.6-10.4"/>
+ <path d="m48 25.88a24 24 0 0 1-24 24 24 24 0 0 1-24-24 24 24 0 0 1 24-24 24 24 0 0 1 24 24"/>
+ <path d="m32 9.88a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8"/>
+ <path d="m18.88 35.08a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8"/>
+ <path d="m45.12 35.08a8 8 0 0 1-8 8 8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8"/>
+ <path d="m17.04 6.04-13.36 25.44m27.28-25.44 13.36 25.44m-33.44 11.6h26.24m-21.12-42.8v9.6m16-9.6v9.6"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pumpscreew" viewBox="0 0 24 24">
+    <g transform="matrix(.19616 0 0 .30969 .10057 7.0608)" fill="none" stroke="currentColor" stroke-width="4.463">
+ <path d="m86.46 0c-4.28 3.8-6.73 9.26-6.73 15s2.45 11.2 6.73 15h29.81c4.28-3.8 6.73-9.26 6.73-15s-2.45-11.2-6.73-15zm-11.93 15h4.97m-64.59 10v10m44.72-10v10"/>
+ <path d="m0 5h74.53v20h-74.53z"/>
+ <path d="m4.47 15c0.95-3.65 3.1-6 5.47-6s4.52 2.35 5.46 6c0.95 3.65 3.1 6 5.47 6s4.52-2.35 5.47-6c0.94-3.65 3.09-6 5.46-6s4.52 2.35 5.47 6c0.94 3.65 3.09 6 5.46 6s4.52-2.35 5.47-6 3.09-6 5.46-6c2.38 0 4.52 2.35 5.47 6s3.09 6 5.47 6c2.37 0 4.51-2.35 5.46-6m16.4-15v30m29.81-30v30"/>
+ </g>
+  </symbol>
+  <symbol id="fx-pumpscreew2" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:2.87566;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.41542792,0,0,0.41542792,2.0921407,1.6984218)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.87566;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 8.57,38.01 0,47.16 h 42.86 l -8.57,-9.15"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:2.87566;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0.43,17.58 C 2.18,7.43 11.11,0 21.55,0 32,0 40.93,7.43 42.68,17.58 H 50 v 7.05 H 42.68 C 40.93,34.78 32,42.21 21.55,42.21 11.11,42.21 2.18,34.78 0.43,24.63"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpturbi" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.02466;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.30284305,0,0,0.30284305,0.80864332,5.3392297)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.02466;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M -0.38,17.23 H 6.67 V 11.75 L 69.33,0 v 17.23 h 7.05 V 29.77 H 69.33 V 47 L 6.67,35.25 v -5.48 h -7.05 z m 7.05,0 V 29.77 M 69.33,17.23 v 12.54"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-pumpvacuum" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.91366;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.2759268,0,0,0.2759268,-0.5043231,5.9738992)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.91366;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 0.5,20.49 h 13.18 v -7.14 h 11 C 28.3,5.24 36.47,0 45.5,0 54.53,0 62.7,5.24 66.32,13.35 h 11 v 7.14 H 90.5 v 3.57 H 77.32 v 7.14 h -11 C 62.7,39.31 54.53,44.55 45.5,44.55 36.47,44.55 28.3,39.31 24.68,31.2 h -11 V 24.06 H 0.5 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.91366;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 13.68,20.49 v 3.57 m 63.64,-3.57 v 3.57 M 24.68,31.2 c -2.53,-5.69 -2.53,-12.16 0,-17.85 m 41.64,0 c 2.53,5.69 2.53,12.16 0,17.85"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-shape-arrow" viewBox="0 0 24 24">
+    <path d="m0.92906 12.502v-3.0016h16.594v-3.1517l5.2549 4.6525-5.2549 4.6525v-3.1517z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-circle" viewBox="0 0 24 24">
+    <ellipse cx="12" cy="12" rx="10" ry="10" style="fill:none;stroke-miterlimit:10;stroke-width:1.2;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-shape-circlehalf" viewBox="0 0 24 24">
+    <path d="M 12 2 A 10 10 0 0 1 12 22" style="fill:none;stroke-miterlimit:10;stroke-width:1.2;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-shape-circleindi" viewBox="0 0 24 24">
+    <path d="m17.305 6.7585a5.7579 5.7579 0 0 1 -5.7579 5.7579 5.7579 5.7579 0 0 1 -5.7579 -5.7579 5.7579 5.7579 0 0 1 5.7579 -5.7579 5.7579 5.7579 0 0 1 5.7579 5.7579zm-5.628 16.386-.044742-11.249" style="fill:none;stroke-miterlimit:10;stroke-width:1.484;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-shape-cloud" viewBox="0 0 24 24">
+    <g
+ style="stroke:currentColor;stroke-width:4.04982895;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill:none;fill-opacity:0"
+ transform="matrix(0.3178655,0,0,0.34493781,-1.10148,-0.9152485)"
+ >
+ <path
+ style="stroke:currentColor;stroke-width:4.04982895;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill:none;fill-opacity:0"
+ d="M 20,17.5 C 4,17.5 0,35 12.8,38.5 0,46.2 14.4,63 24.8,56 32,70 56,70 64,56 80,56 80,42 70,35 80,21 64,7 50,14 40,3.5 24,3.5 20,17.5 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-shape-cone" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:6.45307;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.19020168,0,0,0.19020168,2.5741898,2.1797844)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:6.45307;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="m 50,0 50,90.81 C 100,95.88 77.61,100 50,100 22.39,100 0,95.88 0,90.81 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:6.45307;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="m 0,90.81 c 0,-5.08 22.39,-9.2 50,-9.2 27.61,0 50,4.12 50,9.2"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-shape-corner" viewBox="0 0 24 24">
+    <g transform="matrix(.22837 0 0 .22837 3.1188 3.0059)" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="5.5095">
+ <path d="m0 0h80v20h-60v60h-20z" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="5.5095"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-cross" viewBox="0 0 24 24">
+    <g transform="matrix(.26091 0 0 .26091 1.535 1.6479)" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="4.6468">
+ <path d="m0 32h32v-32h16v32h32v16h-32v32h-16v-32h-32z" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="4.6468"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-cylinder" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.23285;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.26472522,0,0,0.26472522,4.0478473,1.3905992)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.23285;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,16 C 0,-5.33 60,-5.33 60,16 V 64 C 60,85.33 0,85.33 0,64 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.23285;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="m 0,16 c 0,16 60,16 60,0"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-shape-delay" viewBox="0 0 24 24">
+    <path d="m1.3621 7.0188h16.353q5.4511 0 5.4511 5.6395 0 5.6395-5.4511 5.6395h-16.353z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-diamond" viewBox="0 0 24 24">
+    <path d="m11.889 2.5209 9.8917 9.8359-9.8917 9.8359-9.8917-9.8359z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-display" viewBox="0 0 24 24">
+    <g transform="matrix(.25546 0 0 .25546 .8836 7.4192)" fill="none" stroke="currentColor" stroke-width="4.7855">
+ <path d="m0 20 22.5-20h47.5q20 0 20 20t-20 20h-47.5z" fill="none" stroke="currentColor" stroke-width="4.7855"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-docu" viewBox="0 0 24 24">
+    <g transform="matrix(.17614 0 0 .17614 1.5972 5.8248)" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="6.9707">
+ <path d="m0 0h120v59q-30-37.8-60 0t-60 0v-38z" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="6.9707"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-doublearrow" viewBox="0 0 24 24">
+    <path d="m5.8876 12.193v2.8614l-4.5862-4.224 4.5862-4.224v2.8614h12.31v-2.8614l4.5862 4.224-4.5862 4.224v-2.8614z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-drop" viewBox="0 0 24 24">
+    <g transform="matrix(.28445 0 0 .28445 5.0082 .81687)" fill="none" stroke="currentColor" stroke-width="4.0873">
+ <path d="m25 0 22.27 43.64c1.79 3.52 2.73 7.41 2.73 11.36 0 6.63-2.63 12.99-7.32 17.68s-11.05 7.32-17.68 7.32-12.99-2.63-17.68-7.32-7.32-11.05-7.32-17.68c0-3.95 0.94-7.84 2.73-11.36z" fill="none" stroke="currentColor" stroke-width="4.0873"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-halfcircle" viewBox="0 0 24 24">
+    <path d="m1.3621 7.8324c0 6.7512 4.824 12.226 10.773 12.226 5.9487 0 10.773-5.4748 10.773-12.226z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-heart" viewBox="0 0 24 24">
+    <g transform="matrix(.27696 0 0 .27696 1.0775 .46745)" fill="none" stroke="currentColor" stroke-width="4.4533">
+ <path d="M 40,80 C 42.96,76.66 59.91,57.56 70.51,45.62 80,34.93 79.79,19.35 71.17,9.68 62.54,0 48.58,0.04 40,9.76 31.41,0.04 17.46,0 8.83,9.67 0.2,19.34 0,34.93 9.49,45.62 20.08,57.56 37.03,76.66 40,80 Z" fill="none" stroke="currentColor" stroke-width="4.4533"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-looplimit" viewBox="0 0 24 24">
+    <path d="m1.1234 6.4492h21.925v8.3845l-5.4812 5.24h-10.962l-5.4812-5.24z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-maninput" viewBox="0 0 24 24">
+    <g transform="matrix(.21498 0 0 .21498 3.2162 3.4484)" fill="none" stroke="currentColor" stroke-width="4.9018">
+ <path d="m0 80v-50l80-30v80z" fill="none" stroke="currentColor" stroke-width="4.9018"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-nosymbol" viewBox="0 0 24 24">
+    <g transform="matrix(.27529 0 0 .27529 1.0726 .95963)" fill="none" stroke="currentColor" stroke-width="4.2352">
+ <path d="m0 40c0-22.09 17.91-40 40-40s40 17.91 40 40-17.91 40-40 40-40-17.91-40-40zm63.16 15.76c7.61-11.12 6.22-26.08-3.31-35.61s-24.49-10.92-35.61-3.31zm-46.24-31.52c-7.58 11.11-6.2 26.03 3.3 35.55 9.49 9.53 24.41 10.96 35.54 3.41z" fill="none" stroke="currentColor" stroke-width="4.2352"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-octagon" viewBox="0 0 24 24">
+    <g transform="matrix(.19753 0 0 .19753 2.0947 1.9817)" fill="none" stroke="currentColor" stroke-width="6.3425">
+ <path d="m30 0h40l30 30v40l-30 30h-40l-30-30v-40z" fill="none" stroke="currentColor" stroke-width="6.3425"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-offpage" viewBox="0 0 24 24">
+    <path d="m1.1032 6.3486v3.3754l10.999 10.126 10.999-10.126v-3.3754z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-or" viewBox="0 0 24 24">
+    <g transform="matrix(.26672 0 0 .25536 4.9642 1.8134)" fill-opacity="0" stroke="currentColor" stroke-width="4.4179">
+ <path d="m0 0q60 0 60 40t-60 40q30-40 0-80z" fill="currentColor" fill-opacity="0" stroke="currentColor" stroke-width="4.4179"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-or2" viewBox="0 0 24 24">
+    <g fill="none" stroke="currentColor" stroke-miterlimit="8" stroke-width="1.2">
+ <path d="m22.414 11.971a10.33 10.33 0 0 1-10.33 10.33 10.33 10.33 0 0 1-10.33-10.33 10.33 10.33 0 0 1 10.33-10.33 10.33 10.33 0 0 1 10.33 10.33"/>
+ <path d="m1.7547 11.971h20.659"/>
+ <path d="m12.084 1.6417v20.659"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-parallelogram" viewBox="0 0 24 24">
+    <g transform="matrix(.19047 0 0 .19047 .67682 6.125)" fill="none" stroke="currentColor" stroke-width="6.0467">
+ <path d="m0 60 24-60h96l-24 60z" fill="none" stroke="currentColor" stroke-width="6.0467"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-pentagon" viewBox="0 0 24 24">
+    <g transform="matrix(.22717 0 0 .22717 1.9179 2.7887)" fill="none" stroke="currentColor" stroke-width="5.2358">
+ <path d="M 17.16,80 0,29.33 45,0 90,29.33 72.84,80 Z" fill="none" stroke="currentColor" stroke-width="5.2358"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-poval" viewBox="0 0 24 24">
+    <g transform="matrix(.29894 0 0 .29894 4.6885 .29608)" fill="none" stroke="currentColor" stroke-width="4.0142">
+ <path d="m25 0c-25 22.78-25 57.22 0 80 24.99-22.78 24.99-57.22 0-80z" fill="none" stroke="currentColor" stroke-width="4.0142"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-prepara" viewBox="0 0 24 24">
+    <path d="m6.5066 5.414h10.992l5.496 6.4146-5.496 6.4146h-10.992l-5.496-6.4146z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-radiuskorner" viewBox="0 0 24 24">
+    <path d="M 12 2 A 10 10 0 0 1 22 12" style="fill:none;stroke-miterlimit:10;stroke-width:1.2;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-shape-rectangle" viewBox="0 0 24 24">
+    <rect width="18" height="18" x="3" y="3" style="fill:none;stroke-miterlimit:10;stroke-width:1.2;stroke:currentColor"/>
+  </symbol>
+  <symbol id="fx-shape-rectindi" viewBox="0 0 24 24">
+    <g transform="matrix(.63917 0 0 .63917 6.4992 1.6687)" style="fill:none;stroke-miterlimit:10;stroke-width:2.3468;stroke:currentColor">
+ <rect width="16" height="16" style="fill:none;stroke-miterlimit:10;stroke-width:2.3468;stroke:currentColor"/>
+ <path d="m8.1 33.6-.07-17.6" stroke-miterlimit="10" style="fill:none;stroke-miterlimit:10;stroke-width:2.3468;stroke:currentColor"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-star4" viewBox="0 0 24 24">
+    <g transform="matrix(.28983 0 0 .28983 .49095 .49095)" fill="none" stroke="currentColor" stroke-width="4.1403">
+ <path d="m0 40 32-8 8-32 8 32 32 8-32 8-8 32-8-32z" fill="none" stroke="currentColor" stroke-width="4.1403"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-switch" viewBox="0 0 24 24">
+    <g transform="matrix(.24995 0 0 .24995 2.2144 2.1129)" fill="none" stroke="currentColor" stroke-width="5.201">
+ <path d="m0 0q40 40 80 0-40 40 0 80-40-40-80 0 40-40 0-80" fill="none" stroke="currentColor" stroke-width="5.201"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-tape" viewBox="0 0 24 24">
+    <g transform="matrix(.17071 0 0 .17071 1.9225 4.2073)" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="6.9725">
+ <path d="m0 20q30 36 60 0t60 0v60q-30-36-60 0t-60 0z" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="6.9725"/>
+ </g>
+  </symbol>
+  <symbol id="fx-shape-tee" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:4.99762;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.22416978,0,0,0.22416978,2.8351399,3.286888)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:4.99762;stroke-miterlimit:7;stroke-dasharray:none;stroke-opacity:1"
+ d="M 0,0 H 80 V 20 H 50 V 80 H 30 V 20 H 0 Z"
+ fill="currentColor"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-shape-ticket" viewBox="0 0 24 24">
+    <path d="m1.0632 18.162v-12.427h14.789l6.7205 6.2133-6.7205 6.2133z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-trape" viewBox="0 0 24 24">
+    <path d="m1.4358 17.248 4.2257-11.309h12.677l4.2257 11.309z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-triangle" viewBox="0 0 24 24">
+    <path d="m6.7957 2.0237 14.412 9.9517-14.412 9.9517z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-shape-vor" viewBox="0 0 24 24">
+    <path d="m21.991 11.971a9.9071 9.9071 0 0 1-9.9071 9.9071 9.9071 9.9071 0 0 1-9.9071-9.9071 9.9071 9.9071 0 0 1 9.9071-9.9071 9.9071 9.9071 0 0 1 9.9071 9.9071" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="1.2"/>
+ <path d="m1.6431 12.197h20.882" fill="none" stroke="currentColor" stroke-miterlimit="7" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-tank1" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-width:5.7046;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ transform="matrix(0.20616974,0,0,0.21462861,1.8788306,6.0126737)"
+ >
+ <path
+ style="fill:none;stroke:currentColor;stroke-width:5.7046;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+ d="m 0.5,0.25 h 80 l 10,20 h 10 v 20 h -10 l -10,20 h -80 z"
+ fill="none"
+ stroke="currentColor"
+ stroke-miterlimit="10"
+ />
+ </g>
+  </symbol>
+  <symbol id="fx-tank2" viewBox="0 0 24 24">
+    <g transform="matrix(.23376 0 0 .23376 .99955 5.1291)" fill="none" stroke="currentColor" stroke-width="5.1335">
+ <path d="m87.34 14.93c4.23 0 7.67 8.95 7.67 20 0.01 11.04-3.42 20-7.65 20l-79.68 0.04c-4.23 0-7.67-8.95-7.67-20-0.01-11.04 3.42-20 7.65-20l44.82-0.03-0.01-10c0-2.76 4.46-5 9.96-5.01 5.5 0 9.96 2.24 9.96 5l0.01 10z" fill="none" stroke="currentColor" stroke-width="5.1335"/>
+ </g>
+  </symbol>
+  <symbol id="fx-tank3" viewBox="0 0 24 24">
+    <g transform="matrix(.21429 0 0 .21429 6.5926 .95286)" fill="none" stroke="currentColor" stroke-width="5.6">
+ <path d="m9.75 15.42c0-8.24 6.72-14.92 15-14.92s15 6.68 15 14.92v24.87l10 9.95v34.82c0 6.87-11.19 12.44-25 12.44s-25-5.57-25-12.44v-34.57l10-10.2z" fill="none" stroke="currentColor" stroke-width="5.6"/>
+ </g>
+  </symbol>
+  <symbol id="fx-tank4" viewBox="0 0 24 24">
+    <g transform="matrix(.21303 0 0 .1803 7.1707 .94104)" fill="none" stroke="currentColor" stroke-width="6.123">
+ <path d="m0 15c0-8.28 11.19-15 25-15s25 6.72 25 15v90c0 8.28-11.19 15-25 15s-25-6.72-25-15z" fill="none" stroke="currentColor" stroke-width="6.123"/>
+ </g>
+  </symbol>
+  <symbol id="fx-tank5" viewBox="0 0 24 24">
+    <g transform="matrix(.28267 0 0 .22666 6.8035 .68823)" fill="none" stroke="currentColor" stroke-width="4.7408">
+ <path d="m40 8.16v79.68c0 4.23-8.95 7.66-20 7.66s-20-3.43-20-7.66v-79.68c0-4.23 8.95-7.66 20-7.66s20 3.43 20 7.66zm-40 0h40m-40 79.68h40" fill="none" stroke="currentColor" stroke-width="4.7408"/>
+ </g>
+  </symbol>
+  <symbol id="fx-tank6" viewBox="0 0 24 24">
+    <g
+ style="fill:none;stroke:currentColor;stroke-opacity:1"
+ stroke-width="6.1948"
+ stroke="currentColor"
+ fill="none"
+ transform="matrix(.19371 0 0 .19371 2.5005 2.0936)">
+ <path
+ style="fill:none;stroke:currentColor;stroke-opacity:1"
+ d="m0 25.34h100v69.66h-100z" />
+ <path
+ style="fill:none;stroke:currentColor;stroke-opacity:1"
+ stroke-linejoin="round"
+ d="m0 25.34c28.47-25.34 71.53-25.34 100 0z" />
+ </g>
+  </symbol>
+  <symbol id="fx-tank7" viewBox="0 0 24 24">
+    <g transform="matrix(.19709 0 0 .19709 2.2286 2.8536)" fill="none" stroke="currentColor" stroke-width="6.0887">
+ <path d="m0 20v70h100v-70l-50-20zh100" fill="none" stroke="currentColor" stroke-width="6.0887"/>
+ </g>
+  </symbol>
+  <symbol id="fx-tank8" viewBox="0 0 24 24">
+    <g transform="matrix(.20763 0 0 .20763 5.1089 .87749)" fill="none" stroke="currentColor" stroke-width="5.298">
+ <path d="m53 23h8.5m0-10v20m4-20v20m-52.5 50h-8.5m0-10v20m-4.5-20v20m53-80v80c0 4.25-8.95 7.69-20 7.69s-20-3.44-20-7.69v-80c0-4.25 8.95-7.69 20-7.69s20 3.44 20 7.69z" fill="none" stroke="currentColor" stroke-width="5.298"/>
+ </g>
+  </symbol>
+  <symbol id="fx-tank9" viewBox="0 0 24 24">
+    <g transform="matrix(.1332 0 0 .1332 1.7492 4.3222)" fill="none" stroke="currentColor" stroke-width="8.2583">
+ <g>
+ <path d="m147.39 12.95c4.21 0 7.61 8.91 7.61 19.91s-3.4 19.91-7.61 19.91h-128.59c-4.21 0-7.61-8.91-7.61-19.91s3.4-19.91 7.61-19.91z"/>
+ <path d="m147.39 72.69c4.21 0 7.61 8.91 7.61 19.91s-3.4 19.91-7.61 19.91h-128.59c-4.21 0-7.61-8.91-7.61-19.91s3.4-19.91 7.61-19.91z"/>
+ <path d="m3.96 79.66h8.9m-8.9 25.88h8.9m-8.9-35.84v19.91m-3.96-19.91v19.91m3.96 5.98v19.91m-3.96-19.91v19.91m137.5-102.55v-8.47m-9.89 0h19.78m-19.78-3.98h19.78m-118.7 12.45v-8.47m-9.89 0h19.78m-19.78-3.98h19.78"/>
+ </g>
+ <path d="m33.63 52.77h9.89v19.91h-9.89z"/>
+ <path d="m117.72 52.77h9.89v19.91h-9.89z"/>
+ </g>
+  </symbol>
+  <symbol id="fx-valve-ax" viewBox="0 0 24 24">
+    <path d="m1.0413 4.5817 11.003 5.6894-11.003 5.6894zm22.005 0-11.003 5.6894 11.003 5.6894z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-valve-bx" viewBox="0 0 24 24">
+    <path d="m12.266 10.287 10.693-6.0371v12.074zl6.4158 10.062h-12.832z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-valve-cx" viewBox="0 0 24 24">
+    <path d="m1.1083 4.4899 10.943 6.0154-10.943 6.0154zm21.885 0-10.943 6.0154 10.943 6.0154zm-10.943 6.0154 6.5656 10.026h-13.131z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="1.2"/>
+  </symbol>
+  <symbol id="fx-webcam" viewBox="0 0 24 24">
+    <g>
+ <path style=" stroke:none;fill-rule:nonzero;fill:rgb(100%,100%,100%);fill-opacity:1;" d="M 11.351562 19.464844 L 9.113281 23.34375 L 1.347656 18.863281 L 3.589844 14.980469 L 2.296875 14.234375 L 10.511719 0 L 20.863281 5.976562 L 17.238281 12.253906 L 17.796875 15.035156 L 22.414062 15.035156 L 22.414062 12.046875 L 23.90625 12.046875 L 23.90625 19.515625 L 22.414062 19.515625 L 22.414062 16.527344 L 16.570312 16.527344 L 16.109375 14.214844 L 12.648438 20.210938 Z M 8.566406 21.304688 L 10.804688 17.421875 L 12.101562 18.167969 L 18.824219 6.523438 L 11.058594 2.042969 L 4.335938 13.6875 L 5.628906 14.433594 L 3.390625 18.316406 Z M 8.566406 21.304688 "/>
+ </g>
+  </symbol>
+</svg>

@@ -1,0 +1,1803 @@
+{
+  "source": "FUXA (frangoteam/FUXA)",
+  "license": "MIT",
+  "count": 154,
+  "viewBox": "0 0 24 24",
+  "usage": "Copy needed <symbol> from process-symbols.svg into target SVG <defs>, then <use href=\"#<id>\" width height style=\"color:var(--state)\"/>. Colors are driven by currentColor.",
+  "categories": [
+    "anim",
+    "compressor",
+    "exchanger",
+    "misc",
+    "mixer",
+    "motor",
+    "pipe",
+    "process",
+    "pump",
+    "separator",
+    "shape",
+    "tank",
+    "valve"
+  ],
+  "symbols": [
+    {
+      "id": "fx-agitator-disc",
+      "fuxaName": "agitator-disc",
+      "label": "搅拌器",
+      "category": "mixer",
+      "keywords": [
+        "搅拌",
+        "搅拌器",
+        "agitator"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-agitator-paddle",
+      "fuxaName": "agitator-paddle",
+      "label": "搅拌器",
+      "category": "mixer",
+      "keywords": [
+        "搅拌",
+        "搅拌器",
+        "agitator"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-agitator-prop",
+      "fuxaName": "agitator-prop",
+      "label": "搅拌器",
+      "category": "mixer",
+      "keywords": [
+        "搅拌",
+        "搅拌器",
+        "agitator"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-agitator-turbo",
+      "fuxaName": "agitator-turbo",
+      "label": "搅拌器",
+      "category": "mixer",
+      "keywords": [
+        "搅拌",
+        "搅拌器",
+        "agitator"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-anim-eli",
+      "fuxaName": "anim-eli",
+      "label": "动画元件",
+      "category": "anim",
+      "keywords": [
+        "动画",
+        "anim"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-anim-piston",
+      "fuxaName": "anim-piston",
+      "label": "动画元件",
+      "category": "anim",
+      "keywords": [
+        "动画",
+        "anim"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-centrifugal",
+      "fuxaName": "centrifugal",
+      "label": "离心机/离心设备",
+      "category": "separator",
+      "keywords": [
+        "离心机",
+        "分离",
+        "centrifuge"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-centrifugal1",
+      "fuxaName": "centrifugal1",
+      "label": "离心机/离心设备",
+      "category": "separator",
+      "keywords": [
+        "离心机",
+        "分离",
+        "centrifuge"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-centrifuge1",
+      "fuxaName": "centrifuge1",
+      "label": "离心机/离心设备",
+      "category": "separator",
+      "keywords": [
+        "离心机",
+        "分离",
+        "centrifuge"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-centrifuge2",
+      "fuxaName": "centrifuge2",
+      "label": "离心机/离心设备",
+      "category": "separator",
+      "keywords": [
+        "离心机",
+        "分离",
+        "centrifuge"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-centrifuge3",
+      "fuxaName": "centrifuge3",
+      "label": "离心机/离心设备",
+      "category": "separator",
+      "keywords": [
+        "离心机",
+        "分离",
+        "centrifuge"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-centrifuge4",
+      "fuxaName": "centrifuge4",
+      "label": "离心机/离心设备",
+      "category": "separator",
+      "keywords": [
+        "离心机",
+        "分离",
+        "centrifuge"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compair",
+      "fuxaName": "compair",
+      "label": "空气压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "空气",
+        "air"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compdiaph",
+      "fuxaName": "compdiaph",
+      "label": "隔膜压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "隔膜"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compejector",
+      "fuxaName": "compejector",
+      "label": "喷射压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "喷射",
+        "ejector"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compreci",
+      "fuxaName": "compreci",
+      "label": "往复式压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "往复",
+        "reciprocating"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compreci2",
+      "fuxaName": "compreci2",
+      "label": "往复式压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "往复",
+        "reciprocating"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compressor-fan",
+      "fuxaName": "compressor-fan",
+      "label": "压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "compressor"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compressor-piston",
+      "fuxaName": "compressor-piston",
+      "label": "压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "compressor"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compressor-void",
+      "fuxaName": "compressor-void",
+      "label": "压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "compressor"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compring",
+      "fuxaName": "compring",
+      "label": "液环压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "液环"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compring2",
+      "fuxaName": "compring2",
+      "label": "液环压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "液环"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-comprotary",
+      "fuxaName": "comprotary",
+      "label": "旋转式压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "旋转",
+        "rotary"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-comprotary2",
+      "fuxaName": "comprotary2",
+      "label": "旋转式压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "旋转",
+        "rotary"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compscrew",
+      "fuxaName": "compscrew",
+      "label": "螺杆压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "螺杆",
+        "screw"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compsilence",
+      "fuxaName": "compsilence",
+      "label": "静音压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "静音"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-compturbo",
+      "fuxaName": "compturbo",
+      "label": "涡轮/离心压缩机",
+      "category": "compressor",
+      "keywords": [
+        "压缩机",
+        "涡轮",
+        "离心",
+        "turbo"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher1",
+      "fuxaName": "crusher1",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher2",
+      "fuxaName": "crusher2",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher3",
+      "fuxaName": "crusher3",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher4",
+      "fuxaName": "crusher4",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher5",
+      "fuxaName": "crusher5",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher6",
+      "fuxaName": "crusher6",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-crusher7",
+      "fuxaName": "crusher7",
+      "label": "破碎机",
+      "category": "process",
+      "keywords": [
+        "破碎机",
+        "crusher"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-diaph",
+      "fuxaName": "diaph",
+      "label": "隔膜",
+      "category": "process",
+      "keywords": [
+        "隔膜",
+        "diaphragm"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-drier1",
+      "fuxaName": "drier1",
+      "label": "干燥器",
+      "category": "process",
+      "keywords": [
+        "干燥器",
+        "烘干",
+        "drier"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-drier2",
+      "fuxaName": "drier2",
+      "label": "干燥器",
+      "category": "process",
+      "keywords": [
+        "干燥器",
+        "烘干",
+        "drier"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-drier3",
+      "fuxaName": "drier3",
+      "label": "干燥器",
+      "category": "process",
+      "keywords": [
+        "干燥器",
+        "烘干",
+        "drier"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-drier4",
+      "fuxaName": "drier4",
+      "label": "干燥器",
+      "category": "process",
+      "keywords": [
+        "干燥器",
+        "烘干",
+        "drier"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-drier5",
+      "fuxaName": "drier5",
+      "label": "干燥器",
+      "category": "process",
+      "keywords": [
+        "干燥器",
+        "烘干",
+        "drier"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger-filter",
+      "fuxaName": "exchanger-filter",
+      "label": "过滤换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "过滤"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger-heat",
+      "fuxaName": "exchanger-heat",
+      "label": "板式换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "板式",
+        "heat"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger-tube",
+      "fuxaName": "exchanger-tube",
+      "label": "管壳换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "管壳",
+        "tube"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger1",
+      "fuxaName": "exchanger1",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger2",
+      "fuxaName": "exchanger2",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger3",
+      "fuxaName": "exchanger3",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger4",
+      "fuxaName": "exchanger4",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger5",
+      "fuxaName": "exchanger5",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger6",
+      "fuxaName": "exchanger6",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger7",
+      "fuxaName": "exchanger7",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger8",
+      "fuxaName": "exchanger8",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-exchanger9",
+      "fuxaName": "exchanger9",
+      "label": "换热器",
+      "category": "exchanger",
+      "keywords": [
+        "换热器",
+        "exchanger"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-feeder",
+      "fuxaName": "feeder",
+      "label": "给料机",
+      "category": "process",
+      "keywords": [
+        "给料机",
+        "feeder"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-feeder2",
+      "fuxaName": "feeder2",
+      "label": "给料机",
+      "category": "process",
+      "keywords": [
+        "给料机",
+        "feeder"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-feeder3",
+      "fuxaName": "feeder3",
+      "label": "给料机",
+      "category": "process",
+      "keywords": [
+        "给料机",
+        "feeder"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-filter2",
+      "fuxaName": "filter2",
+      "label": "过滤器",
+      "category": "separator",
+      "keywords": [
+        "过滤器",
+        "filter"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-filter3",
+      "fuxaName": "filter3",
+      "label": "过滤器",
+      "category": "separator",
+      "keywords": [
+        "过滤器",
+        "filter"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting1",
+      "fuxaName": "fitting1",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting10",
+      "fuxaName": "fitting10",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting11",
+      "fuxaName": "fitting11",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting12",
+      "fuxaName": "fitting12",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting13",
+      "fuxaName": "fitting13",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting2",
+      "fuxaName": "fitting2",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting3",
+      "fuxaName": "fitting3",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting4",
+      "fuxaName": "fitting4",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting5",
+      "fuxaName": "fitting5",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting6",
+      "fuxaName": "fitting6",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting7",
+      "fuxaName": "fitting7",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting8",
+      "fuxaName": "fitting8",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-fitting9",
+      "fuxaName": "fitting9",
+      "label": "管路配件",
+      "category": "pipe",
+      "keywords": [
+        "管件",
+        "配件",
+        "fitting"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc1",
+      "fuxaName": "misc1",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc2",
+      "fuxaName": "misc2",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc3",
+      "fuxaName": "misc3",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc4",
+      "fuxaName": "misc4",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc5",
+      "fuxaName": "misc5",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc6",
+      "fuxaName": "misc6",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc7",
+      "fuxaName": "misc7",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-misc8",
+      "fuxaName": "misc8",
+      "label": "杂项设备",
+      "category": "misc",
+      "keywords": [
+        "杂项",
+        "misc"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-motor-simb",
+      "fuxaName": "motor-simb",
+      "label": "电机",
+      "category": "motor",
+      "keywords": [
+        "电机",
+        "马达",
+        "motor"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-nozzle",
+      "fuxaName": "nozzle",
+      "label": "喷嘴",
+      "category": "pipe",
+      "keywords": [
+        "喷嘴",
+        "nozzle"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-nozzle2",
+      "fuxaName": "nozzle2",
+      "label": "喷嘴",
+      "category": "pipe",
+      "keywords": [
+        "喷嘴",
+        "nozzle"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi1",
+      "fuxaName": "pipi1",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi2",
+      "fuxaName": "pipi2",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi3",
+      "fuxaName": "pipi3",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi4",
+      "fuxaName": "pipi4",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi5",
+      "fuxaName": "pipi5",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi6",
+      "fuxaName": "pipi6",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pipi7",
+      "fuxaName": "pipi7",
+      "label": "管件/弯头",
+      "category": "pipe",
+      "keywords": [
+        "管",
+        "管件",
+        "弯头",
+        "pipe"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpblower",
+      "fuxaName": "pumpblower",
+      "label": "鼓风机/泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "鼓风机",
+        "blower"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpcentri1",
+      "fuxaName": "pumpcentri1",
+      "label": "离心泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "离心泵",
+        "centrifugal"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpcentri2",
+      "fuxaName": "pumpcentri2",
+      "label": "离心泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "离心泵",
+        "centrifugal"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpfeed",
+      "fuxaName": "pumpfeed",
+      "label": "给料泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "给料"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpgear",
+      "fuxaName": "pumpgear",
+      "label": "齿轮泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "齿轮",
+        "gear"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpgear2",
+      "fuxaName": "pumpgear2",
+      "label": "齿轮泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "齿轮",
+        "gear"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumphidra",
+      "fuxaName": "pumphidra",
+      "label": "液压泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "液压"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumphorizo",
+      "fuxaName": "pumphorizo",
+      "label": "卧式泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "卧式"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpjet",
+      "fuxaName": "pumpjet",
+      "label": "射流泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "射流",
+        "jet"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpperis",
+      "fuxaName": "pumpperis",
+      "label": "蠕动泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "蠕动",
+        "peristaltic"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpscreew",
+      "fuxaName": "pumpscreew",
+      "label": "螺杆泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "螺杆泵",
+        "screw"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpscreew2",
+      "fuxaName": "pumpscreew2",
+      "label": "螺杆泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "螺杆泵",
+        "screw"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpturbi",
+      "fuxaName": "pumpturbi",
+      "label": "涡轮泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "涡轮泵"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-pumpvacuum",
+      "fuxaName": "pumpvacuum",
+      "label": "真空泵",
+      "category": "pump",
+      "keywords": [
+        "泵",
+        "真空",
+        "vacuum"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-arrow",
+      "fuxaName": "shape-arrow",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-circle",
+      "fuxaName": "shape-circle",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-circlehalf",
+      "fuxaName": "shape-circlehalf",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-circleindi",
+      "fuxaName": "shape-circleindi",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-cloud",
+      "fuxaName": "shape-cloud",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-cone",
+      "fuxaName": "shape-cone",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-corner",
+      "fuxaName": "shape-corner",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-cross",
+      "fuxaName": "shape-cross",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-cylinder",
+      "fuxaName": "shape-cylinder",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-delay",
+      "fuxaName": "shape-delay",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-diamond",
+      "fuxaName": "shape-diamond",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-display",
+      "fuxaName": "shape-display",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-docu",
+      "fuxaName": "shape-docu",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-doublearrow",
+      "fuxaName": "shape-doublearrow",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-drop",
+      "fuxaName": "shape-drop",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-halfcircle",
+      "fuxaName": "shape-halfcircle",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-heart",
+      "fuxaName": "shape-heart",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-looplimit",
+      "fuxaName": "shape-looplimit",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-maninput",
+      "fuxaName": "shape-maninput",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-nosymbol",
+      "fuxaName": "shape-nosymbol",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-octagon",
+      "fuxaName": "shape-octagon",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-offpage",
+      "fuxaName": "shape-offpage",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-or",
+      "fuxaName": "shape-or",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-or2",
+      "fuxaName": "shape-or2",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-parallelogram",
+      "fuxaName": "shape-parallelogram",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-pentagon",
+      "fuxaName": "shape-pentagon",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-poval",
+      "fuxaName": "shape-poval",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-prepara",
+      "fuxaName": "shape-prepara",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-radiuskorner",
+      "fuxaName": "shape-radiuskorner",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-rectangle",
+      "fuxaName": "shape-rectangle",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-rectindi",
+      "fuxaName": "shape-rectindi",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-star4",
+      "fuxaName": "shape-star4",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-switch",
+      "fuxaName": "shape-switch",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-tape",
+      "fuxaName": "shape-tape",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-tee",
+      "fuxaName": "shape-tee",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-ticket",
+      "fuxaName": "shape-ticket",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-trape",
+      "fuxaName": "shape-trape",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-triangle",
+      "fuxaName": "shape-triangle",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-shape-vor",
+      "fuxaName": "shape-vor",
+      "label": "基础形状",
+      "category": "shape",
+      "keywords": [
+        "形状",
+        "shape"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank1",
+      "fuxaName": "tank1",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank2",
+      "fuxaName": "tank2",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank3",
+      "fuxaName": "tank3",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank4",
+      "fuxaName": "tank4",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank5",
+      "fuxaName": "tank5",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank6",
+      "fuxaName": "tank6",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank7",
+      "fuxaName": "tank7",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank8",
+      "fuxaName": "tank8",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-tank9",
+      "fuxaName": "tank9",
+      "label": "储罐/容器",
+      "category": "tank",
+      "keywords": [
+        "罐",
+        "储罐",
+        "容器",
+        "tank"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-valve-ax",
+      "fuxaName": "valve-ax",
+      "label": "阀门",
+      "category": "valve",
+      "keywords": [
+        "阀",
+        "阀门",
+        "valve"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-valve-bx",
+      "fuxaName": "valve-bx",
+      "label": "阀门",
+      "category": "valve",
+      "keywords": [
+        "阀",
+        "阀门",
+        "valve"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-valve-cx",
+      "fuxaName": "valve-cx",
+      "label": "阀门",
+      "category": "valve",
+      "keywords": [
+        "阀",
+        "阀门",
+        "valve"
+      ],
+      "viewBox": "0 0 24 24"
+    },
+    {
+      "id": "fx-webcam",
+      "fuxaName": "webcam",
+      "label": "摄像头",
+      "category": "misc",
+      "keywords": [
+        "摄像头",
+        "webcam"
+      ],
+      "viewBox": "0 0 24 24"
+    }
+  ]
+}
