@@ -18,13 +18,17 @@
 ## 目录结构
 ```
 ai-workflow/
-├── SKILL.md              # 轻量入口（~3.2KB）：六步 + 三处必停 + 禁令
+├── SKILL.md              # 轻量入口：不变式 + 质量闸门 + gotchas（<8KB）
+├── MANUAL.md             # 面向使用者的安装/使用/FAQ
+├── CHANGELOG.md          # 版本变更
 ├── references/           # 按需加载的细节（命中才读）
 │   ├── workflow.md       # 8 环交付链路 + 定档判据 + 闸门（含视觉自检）
 │   ├── routing.md        # 意图路由表（13+ 类场景，含大屏 + 并行 + 提交）
 │   ├── parallel.md       # 子代理并行拆解协议（L2 大任务提速，对标 superpowers）
 │   ├── git-workflow.md   # 原子提交 + worktree 隔离（对标 addyosmani）
 │   ├── eval.md           # 评测与量化协议（对标 skill-creator，命中才读）
+│   ├── context.md        # 上下文工程：仓库地图 + 定点读
+│   ├── hooks.md          # 钩子接入（可选）
 │   └── memory-spec.md    # 长期记忆规范（省 token）
 ├── scripts/              # 自包含、跨平台、零依赖
 │   ├── start.mjs         # 自举：报 LEDGER/NEXT/VERSION
@@ -35,6 +39,10 @@ ai-workflow/
 │   ├── git-atomic.mjs    # 原子提交计划 + 卫生检查 + worktree 隔离（默认 dry-run）
 │   ├── verify-visual.mjs # 浏览器 1920×1080 截图自检（控制台+溢出）
 │   ├── eval.mjs          # 评测/基准：trigger / record / compare / snapshot / diff（全零 LLM）
+│   ├── fast.mjs          # 一轮一次：合并自举/定档/记忆/路由（4 行结论）
+│   ├── context.mjs       # 仓库地图：文件+顶层符号，替代整份读（对标 repo-map）
+│   ├── validate-skill.mjs# 技能自校验（frontmatter/命名/描述/行数/引用）
+│   ├── pack.mjs          # 可重复打 zip（排除 .git）
 │   └── triggers.json     # 触发词清单（主路由）+ 负向意图闸门
 ├── evals/                # evals.json：种子用例（含 near-miss 负例）
 ├── skills/               # 36 个依赖技能，每个都是独立可装包
