@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.2.5 (2026-11-05)
+
+### Fixed
+- **UI 技能不被自动调用**：`L1≤1 / L2≤2` 的技能预算被过程技能（`grilling`、`product-designer`）吃满，链路末尾的产出技能 `finesse-ui` 永远轮不到。现明确：**预算只限「过程技能」；`finesse-ui` / `bigscreen-studio` / `industrial-screen` / `frame-smith` 属「产出技能」，必载、不占预算**。同步更新 `references/routing.md` 与 `SKILL.md` gotchas。
+
 ## 3.2.4 (2026-11-05)
 
 ### Added
