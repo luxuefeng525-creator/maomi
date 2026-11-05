@@ -36,7 +36,7 @@ function resolveTargets() {
 }
 
 // 只复制运行必需项：安装器自身/临时产物不进宿主；evals 保证 eval.mjs 可用。
-const COPY = ['SKILL.md', 'README.md', 'MANUAL.md', 'CHANGELOG.md', 'references', 'scripts', 'evals', 'examples'];
+const COPY = ['SKILL.md', 'README.md', 'MANUAL.md', 'CHANGELOG.md', 'catalog.json', 'references', 'scripts', 'evals', 'examples'];
 if (!noDeps) COPY.push('skills');
 
 // 不用 fs.cpSync：本机 Windows 上它会静默失败/抛「目录覆盖」错，且旧实现

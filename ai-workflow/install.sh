@@ -25,7 +25,7 @@ if [ -n "$TARGET" ]; then TARGETS="$TARGET";
 elif [ "$GLOBAL" = "1" ]; then BASE="$HOME"; TARGETS=".agents/skills .claude/skills .trae/skills .trae-cn/skills .workbuddy/skills .cursor/skills .codex/skills .windsurf/skills .opencode/skills";
 else TARGETS=".agents/skills .claude/skills .trae/skills .trae-cn/skills .workbuddy/skills .cursor/skills .codex/skills .windsurf/skills .opencode/skills"; fi
 
-ITEMS="SKILL.md README.md MANUAL.md CHANGELOG.md references scripts evals examples"
+ITEMS="SKILL.md README.md MANUAL.md CHANGELOG.md catalog.json references scripts evals examples"
 [ "$NODEPS" = "0" ] && ITEMS="$ITEMS skills"
 for t in $TARGETS; do
   case "$t" in /*) d="$t";; *) d="$BASE/$t";; esac
