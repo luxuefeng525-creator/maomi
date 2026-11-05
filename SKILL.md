@@ -10,11 +10,18 @@ version: 3.0.0
 
 加载即连续执行六步，不等点名。本 skill 自包含：**脚本在 `scripts/`，细节在 `references/`**，按需在下一层才加载（渐进披露，省 token）。
 
+## 速度优先（默认开启：少载上下文 = 直接更快、更省）
+- **L0 直通**：单文件 / 无 UI / 无数据模型的改动 → **跳过自举·定档·查记忆·路由四脚本，也不加载任何技能**，直接改 + 最小验证（语法/类型/聚焦测试）。不写状态汇报、不截图。
+- **一轮一次**：L1/L2 需要脚本时，只跑 `node scripts/fast.mjs "<需求>"` **一次**（合并四步、只输出 4 行结论），不要四个脚本各跑一遍；只取结论行，不逐条回显。
+- **技能上限**：L1 ≤1 个、L2 ≤2 个；>30KB 的技能只读前 80 行取路由，再定点读所需章节，**绝不整份载入**。未命中就不加载。
+- **重活外包**：≥3 模块、或要读大量文件 → 派子代理；主上下文只收「结论 + 改动文件清单」，不把过程/文件全文带回。
+- **少停**：只有真正不可逆/危险才停；可逆选择给默认值直接做，一行说明即可。
+
 ## 0 项目优先（保真）
 工作区存在 `.trae/rules/ai-workflow.md` 或 `opensource/agent-workbench/commands/ai-workflow.md` 这类专属协议文件 → 改走该项目协议（更紧的 PLAN.md 账本闸门、项目脚本、库/端口口径）。其余项目走本通用协议 + 本包 `scripts/`、`skills/`。
 
-## 1 六步（每条用户消息都过，无例外）
-1. **自举**：有 SessionStart Hook 用其注入值；否则 `node scripts/start.mjs`，报 `LEDGER / NEXT / VERSION`；无该脚本则读近期项目日志，不猜状态。
+## 1 六步（L1/L2 走全；L0 直通见上，不跑脚本）
+1. **自举**：有 SessionStart Hook 用其注入值；否则 `node scripts/start.mjs`，报 `LEDGER / NEXT / VERSION`；无该脚本则读近期项目日志，不猜状态。L1/L2 一轮只跑一次 `node scripts/fast.mjs "<需求>"` 即可合并步骤 1–4。
 2. **定档一行**：`node scripts/classify.mjs "<需求>"` 给 L0/L1/L2，格式固定 `[档位] L1 · 单模块 3 文件 · 不动数据模型`。**档位 = 技能预算**：L0=0（最多 surgical-patch）｜L1=1｜L2=1–2。
 3. **查记忆**：`node scripts/memory.mjs search "<关键词>"`，只取命中行，**禁止整份读**（见 `references/memory-spec.md`）。
 4. **自动调用技能（核心，不等点名）**：按 `references/routing.md` 直配；不确定跑 `node scripts/route.mjs "<一句话>"` 兜底。命中即载——优先本包 `skills/<名>/SKILL.md`，其次宿主技能目录；单技能 >30KB 先读前 80 行取路由。未命中不假装已加载、不编造结论；**用户点名某技能时优先于自动路由**。
