@@ -2,6 +2,7 @@
 // 技能自校验：按 Agent Skills 规范检查一个技能目录（作者自检用，零依赖）。
 // 用法：node scripts/validate-skill.mjs <skills/某技能 或 任意技能目录>
 // 通过 exit 0；任一 FAIL exit 1。
+// 说明：frontmatter 用最小 YAML 解析（支持 > / | 块标量、单双引号、多行），引用路径跳过通配/占位符。
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -16,14 +17,49 @@ if (!fs.existsSync(md)) {
 }
 const raw = fs.readFileSync(md, 'utf8');
 const fmMatch = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n?/);
+
+function parseFrontmatter(fm) {
+  const out = {};
+  const lines = fm.split(/\r?\n/);
+  let i = 0;
+  while (i < lines.length) {
+    const m = lines[i].match(/^([A-Za-z0-9_-]+):\s*(.*)$/);
+    if (!m) { i++; continue; }
+    const key = m[1];
+    let val = m[2];
+    // 块标量：> 或 |（可带 +/-）
+    if (/^[>|][+-]?$/.test(val)) {
+      const parts = [];
+      i++;
+      while (i < lines.length && (lines[i].trim() === '' || /^\s+/.test(lines[i]))) {
+        parts.push(lines[i].trim());
+        i++;
+      }
+      out[key] = parts.join(' ').trim();
+      continue;
+    }
+    // 引号标量（可能跨行）
+    if (/^['"]/.test(val)) {
+      const q = val[0];
+      let s = val.slice(1);
+      while (!s.includes(q) && i + 1 < lines.length) { i++; s += ' ' + lines[i]; }
+      const end = s.indexOf(q);
+      out[key] = (end >= 0 ? s.slice(0, end) : s).trim();
+      i++;
+      continue;
+    }
+    out[key] = val.trim();
+    i++;
+  }
+  return out;
+}
+
 let name = '', desc = '';
 if (!fmMatch) fails.push('缺少 YAML frontmatter（首行应为 ---）');
 else {
-  const fm = fmMatch[1];
-  const nm = fm.match(/^name:\s*(.+)$/m);
-  const dm = fm.match(/^description:\s*([\s\S]*?)(?=\n[a-zA-Z_-]+:\s|$)/m);
-  name = nm ? nm[1].trim() : '';
-  desc = dm ? dm[1].trim().replace(/\s+/g, ' ') : '';
+  const fm = parseFrontmatter(fmMatch[1]);
+  name = fm.name || '';
+  desc = (fm.description || '').replace(/\s+/g, ' ').trim();
   if (!name) fails.push('frontmatter 缺 name');
   if (!desc) fails.push('frontmatter 缺 description');
 }
@@ -40,11 +76,14 @@ const bodyLines = body.split(/\r?\n/).length;
 if (bodyLines > 500) fails.push(`正文 ${bodyLines} 行 > 500，应按渐进披露拆到 references/`);
 else oks.push(`正文 ${bodyLines} 行`);
 
-// 引用路径检查：仅查形如 references/xxx、scripts/xxx 的反引号路径
+// 引用路径检查：只查具体路径；跳过通配（*）、占位符（<>{}）、URL
 const refs = [...raw.matchAll(/`((?:references|scripts|evals|assets)\/[^`\s]+)`/g)].map(m => m[1]);
-const missing = [...new Set(refs)].filter(p => !fs.existsSync(path.join(dir, p)));
+const concrete = [...new Set(refs)].filter(p => !/[*<>{}]/.test(p) && !/^https?:/i.test(p));
+const missing = concrete.filter(p => !fs.existsSync(path.join(dir, p)));
 if (missing.length) fails.push(`引用的文件不存在: ${missing.join(', ')}`);
-else if (refs.length) oks.push(`引用路径 ${new Set(refs).size} 个均存在`);
+else if (concrete.length) oks.push(`引用路径 ${concrete.length} 个均存在`);
+const skipped = refs.length - concrete.length;
+if (skipped > 0) oks.push(`跳过通配/占位引用 ${skipped} 个`);
 
 for (const f of fails) console.log('FAIL ' + f);
 for (const o of oks) console.log('OK   ' + o);
