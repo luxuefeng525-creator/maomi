@@ -1,0 +1,12 @@
+{
+  "eval_id": "1",
+  "config": "baseline",
+  "iter": 1,
+  "passed": 2,
+  "total": 4,
+  "pass_rate": 0.5,
+  "total_tokens": 7000,
+  "duration_ms": 2255,
+  "note": "PROXY-tokens;naive one-shot no verification;HAS_SKILL/INSTALL FAIL(missing ai-workflow/ prefix)=structural defect shipped",
+  "captured_at": "2026-11-05T06:18:42.164Z"
+}
