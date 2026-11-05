@@ -1,0 +1,12 @@
+{
+  "eval_id": "1",
+  "config": "with_skill",
+  "iter": 1,
+  "passed": 4,
+  "total": 4,
+  "pass_rate": 1,
+  "total_tokens": 45000,
+  "duration_ms": 312896,
+  "note": "PROXY-tokens(chars/4,harness-unavailable);real-ms-timed;task=add pack.mjs;asserts=syntax,run+git-excl,skill/install-present,zip-valid;assertions CAUGHT 2 real bugs(prefix+read-path)",
+  "captured_at": "2026-11-05T06:18:41.914Z"
+}

@@ -1,0 +1,28 @@
+{
+  "diagnose": ["查问题", "修bug", "报错", "异常", "broken", "debug", "diagnose", "回归", "性能", "为什么", "失败", "不工作", "故障"],
+  "grilling": ["做功能", "新功能", "功能设计", "会员体系", "会员", "选型", "架构", "方案", "grill", "拷问", "想法", "决策", "设计树", "拍板", "stress-test"],
+  "product-strategist": ["战略", "优先级", "路线", "roadmap", "定位"],
+  "product-manager": ["prd", "产品", "需求文档", "需求分析", "backlog"],
+  "ux-researcher": ["用户研究", "可用性", "流失", "访谈", "问卷", "ux research"],
+  "product-designer": ["交互", "原型", "产品设计", "信息架构", "designer"],
+  "design-system-lead": ["组件库", "风格统一", "设计系统", "design system"],
+  "finesse-brief": ["设计简报", "brief", "对标表", "设计对标"],
+  "finesse-ui": ["落地页", "dashboard", "后台", "界面", "页面", "动效", "炫酷", "高级感", "h5", "小程序", "原型界面", "ui", "好看", "品牌", "工作台", "控制台", "admin", "landing"],
+  "finesse-term": ["术语", "文案", "命名", "微文案"],
+  "frame-smith": ["视频", "片头", "宣传片", "动画视频", "film", "motion"],
+  "surgical-patch": ["补丁", "小改", "最小改动", "精准修复", "只改一行", "别动其他", "surgical"],
+  "safe-refactor": ["重构", "refactor", "结构调整", "重构一下", "代码重构", "行为不能变", "行为不变", "不改行为"],
+  "migration": ["迁移", "migrate", "改表", "数据迁移", "schema"],
+  "verify-and-stop": ["验收", "收尾", "完成了吗", "验证", "收口", "证据", "是否真的完成", "verify"],
+  "caveman-commit": ["提交", "commit", "commit message", "拆分提交", "原子提交", "写提交", "提交信息", "worktree", "分支隔离"],
+  "investigate-first": ["先调查", "排查", "根因", "investigate"],
+  "lean-build": ["快速搭建", "mvp", "精益", "lean"],
+  "grill-me": ["grill me", "拷问我"],
+  "bigscreen-studio": ["大屏", "数据大屏", "可视化大屏", "运营中心", "指挥中心", "数据看板", "数字孪生", "3D大屏", "园区大屏", "港口大屏", "政务大屏", "智慧大屏", "做可视化", "可视化大屏", "bigscreen", "复刻大屏", "展厅大屏", "监控中心"],
+  "industrial-screen": ["工业大屏", "SCADA", "HMI", "上位机", "工控屏", "就地控制屏", "工业监控", "水务大屏", "化工监控", "工业驾驶舱", "工业看板", "scada", "hmi", "工业可视化", "中控", "组态", "工艺监控"],
+  "__negative_intents": {
+    "_note": "eval.mjs trigger 迭代暴露的 near-miss 误触发：命中任一 patterns 且不含任一 build_verbs → ROUTE_NONE。可扩充；保守拦截（省 token 优先），误拦仍可点名技能。",
+    "patterns": ["解释一下", "是什么", "的区别", "什么叫", "贴给我", "原文", "改成「", "两个字", "提交给", "周报", "单元测试"],
+    "build_verbs": ["做", "建", "开发", "实现", "重构", "修复", "生成", "设计", "排查", "根因", "定位", "诊断", "验收", "拷问", "拆分", "拆成"]
+  }
+}

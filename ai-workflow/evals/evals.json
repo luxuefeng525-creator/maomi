@@ -1,0 +1,22 @@
+{
+  "skill_name": "ai-workflow",
+  "trigger_cases": [
+    {"id": 1,  "query": "智慧港口运营中心的数据大屏要做一下", "expect": "bigscreen-studio", "should_trigger": true},
+    {"id": 2,  "query": "化工厂反应釜 SCADA 监控界面", "expect": "industrial-screen", "should_trigger": true},
+    {"id": 3,  "query": "这个接口报错了帮我查一下为什么", "expect": "diagnose", "should_trigger": true},
+    {"id": 4,  "query": "我们要做一个新的会员体系功能，先把需求拷问清楚", "expect": "grilling", "should_trigger": true},
+    {"id": 5,  "query": "页面太丑了帮我做个高级感的落地页", "expect": "finesse-ui", "should_trigger": true},
+    {"id": 6,  "query": "帮我把改动拆成原子提交并写 commit message", "expect": "caveman-commit", "should_trigger": true},
+    {"id": 7,  "query": "收尾验收，给我证据证明真的做完了", "expect": "verify-and-stop", "should_trigger": true},
+    {"id": 8,  "query": "帮我重构一下订单模块，行为不能变", "expect": "safe-refactor", "should_trigger": true},
+    {"id": 9,  "query": "把 README 里「大屏」两个字改成「显示屏」", "expect": null, "should_trigger": false},
+    {"id": 10, "query": "解释一下 SCADA 和 HMI 的区别是什么", "expect": null, "should_trigger": false},
+    {"id": 11, "query": "这个页面报错了，把控制台日志原文贴给我看看", "expect": null, "should_trigger": false},
+    {"id": 12, "query": "帮我把这份周报提交给老板的邮箱", "expect": null, "should_trigger": false},
+    {"id": 13, "query": "给这个 React 组件补一个单元测试", "expect": null, "should_trigger": false}
+  ],
+  "task_cases": [
+    {"id": 1, "prompt": "给订单页加一个导出 CSV 按钮", "expected_output": "可导出且表头正确的 CSV", "assertions": ["页面存在导出按钮", "导出文件含表头行", "控制台零报错"]},
+    {"id": 2, "prompt": "做一个智慧园区能源管理数据大屏", "expected_output": "1920x1080 无溢出的可视化大屏", "assertions": ["1920x1080 截图存在", "控制台零报错", "面板零溢出"]}
+  ]
+}
