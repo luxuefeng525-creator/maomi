@@ -1,0 +1,15 @@
+{
+  "source": "industrial-screen skill (原创)",
+  "license": "随 skill",
+  "viewBox": "0 0 24 24",
+  "usage": "Copy needed <symbol> from skill-symbols.svg into target SVG <defs>, then <use href=\"#sk-xxx\" width height style=\"color:var(--state)\"/>. Colors driven by currentColor. 旋转类配 .spin 类。",
+  "symbols": [
+    { "id": "sk-logo-heatpump", "label": "热泵站 LOGO", "category": "logo", "keywords": ["logo", "品牌", "热泵", "机组"], "viewBox": "0 0 24 24" },
+    { "id": "sk-logo-water", "label": "水务 LOGO", "category": "logo", "keywords": ["logo", "品牌", "水务", "水滴"], "viewBox": "0 0 24 24" },
+    { "id": "sk-ground-well", "label": "地源井群", "category": "tank", "keywords": ["地源", "井", "埋管", "源侧", "地热"], "viewBox": "0 0 24 24" },
+    { "id": "sk-impeller", "label": "旋转叶轮（俯视）", "category": "pump", "keywords": ["叶轮", "俯视", "旋转", "动画", "泵", "风机"], "viewBox": "0 0 24 24" },
+    { "id": "sk-manifold", "label": "分集水器", "category": "pipe", "keywords": ["分集水器", "集箱", "分水器", "集水器", "分配"], "viewBox": "0 0 24 24" },
+    { "id": "sk-water-tower", "label": "高位水塔", "category": "tank", "keywords": ["水塔", "高位", "调节", "水箱"], "viewBox": "0 0 24 24" },
+    { "id": "sk-instrument", "label": "仪表气泡 ISA-5.1", "category": "instrument", "keywords": ["仪表", "测点", "气泡", "AIT", "FIT", "LIT", "ISA"], "viewBox": "0 0 24 24" }
+  ]
+}

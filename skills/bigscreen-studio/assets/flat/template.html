@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="{{DESCRIPTION}}" />
+    <title>{{TITLE}}</title>
+    <link rel="icon" href="data:," />
+    <style>
+      /*__SCREEN_CSS__*/
+    </style>
+  </head>
+  <body>
+    <main id="screen" class="ds-app" data-screen="{{ID}}">
+      <header class="ds-header">
+        <div class="ds-brand">
+          <span class="ds-brand-mark" data-icon="layers"></span>
+          <div>
+            <strong>{{BRAND}}</strong>
+            <small>{{BRAND_EN}}</small>
+          </div>
+        </div>
+        <div class="ds-title">
+          <span>{{EYEBROW}}</span>
+          <h1>{{TITLE}}</h1>
+        </div>
+        <div class="ds-utilities">
+          <span class="ds-demo"><i class="ds-led"></i>演示数据</span>
+          <time class="ds-clock" id="ds-clock"></time>
+          <button class="ds-icon-button" data-action="fullscreen" aria-label="切换全屏" data-icon="fullscreen"></button>
+        </div>
+      </header>
+
+      <section class="ds-kpis" id="ds-kpis" aria-label="核心指标"></section>
+
+      <section class="ds-body">
+        <aside class="ds-col" id="ds-left" aria-label="左栏分析"></aside>
+        <div class="ds-center">
+          <section class="ds-panel ds-main" id="ds-main" aria-label="主趋势"></section>
+          <div class="ds-mini" id="ds-mini" aria-label="细分图表"></div>
+        </div>
+        <aside class="ds-col" id="ds-right" aria-label="右栏分析"></aside>
+      </section>
+
+      <footer class="ds-footer">
+        <div class="ds-ticker"><div class="ds-ticker-track" id="ds-ticker"></div></div>
+        <span class="ds-source">{{FOOTER}}</span>
+      </footer>
+    </main>
+    <noscript>此大屏需要启用 JavaScript。</noscript>
+    <dialog class="ds-dialog" id="ds-dialog" aria-labelledby="ds-dialog-title">
+      <div class="ds-dialog-head">
+        <h2 id="ds-dialog-title"></h2>
+        <button class="ds-icon-button" data-action="close" aria-label="关闭" data-icon="close"></button>
+      </div>
+      <div class="ds-dialog-body" id="ds-dialog-body"></div>
+    </dialog>
+    <div class="ds-toast" id="ds-toast" role="status" aria-live="polite" hidden></div>
+    <script>
+      /*__D3__*/
+    </script>
+    <script>
+      /*__RUNTIME__*/
+    </script>
+    <script>
+      /*__SCREEN_JS__*/
+    </script>
+  </body>
+</html>
