@@ -1,7 +1,7 @@
 ---
 name: ai-workflow
 description: 跨平台全流程工作流总入口（任意项目、任意 AI 工具可用）。触发词：ai-workflow、/ai-workflow、进入工作流、开工流程、走流程、按工作流走。用户输入即自动进入——定档 L0/L1/L2→按档执行→质量闸门→收尾验证。纯闲聊、单行改动不加载。工作区有 .trae/rules/ai-workflow.md 等专属协议时自动让位。
-version: 3.3.1
+version: 3.4.0
 ---
 
 触发词：ai-workflow / /ai-workflow / 进入工作流 / 开工流程 / 走流程 / 按工作流走

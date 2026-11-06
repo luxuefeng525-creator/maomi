@@ -16,6 +16,7 @@ node_modules/
 .env
 .env.*
 
-# 本机备份/临时产物
+# 本机备份/临时产物（回滚点，不入库）
+.bak-before-*/
 *.bak
 *.bak_*

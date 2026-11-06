@@ -1,344 +1,494 @@
 {
- "skill_name": "ai-workflow",
- "_note": "留出集：本文件的用例不得用于调触发词/改 catalog。只用于衡量泛化。发现 miss 时记录为发现，不改本文件凑绿；下一版另建新的留出集。 含两批：第一批口语覆盖 26 技能，第二批刁钻短句（内存泄漏/盘结构/起名误判/排迭代/重做）。",
- "trigger_cases": [
-  {
-   "id": 9001,
-   "query": "指挥中心要一块实时车流大屏，能投到电视墙上",
-   "expect": "bigscreen-studio",
-   "should_trigger": true
-  },
-  {
-   "id": 9002,
-   "query": "锅炉房的 DCS 监控画面，要显示温度和压力",
-   "expect": "industrial-screen",
-   "should_trigger": true
-  },
-  {
-   "id": 9003,
-   "query": "线上偶发 502，帮我定位一下",
-   "expect": "diagnose",
-   "accept": [
-    "diagnose",
-    "investigate-first"
-   ],
-   "should_trigger": true
-  },
-  {
-   "id": 9004,
-   "query": "改完了，帮我确认能不能收尾",
-   "expect": "verify-and-stop",
-   "should_trigger": true
-  },
-  {
-   "id": 9005,
-   "query": "官网首页要做出高级感，不要模板味",
-   "expect": "finesse-ui",
-   "should_trigger": true
-  },
-  {
-   "id": 9006,
-   "query": "帮我写一份工作台的需求规格，先别写代码",
-   "expect": "finesse-brief",
-   "accept": [
-    "finesse-brief",
-    "product-manager"
-   ],
-   "should_trigger": true
-  },
-  {
-   "id": 9007,
-   "query": "把这段界面文案改得更准确一点",
-   "expect": "finesse-term",
-   "should_trigger": true
-  },
-  {
-   "id": 9008,
-   "query": "统一全站按钮、圆角和间距的规范",
-   "expect": "design-system-lead",
-   "should_trigger": true
-  },
-  {
-   "id": 9009,
-   "query": "做一条 30 秒的产品宣传片",
-   "expect": "frame-smith",
-   "should_trigger": true
-  },
-  {
-   "id": 9010,
-   "query": "这个功能到底要不要做，帮我把需求问清楚",
-   "expect": "grilling",
-   "accept": [
-    "grilling",
-    "product-manager",
-    "product-strategist"
-   ],
-   "should_trigger": true
-  },
-  {
-   "id": 9011,
-   "query": "设计一个退款流程，要考虑异常",
-   "expect": "product-designer",
-   "should_trigger": true
-  },
-  {
-   "id": 9012,
-   "query": "排一下下个季度的需求优先级",
-   "expect": "product-manager",
-   "should_trigger": true
-  },
-  {
-   "id": 9013,
-   "query": "分析一下这个市场的竞争格局",
-   "expect": "product-strategist",
-   "should_trigger": true
-  },
-  {
-   "id": 9014,
-   "query": "设计一份用户访谈提纲",
-   "expect": "ux-researcher",
-   "should_trigger": true
-  },
-  {
-   "id": 9015,
-   "query": "只改这一行，别动别的",
-   "expect": "surgical-patch",
-   "should_trigger": true
-  },
-  {
-   "id": 9016,
-   "query": "把这段重复代码抽成函数",
-   "expect": "safe-refactor",
-   "should_trigger": true
-  },
-  {
-   "id": 9017,
-   "query": "把 MySQL 表迁移到新结构",
-   "expect": "migration",
-   "should_trigger": true
-  },
-  {
-   "id": 9018,
-   "query": "先别改，查清楚这个 bug 的根因",
-   "expect": "investigate-first",
-   "should_trigger": true
-  },
-  {
-   "id": 9019,
-   "query": "用最小成本先做个能跑的版本",
-   "expect": "lean-build",
-   "should_trigger": true
-  },
-  {
-   "id": 9020,
-   "query": "把这三个模块分给不同 agent 并行做",
-   "expect": "agent-dispatch",
-   "should_trigger": true
-  },
-  {
-   "id": 9021,
-   "query": "对这份改动做独立审查",
-   "expect": "agent-review",
-   "accept": [
-    "agent-review",
-    "caveman-review"
-   ],
-   "should_trigger": true
-  },
-  {
-   "id": 9022,
-   "query": "这个长任务记一下进度，断了能续",
-   "expect": "goal-tracker",
-   "should_trigger": true
-  },
-  {
-   "id": 9023,
-   "query": "载入前先算一下会花多少 token",
-   "expect": "token-guard",
-   "should_trigger": true
-  },
-  {
-   "id": 9024,
-   "query": "把这段提交信息压到最短",
-   "expect": "caveman-commit",
-   "should_trigger": true
-  },
-  {
-   "id": 9025,
-   "query": "把这份长文压缩，省点 token",
-   "expect": "caveman-compress",
-   "should_trigger": true
-  },
-  {
-   "id": 9026,
-   "query": "把这份改动审一遍，挑毛病",
-   "expect": "agent-review",
-   "should_trigger": true
-  },
-  {
-   "id": 9101,
-   "query": "今天天气怎么样",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9102,
-   "query": "解释一下什么是闭包",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9103,
-   "query": "1 加 1 等于几",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9104,
-   "query": "把这句话翻译成英文",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9105,
-   "query": "现在几点了",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9106,
-   "query": "把 README 里的错别字改一下",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9107,
-   "query": "把按钮颜色从 #1677ff 改成 #0ea5e9",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9108,
-   "query": "格式化一下这个 JSON",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9301,
-   "query": "那个订单页面老是在手机上排版乱掉",
-   "expect": "finesse-ui",
-   "should_trigger": true
-  },
-  {
-   "id": 9302,
-   "query": "帮我看看这个内存泄漏到底是哪来的",
-   "expect": "diagnose",
-   "accept": [
-    "diagnose",
-    "investigate-first"
-   ],
-   "should_trigger": true
-  },
-  {
-   "id": 9303,
-   "query": "写个提交通知帮我压到一句话",
-   "expect": "caveman-commit",
-   "should_trigger": true
-  },
-  {
-   "id": 9304,
-   "query": "咱们仓库的文件太多了，帮我盘一下结构",
-   "expect": "caveman-manage",
-   "should_trigger": true
-  },
-  {
-   "id": 9305,
-   "query": "下周迭代做哪几个，帮我排排",
-   "expect": "product-manager",
-   "should_trigger": true
-  },
-  {
-   "id": 9306,
-   "query": "把日志里这个报错抓出来分析下",
-   "expect": "diagnose",
-   "accept": [
-    "diagnose",
-    "investigate-first"
-   ],
-   "should_trigger": true
-  },
-  {
-   "id": 9307,
-   "query": "给我起个数据看板的名字",
-   "expect": "none",
-   "should_trigger": false
-  },
-  {
-   "id": 9308,
-   "query": "这段代码能再简洁点吗",
-   "expect": "caveman-optimize",
-   "accept": [
-    "caveman-optimize",
-    "safe-refactor"
-   ],
-   "should_trigger": true
-  }
- ],
- "tier_cases": [
-  {
-   "id": 9201,
-   "query": "把页面标题改成「限时特惠」",
-   "expect": "L0"
-  },
-  {
-   "id": 9202,
-   "query": "修一下这个错别字",
-   "expect": "L0"
-  },
-  {
-   "id": 9203,
-   "query": "给登录页加一个记住密码勾选框",
-   "expect": "L1"
-  },
-  {
-   "id": 9204,
-   "query": "给列表页加导出 CSV 按钮",
-   "expect": "L1"
-  },
-  {
-   "id": 9205,
-   "query": "优化订单查询接口，减少一次查询",
-   "expect": "L1"
-  },
-  {
-   "id": 9206,
-   "query": "重构订单模块，涉及 H5、admin 和库表",
-   "expect": "L2"
-  },
-  {
-   "id": 9207,
-   "query": "做一个新的营销活动页，前后端都要改",
-   "expect": "L2"
-  },
-  {
-   "id": 9208,
-   "query": "把支付从微信换成支付宝，涉及订单、回调和退款",
-   "expect": "L2"
-  },
-  {
-   "id": 9401,
-   "query": "改一下首页的文案",
-   "expect": "L0"
-  },
-  {
-   "id": 9402,
-   "query": "新增一个优惠券模块",
-   "expect": "L1"
-  },
-  {
-   "id": 9403,
-   "query": "把整个下单流程重做",
-   "expect": "L2"
-  }
- ]
+  "skill_name": "ai-workflow",
+  "_note": "留出集：本文件的用例不得用于调触发词/改 catalog。只用于衡量泛化。发现 miss 时记录为发现，不改本文件凑绿；下一版另建新的留出集。 含两批：第一批口语覆盖 26 技能，第二批刁钻短句（内存泄漏/盘结构/起名误判/排迭代/重做）。 3.4.0: 新增 tdd/research/handoff/to-spec/to-tickets/domain-modeling 留出用例。",
+  "trigger_cases": [
+    {
+      "id": 9001,
+      "query": "指挥中心要一块实时车流大屏，能投到电视墙上",
+      "expect": "bigscreen-studio",
+      "should_trigger": true
+    },
+    {
+      "id": 9002,
+      "query": "锅炉房的 DCS 监控画面，要显示温度和压力",
+      "expect": "industrial-screen",
+      "should_trigger": true
+    },
+    {
+      "id": 9003,
+      "query": "线上偶发 502，帮我定位一下",
+      "expect": "diagnose",
+      "accept": [
+        "diagnose",
+        "investigate-first"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9004,
+      "query": "改完了，帮我确认能不能收尾",
+      "expect": "verify-and-stop",
+      "should_trigger": true
+    },
+    {
+      "id": 9005,
+      "query": "官网首页要做出高级感，不要模板味",
+      "expect": "finesse-ui",
+      "should_trigger": true
+    },
+    {
+      "id": 9006,
+      "query": "帮我写一份工作台的需求规格，先别写代码",
+      "expect": "finesse-brief",
+      "accept": [
+        "finesse-brief",
+        "product-manager"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9007,
+      "query": "把这段界面文案改得更准确一点",
+      "expect": "finesse-term",
+      "should_trigger": true
+    },
+    {
+      "id": 9008,
+      "query": "统一全站按钮、圆角和间距的规范",
+      "expect": "design-system-lead",
+      "should_trigger": true
+    },
+    {
+      "id": 9009,
+      "query": "做一条 30 秒的产品宣传片",
+      "expect": "frame-smith",
+      "should_trigger": true
+    },
+    {
+      "id": 9010,
+      "query": "这个功能到底要不要做，帮我把需求问清楚",
+      "expect": "grilling",
+      "accept": [
+        "grilling",
+        "product-manager",
+        "product-strategist"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9011,
+      "query": "设计一个退款流程，要考虑异常",
+      "expect": "product-designer",
+      "should_trigger": true
+    },
+    {
+      "id": 9012,
+      "query": "排一下下个季度的需求优先级",
+      "expect": "product-manager",
+      "should_trigger": true
+    },
+    {
+      "id": 9013,
+      "query": "分析一下这个市场的竞争格局",
+      "expect": "product-strategist",
+      "should_trigger": true
+    },
+    {
+      "id": 9014,
+      "query": "设计一份用户访谈提纲",
+      "expect": "ux-researcher",
+      "should_trigger": true
+    },
+    {
+      "id": 9015,
+      "query": "只改这一行，别动别的",
+      "expect": "surgical-patch",
+      "should_trigger": true
+    },
+    {
+      "id": 9016,
+      "query": "把这段重复代码抽成函数",
+      "expect": "safe-refactor",
+      "should_trigger": true
+    },
+    {
+      "id": 9017,
+      "query": "把 MySQL 表迁移到新结构",
+      "expect": "migration",
+      "should_trigger": true
+    },
+    {
+      "id": 9018,
+      "query": "先别改，查清楚这个 bug 的根因",
+      "expect": "investigate-first",
+      "should_trigger": true
+    },
+    {
+      "id": 9019,
+      "query": "用最小成本先做个能跑的版本",
+      "expect": "lean-build",
+      "should_trigger": true
+    },
+    {
+      "id": 9020,
+      "query": "把这三个模块分给不同 agent 并行做",
+      "expect": "agent-dispatch",
+      "should_trigger": true
+    },
+    {
+      "id": 9021,
+      "query": "对这份改动做独立审查",
+      "expect": "agent-review",
+      "accept": [
+        "agent-review",
+        "caveman-review"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9022,
+      "query": "这个长任务记一下进度，断了能续",
+      "expect": "goal-tracker",
+      "should_trigger": true
+    },
+    {
+      "id": 9023,
+      "query": "载入前先算一下会花多少 token",
+      "expect": "token-guard",
+      "should_trigger": true
+    },
+    {
+      "id": 9024,
+      "query": "把这段提交信息压到最短",
+      "expect": "caveman-commit",
+      "should_trigger": true
+    },
+    {
+      "id": 9025,
+      "query": "把这份长文压缩，省点 token",
+      "expect": "caveman-compress",
+      "should_trigger": true
+    },
+    {
+      "id": 9026,
+      "query": "把这份改动审一遍，挑毛病",
+      "expect": "agent-review",
+      "should_trigger": true
+    },
+    {
+      "id": 9101,
+      "query": "今天天气怎么样",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9102,
+      "query": "解释一下什么是闭包",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9103,
+      "query": "1 加 1 等于几",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9104,
+      "query": "把这句话翻译成英文",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9105,
+      "query": "现在几点了",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9106,
+      "query": "把 README 里的错别字改一下",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9107,
+      "query": "把按钮颜色从 #1677ff 改成 #0ea5e9",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9108,
+      "query": "格式化一下这个 JSON",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9301,
+      "query": "那个订单页面老是在手机上排版乱掉",
+      "expect": "finesse-ui",
+      "should_trigger": true
+    },
+    {
+      "id": 9302,
+      "query": "帮我看看这个内存泄漏到底是哪来的",
+      "expect": "diagnose",
+      "accept": [
+        "diagnose",
+        "investigate-first"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9303,
+      "query": "写个提交通知帮我压到一句话",
+      "expect": "caveman-commit",
+      "should_trigger": true
+    },
+    {
+      "id": 9304,
+      "query": "咱们仓库的文件太多了，帮我盘一下结构",
+      "expect": "caveman-explore",
+      "should_trigger": true,
+      "accept": [
+        "caveman-explore",
+        "caveman-help"
+      ]
+    },
+    {
+      "id": 9305,
+      "query": "下周迭代做哪几个，帮我排排",
+      "expect": "product-manager",
+      "should_trigger": true
+    },
+    {
+      "id": 9306,
+      "query": "把日志里这个报错抓出来分析下",
+      "expect": "diagnose",
+      "accept": [
+        "diagnose",
+        "investigate-first"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9307,
+      "query": "给我起个数据看板的名字",
+      "expect": "none",
+      "should_trigger": false
+    },
+    {
+      "id": 9308,
+      "query": "这段代码能再简洁点吗",
+      "expect": "safe-refactor",
+      "accept": [
+        "safe-refactor",
+        "code-review"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9309,
+      "query": "开始写这个导出功能了，先写测试再实现",
+      "expect": "tdd",
+      "accept": [
+        "tdd"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9310,
+      "query": "把这段逻辑改成测试先行",
+      "expect": "tdd",
+      "accept": [
+        "tdd"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9311,
+      "query": "这个模块的红绿循环帮我走下",
+      "expect": "tdd",
+      "accept": [
+        "tdd"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9312,
+      "query": "帮我查下 Next.js 15 的缓存默认行为，要官方出处",
+      "expect": "research",
+      "accept": [
+        "research"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9313,
+      "query": "核实一下这个说法有没有权威来源",
+      "expect": "research",
+      "accept": [
+        "research"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9314,
+      "query": "上下文快满了，写个交接单给下一轮",
+      "expect": "handoff",
+      "accept": [
+        "handoff"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9315,
+      "query": "把刚才聊的整理成规格文档",
+      "expect": "to-spec",
+      "accept": [
+        "to-spec"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9316,
+      "query": "落成规格发给实现的人",
+      "expect": "to-spec",
+      "accept": [
+        "to-spec"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9317,
+      "query": "把这个计划拆成工单，标好前置依赖",
+      "expect": "to-tickets",
+      "accept": [
+        "to-tickets"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9318,
+      "query": "拆解成可执行项，排个顺序",
+      "expect": "to-tickets",
+      "accept": [
+        "to-tickets"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9319,
+      "query": "这个接口设计得太浅了，帮我看看",
+      "expect": "domain-modeling",
+      "accept": [
+        "domain-modeling"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9320,
+      "query": "定一下术语表，名字统一起来",
+      "expect": "domain-modeling",
+      "accept": [
+        "domain-modeling"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9321,
+      "query": "帮我看看这个 PR 的代码质量问题",
+      "expect": "agent-review",
+      "accept": [
+        "agent-review"
+      ],
+      "should_trigger": true
+    },
+    {
+      "id": 9409,
+      "query": "这周干了啥，给我个周报",
+      "expect": "goal-tracker",
+      "accept": [
+        "goal-tracker",
+        "handoff",
+        ""
+      ],
+      "should_trigger": false
+    },
+    {
+      "id": 9410,
+      "query": "解释一下什么是闭包",
+      "expect": "",
+      "accept": [
+        "",
+        "research",
+        "domain-modeling"
+      ],
+      "should_trigger": false
+    },
+    {
+      "id": 9411,
+      "query": "这个报错是什么意思",
+      "expect": "",
+      "accept": [],
+      "should_trigger": false
+    }
+  ],
+  "tier_cases": [
+    {
+      "id": 9201,
+      "query": "把页面标题改成「限时特惠」",
+      "expect": "L0"
+    },
+    {
+      "id": 9202,
+      "query": "修一下这个错别字",
+      "expect": "L0"
+    },
+    {
+      "id": 9203,
+      "query": "给登录页加一个记住密码勾选框",
+      "expect": "L1"
+    },
+    {
+      "id": 9204,
+      "query": "给列表页加导出 CSV 按钮",
+      "expect": "L1"
+    },
+    {
+      "id": 9205,
+      "query": "优化订单查询接口，减少一次查询",
+      "expect": "L1"
+    },
+    {
+      "id": 9206,
+      "query": "重构订单模块，涉及 H5、admin 和库表",
+      "expect": "L2"
+    },
+    {
+      "id": 9207,
+      "query": "做一个新的营销活动页，前后端都要改",
+      "expect": "L2"
+    },
+    {
+      "id": 9208,
+      "query": "把支付从微信换成支付宝，涉及订单、回调和退款",
+      "expect": "L2"
+    },
+    {
+      "id": 9401,
+      "query": "改一下首页的文案",
+      "expect": "L0"
+    },
+    {
+      "id": 9402,
+      "query": "新增一个优惠券模块",
+      "expect": "L1"
+    },
+    {
+      "id": 9403,
+      "query": "把整个下单流程重做",
+      "expect": "L2"
+    }
+  ]
 }

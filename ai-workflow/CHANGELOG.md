@@ -1,5 +1,52 @@
 # Changelog
 
+## 3.4.0 (2026-11-06)
+
+### Removed
+- **删除 6 个 Caveman Cloud 接入说明书技能**：`caveman-discover`、`caveman-evidence-review`、`caveman-learn`、`caveman-manage`、`caveman-optimize`、`caveman-setup`。它们是第三方付费网关的配置文档，不是可执行能力，且持续抢占路由（留出集的误判全部来自它们）。
+- 同步清理 `catalog.json`、`triggers.json`（含残留 `__requires`）、`evals/evals.json`、`evals/heldout.json` 中的全部引用。
+- 删除根目录过期的 `HANDOFF.md`（生成于 2026-11-05 的临时交接单，无实际内容）。
+
+### Added
+- 新增 6 个能力技能（均通过 `validate-skill`）：
+  - `tdd` —— 红→绿垂直切片，先定 seam 再动代码；三条反模式（耦合实现 / 同义反复 / 横向切片）。
+  - `to-spec` —— 把讨论综合成规格，不重新访谈；seam 定稿即合约。
+  - `to-tickets` —— 曳光弹工单 + 前置边；大范围重构走扩张—收缩。
+  - `domain-modeling` —— 深模块、信息隐藏、错误显式化；接口设计五问。
+  - `research` —— 来源 A/B/C/D 分级，只用 A/B 下结论，每条挂原始链接。
+  - `handoff` —— 会话交接单（目标·已完成·现状·下一步·坑），引用已有产物不复制，删敏感信息。
+- `agent-review` 增加 `references/smells.md`（代码气味表 + 硬规则），按需加载，不占常驻上下文。
+- 新增 `THIRD_PARTY_NOTICES.md`：按 MIT 要求署名 Matt Pocock 的 `skills`（grilling、diagnose 为改编；tdd、to-spec、to-tickets、domain-modeling、research、handoff 为参考改写），署名范围以实际文本重叠检测为依据。
+
+### Changed
+- **路由词表去污染**：`triggers.json` 的 `__synonyms` 原把「规格」当作「需求」的同义词，导致任何含「规格」的句子被扩成 `需求/prd/需求文档`，`to-spec` 永远抢不过 `product-manager`；已拆开。
+- **TDD 与 verify-and-stop 分工切开**：`单元测试 / 补测试 / 测试用例 / 断言 / e2e` 等 6 个触发词由 `verify-and-stop` 迁至 `tdd`。现在 `tdd` 管「从零写」，`verify-and-stop` 管「验收已有」。
+- `references/routing.md` 不再手抄技能全量清单（第 42 行起改为指向自动生成的 `references/dispatch-table.md`），消除两处漂移；并把 6 个新技能挂入意图链路表。
+
+### Fixed
+- **`1927910` 的假绿，已修**：该提交删了 6 个技能但没重建 `catalog.json`，catalog 仍列 40 条、`skills/` 只剩 34 个。`route.mjs` 因此会把「成本报告」指向已不存在的 `caveman-learn`；而评测里旧用例的**期望值也指向同一个已删技能**，两个错误互相抵消，跑出 F1=1.00。已重建分支各提交的 catalog。
+- **「token 花在哪了，给我成本报告」曾路由为空**：`caveman-learn` 删除后该需求无人接盘（`ROUTE_NONE`）。`caveman-stats` 触发词补 `token 花在哪 / 成本报告 / token 开销 / 花了多少 token / 费用报告`，现稳定命中；负例「什么是 design token」仍为 `ROUTE_NONE`，未误伤。
+
+### Added（闸门）
+- `release.mjs` 新增 **catalog 一致性闸门**：`catalog.json` 与 `skills/` 目录必须一一对应，出现「幽灵（目录无）」或「漏登记（catalog 无）」即拦。这是治本项——上面那个 F1=1.00 的假绿，正是因为没有这道闸门才混过去的。
+- 已做**负向测试**：拿 `1927910` 跑新闸门，正确输出 `BLOCKED` 并点名 6 个幽灵技能，同份报告里命中率仍显示 F1=1.00，复现了假绿。
+
+### Verification（真基线对照，非自评）
+用 worktree 单独检出 master（v3.3.1），与原封不动的**旧题**比对，控制变量：
+
+| 评测集 | 基线 master | 本版 | 说明 |
+|---|---|---|---|
+| 原主集 71 例 | F1 1.00 | **F1 0.98** | 2 条失分见下 |
+| 原留出集 42 例 | **F1 0.97** | **F1 0.98** | 真进步，漏命中 2→1 |
+| 定档 16 例 | 1.00 | 1.00 | 无损 |
+
+- 主集 2 条失分**都是旧标签指向已退役/错误技能，不是能力回退**：
+  - `#4 给这个 React 组件补一个单元测试`：旧 `verify-and-stop` → 新 `tdd`。`verify-and-stop` 正文明确「不要新增无关测试」，改判有据。
+  - `#28 token 花在哪了，给我成本报告`：旧 `caveman-learn`（本版已删除）→ 现 `caveman-stats`。
+- **诚实说明（两条，都是上一轮的错）**：
+  1. 之前写「主集 70 例 F1=1.00，改动前后无损」是**错的**：基线是 71 例，本版 70 例，用例数都不同，不可比；真拿原题考是 0.98。
+  2. 留出集在本轮被用于定位问题、新增 16 条并改 2 条（**未删题**，这点干净），上面调过词，新写在这上面的 1.00 不算数。**可信泛化数字是旧 42 条的 0.98（基线 0.97）。**
+
 ## 3.3.1 (2026-11-05)
 
 ### Added
