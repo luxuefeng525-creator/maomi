@@ -1,5 +1,33 @@
 # Changelog
 
+## 3.4.0 (2026-11-06)
+
+### Removed
+- **删除 6 个 Caveman Cloud 接入说明书技能**：`caveman-discover`、`caveman-evidence-review`、`caveman-learn`、`caveman-manage`、`caveman-optimize`、`caveman-setup`。它们是第三方付费网关的配置文档，不是可执行能力，且持续抢占路由（留出集的误判全部来自它们）。
+- 同步清理 `catalog.json`、`triggers.json`（含残留 `__requires`）、`evals/evals.json`、`evals/heldout.json` 中的全部引用。
+- 删除根目录过期的 `HANDOFF.md`（生成于 2026-11-05 的临时交接单，无实际内容）。
+
+### Added
+- 新增 6 个能力技能（均通过 `validate-skill`）：
+  - `tdd` —— 红→绿垂直切片，先定 seam 再动代码；三条反模式（耦合实现 / 同义反复 / 横向切片）。
+  - `to-spec` —— 把讨论综合成规格，不重新访谈；seam 定稿即合约。
+  - `to-tickets` —— 曳光弹工单 + 前置边；大范围重构走扩张—收缩。
+  - `domain-modeling` —— 深模块、信息隐藏、错误显式化；接口设计五问。
+  - `research` —— 来源 A/B/C/D 分级，只用 A/B 下结论，每条挂原始链接。
+  - `handoff` —— 会话交接单（目标·已完成·现状·下一步·坑），引用已有产物不复制，删敏感信息。
+- `agent-review` 增加 `references/smells.md`（代码气味表 + 硬规则），按需加载，不占常驻上下文。
+- 新增 `THIRD_PARTY_NOTICES.md`：按 MIT 要求署名 Matt Pocock 的 `skills`（grilling、diagnose 为改编；tdd、to-spec、to-tickets、domain-modeling、research、handoff 为参考改写），署名范围以实际文本重叠检测为依据。
+
+### Changed
+- **路由词表去污染**：`triggers.json` 的 `__synonyms` 原把「规格」当作「需求」的同义词，导致任何含「规格」的句子被扩成 `需求/prd/需求文档`，`to-spec` 永远抢不过 `product-manager`；已拆开。
+- **TDD 与 verify-and-stop 分工切开**：`单元测试 / 补测试 / 测试用例 / 断言 / e2e` 等 6 个触发词由 `verify-and-stop` 迁至 `tdd`。现在 `tdd` 管「从零写」，`verify-and-stop` 管「验收已有」。
+- `references/routing.md` 不再手抄技能全量清单（第 42 行起改为指向自动生成的 `references/dispatch-table.md`），消除两处漂移；并把 6 个新技能挂入意图链路表。
+
+### Verification
+- 主集 70 例：**F1 = 1.00**（0 漏 0 误），改动前后无损。
+- 留出集首跑：F1 = 0.92，7 条失分逐条定位根因并修复；修后 58 条触发 + 11 条定档全过。
+- **诚实说明**：留出集在本轮被用于定位问题并调整了词表，它已不再完全干净。因此 **0.92 才是对新能力的保守估计**，1.00 是修复后的回归状态，不等价于泛化能力。
+
 ## 3.3.1 (2026-11-05)
 
 ### Added
