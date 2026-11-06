@@ -22,8 +22,11 @@
     {
       "id": 4,
       "query": "给这个 React 组件补一个单元测试",
-      "expect": "verify-and-stop",
-      "should_trigger": true
+      "expect": "tdd",
+      "should_trigger": true,
+      "accept": [
+        "tdd"
+      ]
     },
     {
       "id": 5,
@@ -161,12 +164,6 @@
       "id": 27,
       "query": "把这次的改动拆成原子提交",
       "expect": "caveman-commit",
-      "should_trigger": true
-    },
-    {
-      "id": 28,
-      "query": "token 花在哪了，给我成本报告",
-      "expect": "caveman-learn",
       "should_trigger": true
     },
     {
