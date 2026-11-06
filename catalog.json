@@ -181,7 +181,13 @@
         "会话统计",
         "stats",
         "用了多少 token",
-        "token 统计"
+        "token 统计",
+        "token 花在哪",
+        "token 花在哪了",
+        "成本报告",
+        "token 开销",
+        "花了多少 token",
+        "费用报告"
       ],
       "desc": "当前会话的输出与缓存读取 token 用量及模式归属，或定位宿主原生用量报告。触发 /caveman-stats。",
       "needs": [

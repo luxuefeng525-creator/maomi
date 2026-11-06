@@ -390,7 +390,13 @@
     "会话统计",
     "stats",
     "用了多少 token",
-    "token 统计"
+    "token 统计",
+    "token 花在哪",
+    "token 花在哪了",
+    "成本报告",
+    "token 开销",
+    "花了多少 token",
+    "费用报告"
   ],
   "caveman-help": [
     "caveman 帮助",
