@@ -12,15 +12,9 @@
 | caveman | caveman / 原始人 / 压缩回复 / 少废话 | any |
 | caveman-commit | 提交 / commit / commit message / 拆分提交 | any |
 | caveman-compress | 压缩记忆文件 / 压缩claude.md / 压缩清单 / 省输入token | any |
-| caveman-discover | 发现工作流 / 标注 llm 调用 / 工作流分组 | hooks |
-| caveman-evidence-review | 证据审查 / 成本审查 / trace 审查 / 延迟与错误 | network |
 | caveman-explore | 探索代码库 / 仓库导览 / 定位在哪 / 跨文件 | any |
 | caveman-help | caveman 帮助 / 命令卡 / 怎么用 caveman | any |
-| caveman-learn | token 花在哪 / 成本报告 / 降本 / 优化建议 | any |
-| caveman-manage | 实验审批 / 实验生命周期 / cave score / 批准实验 | network |
-| caveman-optimize | 优化实验 / 基线对比 / 候选方案 / 调优 | any |
 | caveman-review | 代码审查 / 过一遍代码 / 找问题清单 / review | any |
-| caveman-setup | 接入网关 / 埋点 / 接入 caveman / 网关配置 | network |
 | caveman-stats | 统计 / 用了多少token / 会话统计 / stats | hooks |
 | design-system-lead | 设计系统 / 组件库 / design token / 规范 | any |
 | diagnose | 查问题 / 修bug / 报错 / 异常 | any |

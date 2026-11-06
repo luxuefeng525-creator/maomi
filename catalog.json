@@ -1,6 +1,6 @@
 {
-  "version": "3.3.0",
-  "generated": "2026-11-05",
+  "version": "3.3.1",
+  "generated": "2026-11-06",
   "skills": [
     {
       "name": "agent-dispatch",
@@ -127,31 +127,6 @@
       "needs": []
     },
     {
-      "name": "caveman-discover",
-      "keywords": [
-        "发现工作流",
-        "标注 llm 调用",
-        "工作流分组"
-      ],
-      "desc": "找出并标记仓库里所有 LLM 工作流，让花费能按工作流分组。用于 发现工作流、拆解 LLM 花费。",
-      "needs": [
-        "hooks"
-      ]
-    },
-    {
-      "name": "caveman-evidence-review",
-      "keywords": [
-        "证据审查",
-        "成本审查",
-        "trace 审查",
-        "延迟与错误"
-      ],
-      "desc": "只读查看 Caveman Cloud 证据：成本、Cave Score、工作流、追踪、时延、错误、路由、节省。用于 看 LLM 钱花在哪。",
-      "needs": [
-        "network"
-      ]
-    },
-    {
       "name": "caveman-explore",
       "keywords": [
         "探索代码库",
@@ -179,47 +154,6 @@
       "needs": []
     },
     {
-      "name": "caveman-learn",
-      "keywords": [
-        "token 花在哪",
-        "成本报告",
-        "降本",
-        "优化建议",
-        "learn report",
-        "省 token 建议"
-      ],
-      "desc": "执行 learn 报告：处理排好序的 token 黑洞，逐条征得同意后改，并回报省了多少。用于 降 token 成本、压 CLAUDE.md。",
-      "needs": []
-    },
-    {
-      "name": "caveman-manage",
-      "keywords": [
-        "实验审批",
-        "实验生命周期",
-        "cave score",
-        "批准实验",
-        "盘结构",
-        "梳理结构",
-        "盘点文件",
-        "理一下结构"
-      ],
-      "desc": "查看 Caveman Cloud 实验生命周期并拦住不安全的执行。用于 启动、批准、取消、提升、回滚实验。",
-      "needs": [
-        "network"
-      ]
-    },
-    {
-      "name": "caveman-optimize",
-      "keywords": [
-        "优化实验",
-        "基线对比",
-        "候选方案",
-        "调优"
-      ],
-      "desc": "把优化观察变成由操作者选定、带基线对照的候选实验。用于 评估优化报告，需显式批准。",
-      "needs": []
-    },
-    {
       "name": "caveman-review",
       "keywords": [
         "代码审查",
@@ -229,19 +163,6 @@
       ],
       "desc": "压缩式代码审查：一条一行，含位置、问题、改法。用于 审 PR、审 diff。",
       "needs": []
-    },
-    {
-      "name": "caveman-setup",
-      "keywords": [
-        "接入网关",
-        "埋点",
-        "接入 caveman",
-        "网关配置"
-      ],
-      "desc": "把仓库接到 Caveman Cloud 网关，让每个 LLM 请求都被计量，行为不变。用于 接入可观测性。",
-      "needs": [
-        "network"
-      ]
     },
     {
       "name": "caveman-stats",
