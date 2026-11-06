@@ -10,7 +10,7 @@ const argv = process.argv.slice(2);
 const flag = n => argv.includes(n);
 function opt(n, d) { const i = argv.indexOf(n); return i >= 0 && argv[i + 1] !== undefined ? argv[i + 1] : d; }
 const asJson = flag('--json'), explain = flag('--explain');
-const TOP = Number(opt('--top', '3')), MIN = Number(opt('--min', '5'));
+const TOP = Number(opt('--top', '3')), MIN = Number(opt('--min', '3'));
 const query = argv.filter((a, i) => !a.startsWith('--') && !(i > 0 && argv[i - 1].startsWith('--')))
   .join(' ').trim();
 
@@ -59,11 +59,13 @@ const NEG = [
   { id: 'text-replace3', re: /(两个字|几个字|这几个字|这个词|这行字|这句)[^。]{0,12}(改成|改为|替换成|替换为|换成)/ },
   { id: 'chit-chat', re: /^(为什么(?!不|会报|会崩)|怎么会|哪一年|哪天|天气|今天星期|是谁|历史|翻译|天气怎么样)/ },
   { id: 'pure-qa', re: /^(解释|说明|介绍|讲讲|说说|科普|分别是|怎么理解|什么是|什么叫|是什么|区别|为什么是)/ },
-  { id: 'define', re: /(的区别|是什么意思|是什么关系|原理是|概念)/ },
+  { id: 'define', re: /(的区别|是什么意思|是什么关系|原理是|^什么是|^什么叫|概念是什么)/ },
   { id: 'handoff', re: /(提交给|发给|转给|发送给|发给老板|邮件给)/ },
   { id: 'paste', re: /(贴给我|原文贴|日志原文|把报错贴|复制给我看看)/ },
   { id: 'report', re: /(写周报|写日报|周报模板|汇报给老板)/ },
   { id: 'naming', re: /(起个名|起名|取个名|命名|叫什么名|怎么称呼|叫什么名字|起.{0,8}(名字|名称|名儿))/ },
+  // 状态查询是"查"不是"改"：'这个 PR 已经合并了吗' 不该载 safe-refactor。
+  { id: 'status-only', re: /(查一下|看下|看一下|帮我查)[^。]{0,8}(状态|进度|情况)|已经(合并|上线|发布|提交|部署)了?吗|(合并|上线|发布|部署)了(吗|没)/ },
 ];
 const BUILD = /(做|建|开发|实现|重构|修复|生成|设计|搭建|迁移|部署|上线|排查|定位|诊断|验收|拆分|拆成|复现)/;
 // 结构性"字面替换"永不属于技能活：不论有没有 build 动词都拦。
@@ -90,7 +92,10 @@ function expansions(q) {
   return [...out];
 }
 const Q_VARIANTS = expansions(Q);
-const Q_SPACED = [Q, ...Q_VARIANTS].map(v => v.replace(/\s+/g, ''));
+// 口语填词剥离：用户说"回答简短些"而不是"简短点"。去掉不影响语义的虚词再匹配一次。
+const FILLER = /(帮我|麻烦|请|一下吧|一下|看看|瞧瞧|先|这个|那个|这些|那些|这种|那种|我|你|能|可以|怎么|怎么样|一个|一些|吧|呢|啊|嘛|就|还|再|给|把|的|了|要|想|些)/g;
+const Q_LOOSE = Q.replace(FILLER, '').replace(/\s+/g, '');
+const Q_SPACED = [Q, ...Q_VARIANTS, Q_LOOSE].map(v => v.replace(/\s+/g, ''));
 const hasKw = kk => Q_VARIANTS.some(v => v.includes(kk)) || Q_SPACED.some(v => v.includes(kk));
 
 // 结构加成：关键词表覆盖不到的口语构式（对任何模型都成立，不靠语感）。
@@ -134,13 +139,13 @@ function score(s) {
   for (const b of BOOST) {
     if (b.re.test(Q) && (BOOST_TARGET[b.tag] || []).includes(s.name)) { sc += b.w; ev.push(`${b.tag}+${b.w}`); }
   }
+  // 描述覆盖率：desc 是技能作者写下的"什么活归我"，是最准的口语信号。
+  // 旧版最多 +2（门槛 5），等于形同虚设；改为按 2-gram 覆盖率分档给分。
   const desc = norm(s.desc || '');
-  let ov = 0;
-  for (let i = 0; i < Q.length - 1; i++) { const g = Q.slice(i, i + 2); if (g.trim() && desc.includes(g)) ov++; }
-  // desc 双字重叠在短句上噪声极大：短句要求更高阈值，且最多 +2
-  const minOv = Q.length >= 12 ? 4 : 6;
-  const bonus = ov >= minOv ? Math.min(ov - minOv + 1, 2) : 0;
-  sc += bonus; if (bonus) ev.push(`desc+${bonus}`);
+  const cov = (q) => { let ov = 0; for (let i = 0; i < q.length - 1; i++) { const g = q.slice(i, i + 2); if (g.trim() && desc.includes(g)) ov++; } return ov / Math.max(1, q.length - 1); };
+  const ratio = Math.max(cov(Q), Q_LOOSE.length >= 2 ? cov(Q_LOOSE) : 0);
+  const bonus = ratio >= 0.55 ? 9 : ratio >= 0.45 ? 7 : ratio >= 0.35 ? 5 : ratio >= 0.25 ? 3 : 0;
+  sc += bonus; if (bonus) ev.push(`desc${Math.round(ratio * 100)}%+${bonus}`);
   return { sc, ev };
 }
 
@@ -156,8 +161,15 @@ for (const x of all) {
 const ranked = all.filter(x => !isAlias(x) && x.sc >= MIN).sort((a, b) => b.sc - a.sc).slice(0, TOP);
 
 if (!ranked.length) {
-  if (asJson) console.log(JSON.stringify({ route: [], reason: 'no-match', query }));
-  else console.log('ROUTE_NONE（无匹配技能，按通用纪律执行；别假装已加载技能）');
+  // 沉默 ≠ 没有技能适用，只表示触发词表没覆盖这个说法（口语换说法的实测覆盖上限约 4 成）。
+  // 所以给低分候选 + 指向派发表，让模型自己按语义判，而不是直接退回通用纪律。
+  const weak = all.filter(x => !isAlias(x) && x.sc > 0).sort((a, b) => b.sc - a.sc).slice(0, 3);
+  if (asJson) console.log(JSON.stringify({ route: [], reason: 'no-match', candidates: weak.map(w => ({ name: w.name, score: w.sc })), next: 'references/dispatch-table.md', query }));
+  else {
+    console.log('ROUTE_NONE（触发词未覆盖此说法，不代表没有技能可用）');
+    if (weak.length) console.log('弱候选(需自判): ' + weak.map(w => `${w.name}=${w.sc}`).join('  '));
+    console.log('下一步: 读 references/dispatch-table.md 按语义自选技能；表里也没有才走通用纪律。');
+  }
   process.exit(0);
 }
 if (asJson) {

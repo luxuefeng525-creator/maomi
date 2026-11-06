@@ -1,0 +1,3 @@
+# 自动生成物：必须 LF，否则 core.autocrlf=true 的机器每次 build 都产生幻影 diff
+ai-workflow/catalog.json text eol=lf
+ai-workflow/references/dispatch-table.md text eol=lf
