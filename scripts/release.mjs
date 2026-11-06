@@ -33,6 +33,32 @@ gate('CHANGELOG', changelog.includes(`## ${ver}`), `## ${ver}`);
 const audit = sh([path.join(here, 'audit-skills.mjs')]);
 gate('技能审计', audit.code === 0, audit.out.trim().split('\n').slice(-1)[0] || '');
 
+// catalog 一致性闸门：catalog.json 与 skills/ 目录必须一一对应。
+// 没有这条闸门时，删了技能却没重建 catalog，route 仍会把请求指向不存在的技能；
+// 而评测里「期望值也指向同一旧技能」会与 bug 双双抵消，报出假绿 F1=1.00。
+// （3.4.0 的 1927910 就是这么混过去的：catalog 40 条、目录 34 个。）
+{
+  const catPath = path.join(root, 'catalog.json');
+  let catOk = false, catDetail = '';
+  if (!fs.existsSync(catPath)) {
+    catDetail = 'catalog.json 缺失';
+  } else {
+    const cat = JSON.parse(fs.readFileSync(catPath, 'utf8'));
+    const listed = new Set((cat.skills || []).map(s => s.name));
+    const onDisk = new Set(fs.readdirSync(path.join(root, 'skills'), { withFileTypes: true })
+      .filter(e => e.isDirectory() && fs.existsSync(path.join(root, 'skills', e.name, 'SKILL.md')))
+      .map(e => e.name));
+    const ghost = [...listed].filter(n => !onDisk.has(n));
+    const orphan = [...onDisk].filter(n => !listed.has(n));
+    catOk = ghost.length === 0 && orphan.length === 0;
+    catDetail = catOk
+      ? `${listed.size} 个，catalog/目录 一致`
+      : [ghost.length ? `幽灵(目录无) ${ghost.join(',')}` : '', orphan.length ? `漏登记(catalog无) ${orphan.join(',')}` : '']
+          .filter(Boolean).join(' | ');
+  }
+  gate('catalog 一致', catOk, catDetail);
+}
+
 const evalr = sh([path.join(here, 'eval.mjs'), 'trigger']);
 const f1 = (evalr.out.match(/F1=([\d.]+)/) || [])[1] || '';
 gate('命中率', evalr.code === 0, f1 ? `F1=${f1}` : 'trigger 失败');
