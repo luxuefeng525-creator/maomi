@@ -1,7 +1,7 @@
 ---
 name: ai-workflow
 description: 跨平台全流程工作流总入口（任意项目、任意 AI 工具可用）。触发词：ai-workflow、/ai-workflow、进入工作流、开工流程、走流程、按工作流走。用户输入即自动进入——定档 L0/L1/L2→按档执行→质量闸门→收尾验证。纯闲聊、单行改动不加载。工作区有 .trae/rules/ai-workflow.md 等专属协议时自动让位。
-version: 3.4.0
+version: 3.5.0
 ---
 
 触发词：ai-workflow / /ai-workflow / 进入工作流 / 开工流程 / 走流程 / 按工作流走
@@ -32,7 +32,7 @@ version: 3.4.0
 
 ## 2 六步骨架（可裁剪；不变的是闸门）
 1. **定档**：`node scripts/fast.mjs "<需求>"`（合并自举+定档+记忆+路由，4 行）；L0 可跳过。
-2. **选技能**：按 `references/routing.md`；不确定用 `route.mjs` 兜底；未命中不假装加载。**命中产出技能（finesse-ui/大屏/视频）必载，过程技能按需。**
+2. **选技能**：先 `node scripts/route.mjs "<一句话>"`；命中即载。沉默≠没技能——按 `references/dispatch-table.md` 自己判语义选；表里也没有才走通用纪律（细则 `references/routing.md`）。**命中产出技能（finesse-ui/大屏/视频）必载，过程技能按需。**
 3. **看上下文**：大仓先 `node scripts/context.mjs --dir <repo>` 出地图，再定点 `Grep/Read`（见 `references/context.md`）。
 4. **执行**：L0 走环 3+4｜L1 加环 5｜L2 全 8 环（`references/workflow.md`）；≥3 独立模块走子代理（`references/parallel.md`）。
 5. **独立审查**：L1 多文件 / L2 派只读子代理审 diff。
